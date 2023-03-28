@@ -1,7 +1,8 @@
-xZone - an open source project for monitoring and controling multiple sensors in a centralized way
+# xZone 
+an open source project for monitoring and controling multiple sensors in a centralized way
 (03/26/2013)
 
-1. PGK and SRC dir
+## PGK and SRC dir
 	(a) for windows
 		PKG=c:\pkg
 		XZONE_SRC=C:\Users\wus1\Projects\xZone\src
@@ -9,7 +10,7 @@ xZone - an open source project for monitoring and controling multiple sensors in
 		PKG=~\pkg
 		XZONE_SRC=~\xZone\src
 	
-1. dependency
+## Dependency
     a) gtest
       GTEST_INC=$(PKG)\googletest\vs2019-install\include
 	  GTEST_LIB=$(PKG)\googletest\vs2019-install\lib
@@ -26,7 +27,7 @@ xZone - an open source project for monitoring and controling multiple sensors in
 		DDS_INC=$(PKG)\fastDDS\v2.9.1\include
 		DDS_LIB=$(PKG)\fastDDS\v2.9.1\lib\x64Win64VS2019
 	
-2. How to build 
+## How to build 
 	a) for windows (vsiual studio 2019 and uper)
 	   1) copy $(XZONE_SRC)/vs2019/open_xZone_vs2019_template.bat to $(XZONE_SRC)/vs2019/open_xZone_vs2019_xyz.bat
 	   2) edit  $(XZONE_SRC)/vs2019/open_xZone_vs2019_xyz.bat to make sure the path is corresponding to your envrionment
@@ -37,4 +38,3 @@ xZone - an open source project for monitoring and controling multiple sensors in
 	   2) cd $(XZONE_SRC)/makeFiles execute 
 	      ./run_all_w_cleanAll.sh 
 	   	  (you may need to to edit Makefile_app_header.mak if there is any errors)	  
--eof-
