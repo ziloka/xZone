@@ -15,6 +15,7 @@ data/
 *.o
 *.obj
 *.bak
+*.pdf
 
 # Precompiled Headers
 *.gch

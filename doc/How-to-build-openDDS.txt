@@ -1,0 +1,13 @@
+1 in windows
+
+a) install perl strawbeery (https://strawberryperl.com/)
+
+b) install openDDS
+	c:\pkg\openDDS>git clone https://github.com/OpenDDS/OpenDDS.git
+	c:\pkg\openDDS\openDDS>configure --compiler="C:\Program Files (x86)\Microsoft Visual Studio\2019\Professional\VC\Tools\MSVC\14.16.27023\bin\HostX64\x64\cl.exe"
+	C:\pkg\openDDS\OpenDDS>DDS_TAOv2.sln
+	i) choose debug and release x64 to build
+	ii) build solution: first time has some errors
+	iii) then build the solution again all the errors are gone)
+  
+  
