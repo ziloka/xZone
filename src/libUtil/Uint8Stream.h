@@ -4,9 +4,10 @@
 #include <assert.h>
 #include <fstream>
 #include <iostream>
+#include <cstring>
 #include <math.h>
 #include <stdio.h>
-#if _WINDOWS
+#if _WIN32
 #include <conio.h>
 #endif
 

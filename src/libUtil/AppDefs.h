@@ -59,6 +59,11 @@
 #include <mutex>
 #include <condition_variable>
 
+#ifdef __linux__ 
+#include <sys/resource.h>
+#include <sys/stat.h>
+#endif
+
 #define APP_USE_BOOST 1
 #if APP_USE_BOOST
 #include <boost/date_time.hpp>

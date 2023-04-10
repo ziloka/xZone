@@ -83,21 +83,22 @@ bool app :: folderExists( const string &strPath )
 	}
 }
 
-#if 0
+#if _WIN32
+bool app::fileExists(const std::string& name)
+{
+	int ret = _access(name.c_str(), 0);
+	return (ret != -1);
+}
+#else
 #include <sys/stat.h>
-#endif
 bool app ::  fileExists(const std::string& name) 
 {
-#if 0 
 	//this does not work for ~4GB file
 	struct stat buffer;
 	int ret = stat(name.c_str(), &buffer);
 	return (ret == 0);
-#endif
-
-	int ret = _access(name.c_str(), 0);
-	return ( ret != -1 );
 }
+#endif
 
 bool app::findSeqName( const std::string &inSeqFileName, std::string &seqName )
 {

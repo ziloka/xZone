@@ -10,8 +10,9 @@ int main(int argc, char* argv[])
 	const bool showInConsole = true;
 	startLogThread(logFilename, showInConsole);
 
-	test_mat_part1( argc, argv);
-
+	APP_LOG( "test1,i=%d", 10);
+	APP_ASSERT(2 == 2, "xyz=%d,egg=%s", 3, "passed");
+	APP_EXIT("xyz=%d,efg=%s", 2, "quit");
 	endLogThread();
 	return 0;
 }

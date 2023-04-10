@@ -34,24 +34,28 @@
 #define LOG_USING_LOCAL_TIME  1
 #define	LOG_MAX_MSG_LEN		1024
 
+#if 0
 #define APP_LOG( x )		dumpLog( __LINE__, __FILE__, x);
 #define APP_EXIT( x )		appExit(__LINE__, __FILE__, x);
 #define APP_ASSERT( x ) appAssert(__LINE__, __FILE__, x);
+#else
+#define APP_LOG( ... )		dumpLog( __LINE__, __FILE__, __VA_ARGS__);
+#define APP_EXIT( ... )		appExit(__LINE__, __FILE__, __VA_ARGS__);
+#define APP_ASSERT( ... ) appAssert(__LINE__, __FILE__, __VA_ARGS__);
+#endif
 
 namespace app {
 	//--------- log UI funcs------------
 	void   startLogThread(const std::string &logFilename, const bool showInConsole = true);
 	void   endLogThread();
 
-	void   dumpLog(const int line, const char *file, const char * x, ...);
-	void   dumpLog(const int line, const char* file, const  std::string &x );
+	void   dumpLog(const int line, const char *file, const char *fmt, ...);
+	void   dumpLog(const int line, const char* file, const  std::string &fmt );
 
 	void   appExit(const int line, const char* file, const int flag);
-	void   appExit(const int line, const char* file, const char * x, ...);
-	void   appExit(const int line, const char* file, const  std::string &x, ...);
-	void   appAssert(const int line, const char* file, const bool flag, const std::string &msg);
+	void   appExit(const int line, const char* file, const char *fmt, ...);
+	void   appAssert(const int line, const char* file, const bool flag, const char *fmt, ...);
 	void   appAssert(const int line, const char* file, const bool flag);
-
 	//----------- def of AppLog -------------------
 	class  AppLog {
 	private:

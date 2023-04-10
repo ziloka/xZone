@@ -33,6 +33,7 @@ using namespace app;
 AppLog* AppLog::m_logPtr = NULL;
 string	AppLog::m_logFilename = string("");
 bool	AppLog::m_logShowMsgInConsole = false;
+static char				g_logBuf[LOG_MAX_MSG_LEN];
 
 //private construct() and destruct()
 AppLog::AppLog()
@@ -165,13 +166,12 @@ void app::dumpLog(const int line, const char* file, const std::string &x )
 void app::dumpLog(const int line, const char* file, const char *fmt, ...)
 {
 	//todo: remove this LOG_MAX_MSG_LEN, using dynamic allocation idea
-	char buffer[LOG_MAX_MSG_LEN];
 	va_list args;
 	va_start(args, fmt);
-	vsnprintf(buffer, LOG_MAX_MSG_LEN, fmt, args);
+	vsnprintf(g_logBuf, LOG_MAX_MSG_LEN, fmt, args);
 	va_end(args);
 
-	AppLog::m_logPtr->logMsg( string(buffer) + ", F=" + string(file) + ", L=" + std::to_string(line) );
+	AppLog::m_logPtr->logMsg( string(g_logBuf) + ", F=" + string(file) + ", L=" + std::to_string(line) );
 }
 
 //-------------------------------
@@ -209,24 +209,27 @@ void  app::appExit(const int line, const char* file, const int flag)
 	exit(1);
 }
 
-void  app::appExit(const int line, const char* file, const char * x, ...)
+void  app::appExit(const int line, const char* file, const char *fmt, ...)
 {
-	dumpLog(line, file, x);
+	va_list args;
+	va_start(args, fmt);
+	vsnprintf(g_logBuf, LOG_MAX_MSG_LEN, fmt, args);
+	va_end(args);
+	AppLog::m_logPtr->logMsg(string(g_logBuf) + ", F=" + string(file) + ", L=" + std::to_string(line));
+
 	endLogThread();
 	exit(1);
 }
 
-void  app::appExit(const int line, const char* file, const  std::string &x, ...)
-{
-	dumpLog(line, file, x);
-	endLogThread();
-	exit(1);
-}
-
-void app::appAssert(const int line, const char* file, const bool flag, const std::string &msg)
+void app::appAssert(const int line, const char* file, const bool flag, const char* fmt, ...)
 {
 	if (!flag) {
-		dumpLog(line, file, msg);
+		va_list args;
+		va_start(args, fmt);
+		vsnprintf(g_logBuf, LOG_MAX_MSG_LEN, fmt, args);
+		va_end(args);
+		AppLog::m_logPtr->logMsg(string(g_logBuf) + ", F=" + string(file) + ", L=" + std::to_string(line));
+
 		endLogThread();
 		exit(1);
 	}

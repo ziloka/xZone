@@ -1,6 +1,6 @@
 #this Makefile outputs image as a static lib for <PLTF> machine
 
-PROJ_NAME=libCfg
+PROJ_NAME=libMsg
 include Makefile_app_header.mak
 
 # cpp files
@@ -8,8 +8,8 @@ SRC_FILES1 := $(wildcard $(SDIR_PROJ)/*.cpp)
 OBJ_FILES1 := $(patsubst $(SDIR_PROJ)/%.cpp,$(ODIR_OBJ)/%.o,$(SRC_FILES1))
 
 # c files
-SRC_FILES2 := $(wildcard $(SDIR_PROJ)/*.c)
-OBJ_FILES2 := $(patsubst $(SDIR_PROJ)/%.c,$(ODIR_OBJ)/%.o,$(SRC_FILES2))
+SRC_FILES2 := $(wildcard $(SDIR_PROJ)/*.cxx)
+OBJ_FILES2 := $(patsubst $(SDIR_PROJ)/%.cxx,$(ODIR_OBJ)/%.o,$(SRC_FILES2))
 
 OBJS = \
 	$(OBJ_FILES1)\
@@ -26,7 +26,7 @@ directories:
 $(TARGETFILE) : $(OBJS)
 	ar rcs $(TARGETFILE) $(OBJS)
 
-$(ODIR_OBJ)/%.o: $(SDIR_PROJ)/%.c
+$(ODIR_OBJ)/%.o: $(SDIR_PROJ)/%.cxx
 	$(CXX) $(CFLAGS) -c -o  $@ $<
 
 $(ODIR_OBJ)/%.o: $(SDIR_PROJ)/%.cpp

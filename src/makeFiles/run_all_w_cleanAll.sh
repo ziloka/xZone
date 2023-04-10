@@ -1,18 +1,20 @@
 #!/bin/bash
 
 #clean all
-# make -f Makefile_vn_sdk.mak clean
-# make -f Makefile_is_sdk2.mak clean
 make -f Makefile_util.mak clean
-make -f Makefile_mak.mak clean
+make -f Makefile_msg.mak clean
+make -f Makefile_cfg.mak clean
+make -f Makefile_fastPubEx1.mak  clean
+make -f Makefile_fastSubEx1.mak  clean
 make -f Makefile_test.mak  clean
 
 #---------------------------------------
 
-
-make -f Makefile_util.mak -j 3
-make -f Makefile_mak.mak -j 3
-make -f Makefile_test.mak  -j 3
-
+make -f Makefile_util.mak -j4
+make -f Makefile_msg.mak  -j4
+make -f Makefile_cfg.mak -j4
+make -f Makefile_fastPubEx1.mak -j4
+make -f Makefile_fastSubEx1.mak -j4
+make -f Makefile_test.mak -j4
 #---eof---
 
