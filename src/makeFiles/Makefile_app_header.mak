@@ -6,17 +6,23 @@
 # export XZONE_ROOT=/home/projects/xZone
 # export CUDA_INC=/usr/local/cuda-10.0/targets/aarch64-linux/include
 # export CUDA_LIB=/usr/local/cuda-10.0/targets/aarch64-linux/lib
-#
-#build intermediat output paths
+
+# Instead of letting the developer manually say where their project is located why not use pwd, a built in shell command? (type "type pwd" to prove it is built in)
+
+XZONE_ROOT=$(shell pwd)/../../
+
+# build intermediate output paths
 SDIR_ROOT=$(XZONE_ROOT)/src
 SDIR_PROJ=$(XZONE_ROOT)/src/$(PROJ_NAME)
+
+$(info $(XZONE_ROOT))
 
 ODIR_ROOT=$(XZONE_ROOT)/build
 ODIR_OBJ=$(ODIR_ROOT)/$(PROJ_NAME)
 ODIR_LIB=$(ODIR_ROOT)/libs
 ODIR_BIN=$(ODIR_ROOT)/bin
 
-#include and lib paths of the platform
+# include and lib paths of the platform
 PLTF_INC=/usr/include
 PLTF_LIB=/usr/lib
 BOOST_INC=/usr/include
