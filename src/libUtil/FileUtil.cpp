@@ -95,7 +95,8 @@ bool app ::  fileExists(const std::string& name)
 	return (ret == 0);
 #endif
 
-	int ret = _access(name.c_str(), 0);
+	// int ret = _access(name.c_str(), 0);
+	int ret = eaccess(name.c_str(), 0);
 	return ( ret != -1 );
 }
 

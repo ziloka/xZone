@@ -10,12 +10,12 @@
 # export CUDA_LIB=/usr/local/cuda-10.0/targets/aarch64-linux/lib
 #
 #build intermediat output paths
-APP_ROOT=/media/winshare/app
+APP_ROOT=/home/connor/Documents/xZone/
 
 SDIR_ROOT=$(APP_ROOT)/src
 SDIR_PROJ=$(APP_ROOT)/src/$(PROJ_NAME)
 
-ODIR_ROOT=/home/debian/app/build
+ODIR_ROOT=/home/connor/Documents/xZone/build
 ODIR_OBJ=$(ODIR_ROOT)/$(PROJ_NAME)
 ODIR_LIB=$(ODIR_ROOT)/libs
 ODIR_BIN=$(ODIR_ROOT)/bin
@@ -27,18 +27,21 @@ PLTF_LIB=/usr/lib
 BOOST_INC=/usr/include
 BOOST_LIB=/usr/lib
 
-CV_INC=/opt/kmt/include/opencv4
-CV_LIB=/opt/kmt/lib
+# OpenCV
+CV_INC=/usr/include/opencv4
+CV_LIB=/usr/local/lib
 
+# 
 ROS_INC=/opt/ros/melodic/include
 ROS_LIB=/opt/ros/melodic/lib
 
+# Fast DDS
 FDNN_INC=/opt/sd_jhuapl/install/include
 FDNN_LIB=/opt/sd_jhuapl/install/lib
 
+# https://eigen.tuxfamily.org/index.php?title=Main_Page
 EIG3_INC=/opt/pkg/include/eigen3
 EIG3_LIB=/opt/pkg/lib
-
 
 #GST_INC=-I/usr/include/gstreamer-1.0 -I/usr/include/glib-2.0 -I/usr/lib/aarch64-linux-gnu/glib-2.0/include
 #GST_LIB=/usr/lib/aarch64-linux-gnu/gstreamer-1.0
