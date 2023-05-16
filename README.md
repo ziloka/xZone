@@ -31,77 +31,159 @@ an open source project for monitoring and controling multiple sensors in a centr
 
 Note: *C++17 and above is required*
 
-### Windows __**visual studio 2019 and upper**__
+### Windows 10 & __**visual studio 2019**__
 
-1. Acquire and build dependencies
+
+#### Requirements
+- Visual Studio 2019 version 16.0.0 
+- [Chocolately](https://fast-dds.docs.eprosima.com/en/latest/installation/sources/sources_windows.html#chocolatey-sw)
+
+~~Note: I wrote this on Visual Studio Community 2022 64-bit Version 17.4.5~~
+
+1. open "x64 native tools command prompt" (install visual studio first, ensure c++ development tools are installed)
+
+2. Acquire and build dependencies
 
 	1. Compile the gtest library
 
-		1. clone repository https://github.com/google/googletest/releases
-
-		2. open "x64 native tools command prompt" (install visual studio first, ensure c++ development tools are installed)
-
 		3. Compile 
-			```
+			```pwsh
+			git clone --jobs 4 --depth=1 --single-branch --branch v1.13.0 --recursive https://github.com/google/googletest
 			mkdir vs2019-install && cd vs2019-install
-			cmake -G "NMake Makefiles" ..
-			nmake
+			cmake -G "Visual Studio 16 2019" -DCMAKE_MSVC_RUNTIME_LIBRARY=MultiThreadedDebug -DCMAKE_DEBUG_POSTFIX=d ..
+			# cmake --build . --parallel 4 --config release
+			cmake --build . --parallel 4 --config debug
 			```
+			Notes:
+			- https://stackoverflow.com/questions/59620509/set-msvc-runtime-on-cmake-project-from-command-line
+			- https://github.com/google/googletest/issues/449
 
 	2. Install the opencv library
 
-		1. go to https://sourceforge.net/projects/opencvlibrary/files/4.1.1/opencv-4.1.1-vc14_vc15.exe/download
+		1. Compile it
 
-		2. run the executable
+		```pwsh
+		mkdir opencv
+		cd opencv
+		git clone --jobs 4 --depth=1 --single-branch --branch 4.1.1 --recursive https://github.com/opencv/opencv
+		git clone --jobs 4 --depth=1 --single-branch --branch 4.1.1 --recursive https://github.com/opencv/opencv_contrib
+		mkdir build
+		cd build
+		cmake -G "Visual Studio 16 2019" -DBUILD_PERF_TESTS:BOOL=OFF -DBUILD_TESTS:BOOL=OFF -DBUILD_DOCS:BOOL=OFF -DWITH_CUDA:BOOL=OFF -DBUILD_EXAMPLES:BOOL=OFF -DINSTALL_CREATE_DISTRIB=ON -DOPENCV_EXTRA_MODULES_PATH=../opencv_contrib/modules ../opencv
+		# cmake --build . --parallel 4 --target install --config release
+		cmake --build . --parallel 4 --target install --config debug
+		```
+		opencv lib is located in ./install/$(arch)/$(MSVC_VER)/lib
+		opencv include is located in ./install/include
+		[extra info](https://github.com/shunguang/HowTo/blob/master/build-opencv/how-to-build-cv-w-contrib-modules-4-VS.txt)
 
 	3. Compile the boost library
 
-		1. Get source code
-
-		```
-		git clone --recursive --depth=1 -j8 https://github.com/boostorg/boost
-		cd boost
-		```
-
-		or via [this link](https://www.boost.org/users/download/)
-		
-		Note: *afb333b7c5101041f0280b2edf155c55114c9c95* is the last commit to boost library version 1.71.0
-		Run the following commands if the library doesn't seem compatible
-		```
-		git clone -n https://github.com/boostorg/boost
-		cd boost
-		git checkout afb333b7c5101041f0280b2edf155c55114c9c95
-		```
-		1. Compile
+		1. Get source code, confi
 		```sh
+		git clone --jobs 4 --depth=1 --single-branch --branch boost-1.71.0 --recursive https://github.com/boostorg/boost
+		cd boost
 		.\bootstrap
-		.\b2
+		.\b2 runtime-link=static threading=multi -j 4
 		```
+		**Boost Libraries are located at stage/lib**
+
 		*Notes*:
-		- use `.\b2 --build-dir=build/x64 address-model=64 threading=multi --build-type=complete --stagedir=./stage/x64` 
-		instead of step 3 for 64 bit boost library
+		~~- use `.\b2 --build-dir=build/x64 address-model=64 threading=multi --build-type=complete --stagedir=./stage/x64` libs are located in **stage/x64**~~
 		- https://stackoverflow.com/questions/302208/how-do-you-build-the-x64-boost-libraries-on-windows
 		- https://stackoverflow.com/questions/2049952/how-to-get-boost-libraries-binaries-that-work-with-visual-studio
+		- https://stackoverflow.com/questions/13042561/fatal-error-lnk1104-cannot-open-file-libboost-system-vc110-mt-gd-1-51-lib
+		- https://stackoverflow.com/questions/6014517/whats-the-difference-between-mt-gd-and-mt-s-library
 		- Faster alternative: https://boost.teeks99.com/, http://sourceforge.net/projects/boost/files/boost-binaries/
 		- https://anaconda.org/conda-forge/boost
 
 	4. Installing the fast dds library
 
-		1. go to https://www.eprosima.com/index.php/component/ars/repository/eprosima-fast-dds/eprosima-fast-dds-2-9-1/eprosima_fast-dds-2-9-1-windows-exe?format=raw
+		~~1. go to https://www.eprosima.com/index.php/component/ars/repository/eprosima-fast-dds/eprosima-fast-dds-2-9-1/eprosima_fast-dds-2-9-1-windows-exe?format=raw~~
 
-		2. run executable
+		~~2. run executable~~
 
-1. copy \$(XZONE_SRC)/vs2019/open_xZone_vs2019_template.bat to $(XZONE_SRC)/vs2019/open_xZone_vs2019_xyz.bat
+		```pwsh
+		mkdir Fast-DDS
+		cd Fast-DDS
+		git clone https://github.com/eProsima/foonathan_memory_vendor.git
+		cd foonathan_memory_vendor
+		mkdir build
+		cd build
+		# This library needs to compile shared libraries
+		cmake -DCMAKE_INSTALL_PREFIX:FILEPATH=../../install -DBUILD_SHARED_LIBS=ON ..
+		cmake --build . --parallel 4 --target install
+		cd ../..
 
-2. edit $(XZONE_SRC)/vs2019/open_xZone_vs2019_xyz.bat to make sure the path is corresponding to your envrionment
+		git clone https://github.com/eProsima/Fast-CDR.git
+		cd Fast-CDR
+		mkdir build
+		cd build
+		cmake -DCMAKE_MSVC_RUNTIME_LIBRARY=MultiThreadedDebug -DCMAKE_INSTALL_PREFIX:FILEPATH=../../install -DBUILD_SHARED_LIBS=OFF ..
+		cmake --build . --parallel 4 --target install --config release
+		cd ../..
+		
+		git clone --jobs 4 --depth=1 --single-branch --branch 2.9.1 --recursive https://github.com/eProsima/Fast-DDS
+		cd Fast-DDS
+		mkdir build
+		cd build
+		cmake -G "Visual Studio 16 2019" -DCMAKE_MSVC_RUNTIME_LIBRARY=MultiThreadedDebug -DCMAKE_INSTALL_PREFIX:FILEPATH=../../install -DBUILD_SHARED_LIBS=OFF -DTHIRDPARTY=ON ..
+		# this actually doesn't make cmake have multiple jobs in this project
+		cmake --build . --parallel 4 --target install --config release
+		```
+		Notes:
+		- required to build this from source instead of just downloading a executable and running that because runtime library must be multithreadeddebug
+		- https://fast-dds.docs.eprosima.com/en/latest/installation/sources/sources_windows.html#cmake-installation
+		- https://stackoverflow.com/questions/11840482/cmake-install-prefix-environment-variable-doesnt-work
+		- https://gitlab.kitware.com/cmake/cmake/-/issues/16445
+		- https://github.com/eProsima/Fast-DDS/issues/2275#issuecomment-946429816
+		- https://github.com/eProsima/Fast-DDS/issues/107#issuecomment-303091369 (USE THIRDPARTY=ON)
+		- https://github.com/eProsima/Fast-DDS/blob/e96f0828759ec6c5def1338b1244ac9c534f1854/CMakeLists.txt#L223-L233
+		- https://cmake.org/cmake/help/latest/variable/BUILD_SHARED_LIBS.html
+		- https://cmake.org/cmake/help/v3.0/variable/CMAKE_INSTALL_PREFIX.html
+		- https://github.com/eProsima/Fast-DDS/issues/620
+		- I'm assuming fast dds libraries are shared if they start with lib and static if they don't according to [this](https://stackoverflow.com/questions/10549669/linking-to-boost-libraries-fails-because-of-lib-prefix) logic
+		- Project must use dynamic linking of some sort according to [this](https://stackoverflow.com/questions/9527713/mixing-a-dll-boost-library-with-a-static-runtime-is-a-really-bad-idea)
 
-3. look at ./src/libMsg/how-to-run-fastgen.txt before attempting to compile
+3. copy \$(XZONE_SRC)/vs2019/open_xZone_vs2019_template.bat to $(XZONE_SRC)/vs2019/open_xZone_vs2019_xyz.bat
+
+4. edit $(XZONE_SRC)/vs2019/open_xZone_vs2019_xyz.bat to make sure the path is corresponding to your envrionment
+
+5. look at ./src/libMsg/how-to-run-fastgen.txt before attempting to compile
 
 	C:\pkg\fastDDS\bin\fastddsgen -ppDisable .\idl\MsgTmp.idl
 
-4. **configure projects to be compiled in the correct order**
+6. **configure projects to be compiled in the correct order**
 
-5. double click $(XZONE_SRC)/vs2019/open_xZone_vs2019_xyz.bat
+7. double click $(XZONE_SRC)/vs2019/open_xZone_vs2019_xyz.bat
+
+8. troubleshooting tips
+- Try cleaning solution
+	In the upper left corner click **Build** ` Build -> Clean Solution`
+- Unresolved external symbol errors?
+	In the solution explorer, right click and click on properties on the project that the error came from. Go to `Configuration Properties -> Linker -> Input`. Edit the Additional Dependencies field and add "$(APP_LIBS_R)"
+- mismatch detected for 'RuntimeLibrary': value 'x' doesn't match value 'y'.
+	In the solution explorer, right click and click on properties on the project that the error came from. Go to `Configuration Properties -> C/C++ -> Code Generation`. Change the Runtime Library so the value is the same as the x value
+	Another solution is to change the solution configurations
+- All subproject's runtime library should be set to `Multi-threaded Debug DLL (/MDd)`,
+	Except the test subproject, should be set to `Multi-threaded (/MT)` instead
+- unresolved external symbol "_invalid_parameter, _calloc_dbg, _free_dbg, _malloc_dbg, etc ..." ?
+	In the upper left corner change Solution Configuration from `Debug`
+- Random unresolved symbols? 
+	Try looking through [this](https://github.com/eProsima/Fast-DDS/issues/2805)
+- Look at [demo project](https://github.com/eProsima/Fast-DDS-docs/tree/master/code/Examples/C%2B%2B/DDSHelloWorld) (Do this in development command prompt)
+	- [Tutorial](https://fast-dds.docs.eprosima.com/en/latest/fastdds/getting_started/simple_app/simple_app.html)
+	git clone --no-checkout https://github.com/eProsima/Fast-DDS-docs
+	cd Fast-DDS-Docs
+	git sparse-checkout init --cone
+	git sparse-checkout set code/Examples/C++/DDSHelloWorld
+	git checkout "@"
+	cd code/Examples/C++/DDSHelloWorld
+	mkdir build
+	cd build
+	cmake ..
+	cmake --build .
+
 
 ### linux
 
@@ -109,7 +191,7 @@ Note: *C++17 and above is required*
 	#### Ubuntu 20.04
 	1. Install prebuilt dependencies of the latest version
 
-	```
+	```bash
 	sudo apt update && sudo apt install -y cmake g++ wget unzip
 	sudo apt-get install googletest libboost-dev
 	# Kinda not really required for opencv contrib
@@ -118,13 +200,15 @@ Note: *C++17 and above is required*
 
 	2. Compile the boost library
 
-	```
+	```bash
 	wget https://boostorg.jfrog.io/artifactory/main/release/1.80.0/source/boost_1_80_0.tar.gz
 	tar xf boost_1_80_0.tar.gz
 	cd boost_1_80_0
 	./bootstrap.sh --prefix=/usr/
-	sudo ./b2 install
+	sudo ./b2 install -j 4
 	```
+	Notes:
+		- https://stackoverflow.com/questions/33566782/building-all-of-boost-in-a-few-minutes
 
 	3. Compile the OpenCV library 
 	
@@ -133,21 +217,25 @@ Note: *C++17 and above is required*
 	unzip -q opencv.zip
 	unzip -q opencv_contrib.zip~~
 
-	```
+	```bash
 	mkdir opencv
 	cd opencv
-	git clone --jobs 4 --depth=1 --branch 4.x --recursive https://github.com/opencv/opencv
-	git clone --jobs 4 --depth=1 --branch 4.x --recursive https://github.com/opencv/opencv_contrib
-	mkdir -p build && cd build
-	cmake -DOPENCV_EXTRA_MODULES_PATH=../opencv_contrib/modules ../opencv
-	cmake --build .
+	git clone --jobs 4 --depth=1 --single-branch --branch 4.1.1 --recursive https://github.com/opencv/opencv
+	git clone --jobs 4 --depth=1 --single-branch --branch 4.1.1 --recursive https://github.com/opencv/opencv_contrib
+	mkdir -p build
+	cd build
+	cmake -DCMAKE_BUILD_TYPE=Release -DBUILD_PERF_TESTS:BOOL=OFF -DBUILD_TESTS:BOOL=OFF -DBUILD_DOCS:BOOL=OFF -DWITH_CUDA:BOOL=OFF -DBUILD_EXAMPLES:BOOL=OFF -DINSTALL_CREATE_DISTRIB=ON -DOPENCV_EXTRA_MODULES_PATH=../opencv_contrib/modules ../opencv
+	# Or use ninja instead, parallel builds automatically
+	# cmake -G Ninja -DCMAKE_BUILD_TYPE=Release -DBUILD_PERF_TESTS:BOOL=OFF -DBUILD_TESTS:BOOL=OFF -DBUILD_DOCS:BOOL=OFF -DWITH_CUDA:BOOL=OFF -DBUILD_EXAMPLES:BOOL=OFF -DINSTALL_CREATE_DISTRIB=ON -DOPENCV_EXTRA_MODULES_PATH=../opencv_contrib/modules ../opencv 
+	cmake --build . --parallel 4
 	```
+	*Note*: This is specifically suppose to be for opencv 4.1.1.
 
 	Opencv headers (include) are located at 
 	Opencv libraries are located at `/usr/lib/x86_64-linux-gnu`
 
 	If Opencv files aren't located there you can try finding where they are located via 
-	```
+	```bash
 	dpkg -L libopencv-dev
 	# the following is also worth a shot
 	pkg-config --libs --cflags opencv
@@ -157,20 +245,22 @@ Note: *C++17 and above is required*
 	
 		Any Unix / Linux platform probably requires to install FastDDS in the following
 
-		1. Download source code here https://www.eprosima.com/index.php/component/ars/repository/eprosima-fast-dds/eprosima-fast-dds-2-9-1/eprosima_fast-dds-v2-9-1-linux-tgz?format=raw
+		1. Download source code here https://github.com/eProsima/Fast-DDS/tree/2.9.1
 		
 		2. Extract file
 
 		3. Install it
-		```
+		```bash
 		sudo ./install.sh
 		```
 
 		So the following should be the process of installing fast DDS
 		```bash
 		mkdir fastDDS
-		wget -O eProsima_Fast-DDS-v2.9.1-Linux.tgz https://www.eprosima.com/index.php/component/ars/repository/eprosima-fast-dds/eprosima-fast-dds-2-9-1/eprosima_fast-dds-v2-9-1-linux-tgz?format=raw
-		tar xzf eProsima_Fast-DDS-v2.9.1-Linux.tgz
+		git clone --jobs 4 --depth=1 --single-branch --branch=2.9.1 --recursive https://github.com/eProsima/Fast-DDS fastDDS
+		# Alternative
+		# wget -O eProsima_Fast-DDS-v2.9.1-Linux.tgz https://www.eprosima.com/index.php/component/ars/repository/eprosima-fast-dds/eprosima-fast-dds-2-9-1/eprosima_fast-dds-v2-9-1-linux-tgz?format=raw
+		# tar xzf eProsima_Fast-DDS-v2.9.1-Linux.tgz
 		sudo ./install.sh
 		```
 
@@ -187,7 +277,7 @@ Note: *C++17 and above is required*
 Troubleshooting
 ---------------
 - Running into issues trying to run the script on linux? ("/bin/bash^M: bad interpreter: No such file or directory") 
-	remove carriage return keys
+	remove carriage return characters
 	```
 	sed -i -e 's/\r$//' ./run_all_w_cleanAll.sh
 	```

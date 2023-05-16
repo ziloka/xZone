@@ -28,8 +28,8 @@ PLTF_LIB=/usr/lib
 BOOST_INC=/usr/include
 BOOST_LIB=/usr/lib
 
-CV_INC=/usr/local/include/opencv4
-CV_LIB=/usr/local/lib
+CV_INC=/usr/include/opencv4
+CV_LIB=/usr/lib/x86_64-linux-gnu
 
 DDS_INC=/usr/local/include
 DDS_LIB=/usr/local/lib
