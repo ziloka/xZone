@@ -50,8 +50,7 @@ Note: *C++17 and above is required*
 			```pwsh
 			git clone --jobs 4 --depth=1 --single-branch --branch v1.13.0 --recursive https://github.com/google/googletest
 			mkdir vs2019-install && cd vs2019-install
-			cmake -G "Visual Studio 16 2019" -DCMAKE_MSVC_RUNTIME_LIBRARY=MultiThreadedDebug -DCMAKE_DEBUG_POSTFIX=d ..
-			# cmake --build . --parallel 4 --config release
+			cmake -G "Visual Studio 16 2019" -DCMAKE_MSVC_RUNTIME_LIBRARY=MultiThreadedDebug -DCMAKE_DEBUG_POSTFIX=d -DBUILD_SHARED_LIBS=ON ..
 			cmake --build . --parallel 4 --config debug
 			```
 			Notes:
@@ -69,8 +68,7 @@ Note: *C++17 and above is required*
 		git clone --jobs 4 --depth=1 --single-branch --branch 4.1.1 --recursive https://github.com/opencv/opencv_contrib
 		mkdir build
 		cd build
-		cmake -G "Visual Studio 16 2019" -DBUILD_PERF_TESTS:BOOL=OFF -DBUILD_TESTS:BOOL=OFF -DBUILD_DOCS:BOOL=OFF -DWITH_CUDA:BOOL=OFF -DBUILD_EXAMPLES:BOOL=OFF -DINSTALL_CREATE_DISTRIB=ON -DOPENCV_EXTRA_MODULES_PATH=../opencv_contrib/modules ../opencv
-		# cmake --build . --parallel 4 --target install --config release
+		cmake -G "Visual Studio 16 2019" -DBUILD_PERF_TESTS:BOOL=OFF -DBUILD_TESTS:BOOL=OFF -DBUILD_DOCS:BOOL=OFF -DWITH_CUDA:BOOL=OFF -DBUILD_EXAMPLES:BOOL=OFF -DINSTALL_CREATE_DISTRIB=ON -DOPENCV_EXTRA_MODULES_PATH=../opencv_contrib/modules -DBUILD_SHARED_LIBS=ON ../opencv
 		cmake --build . --parallel 4 --target install --config debug
 		```
 		opencv lib is located in ./install/$(arch)/$(MSVC_VER)/lib
@@ -79,7 +77,7 @@ Note: *C++17 and above is required*
 
 	3. Compile the boost library
 
-		1. Get source code, confi
+		1. Get source code, configure, and compile
 		```sh
 		git clone --jobs 4 --depth=1 --single-branch --branch boost-1.71.0 --recursive https://github.com/boostorg/boost
 		cd boost
@@ -99,51 +97,52 @@ Note: *C++17 and above is required*
 
 	4. Installing the fast dds library
 
-		~~1. go to https://www.eprosima.com/index.php/component/ars/repository/eprosima-fast-dds/eprosima-fast-dds-2-9-1/eprosima_fast-dds-2-9-1-windows-exe?format=raw~~
+		1. go to https://www.eprosima.com/index.php/component/ars/repository/eprosima-fast-dds/eprosima-fast-dds-2-9-1/eprosima_fast-dds-2-9-1-windows-exe?format=raw
 
-		~~2. run executable~~
+		2. run executable
 
-		```pwsh
-		mkdir Fast-DDS
-		cd Fast-DDS
-		git clone https://github.com/eProsima/foonathan_memory_vendor.git
-		cd foonathan_memory_vendor
-		mkdir build
-		cd build
-		# This library needs to compile shared libraries
-		cmake -DCMAKE_INSTALL_PREFIX:FILEPATH=../../install -DBUILD_SHARED_LIBS=ON ..
-		cmake --build . --parallel 4 --target install
-		cd ../..
+<!-- ```pwsh
+mkdir Fast-DDS
+cd Fast-DDS
+git clone https://github.com/eProsima/foonathan_memory_vendor.git
+cd foonathan_memory_vendor
+mkdir build
+cd build
+# This library needs to compile shared libraries
+cmake -DCMAKE_MSVC_RUNTIME_LIBRARY=MultiThreadedDebugDLL -DCMAKE_INSTALL_PREFIX:FILEPATH=../../install -DBUILD_SHARED_LIBS=ON ..
+cmake --build . --parallel 4 --target install --config debug
+cd ../..
 
-		git clone https://github.com/eProsima/Fast-CDR.git
-		cd Fast-CDR
-		mkdir build
-		cd build
-		cmake -DCMAKE_MSVC_RUNTIME_LIBRARY=MultiThreadedDebug -DCMAKE_INSTALL_PREFIX:FILEPATH=../../install -DBUILD_SHARED_LIBS=OFF ..
-		cmake --build . --parallel 4 --target install --config release
-		cd ../..
-		
-		git clone --jobs 4 --depth=1 --single-branch --branch 2.9.1 --recursive https://github.com/eProsima/Fast-DDS
-		cd Fast-DDS
-		mkdir build
-		cd build
-		cmake -G "Visual Studio 16 2019" -DCMAKE_MSVC_RUNTIME_LIBRARY=MultiThreadedDebug -DCMAKE_INSTALL_PREFIX:FILEPATH=../../install -DBUILD_SHARED_LIBS=OFF -DTHIRDPARTY=ON ..
-		# this actually doesn't make cmake have multiple jobs in this project
-		cmake --build . --parallel 4 --target install --config release
-		```
-		Notes:
-		- required to build this from source instead of just downloading a executable and running that because runtime library must be multithreadeddebug
-		- https://fast-dds.docs.eprosima.com/en/latest/installation/sources/sources_windows.html#cmake-installation
-		- https://stackoverflow.com/questions/11840482/cmake-install-prefix-environment-variable-doesnt-work
-		- https://gitlab.kitware.com/cmake/cmake/-/issues/16445
-		- https://github.com/eProsima/Fast-DDS/issues/2275#issuecomment-946429816
-		- https://github.com/eProsima/Fast-DDS/issues/107#issuecomment-303091369 (USE THIRDPARTY=ON)
-		- https://github.com/eProsima/Fast-DDS/blob/e96f0828759ec6c5def1338b1244ac9c534f1854/CMakeLists.txt#L223-L233
-		- https://cmake.org/cmake/help/latest/variable/BUILD_SHARED_LIBS.html
-		- https://cmake.org/cmake/help/v3.0/variable/CMAKE_INSTALL_PREFIX.html
-		- https://github.com/eProsima/Fast-DDS/issues/620
-		- I'm assuming fast dds libraries are shared if they start with lib and static if they don't according to [this](https://stackoverflow.com/questions/10549669/linking-to-boost-libraries-fails-because-of-lib-prefix) logic
-		- Project must use dynamic linking of some sort according to [this](https://stackoverflow.com/questions/9527713/mixing-a-dll-boost-library-with-a-static-runtime-is-a-really-bad-idea)
+git clone https://github.com/eProsima/Fast-CDR.git
+cd Fast-CDR
+mkdir build
+cd build
+cmake -DCMAKE_MSVC_RUNTIME_LIBRARY=MultiThreadedDebugDLL -DCMAKE_INSTALL_PREFIX:FILEPATH=../../install -DBUILD_SHARED_LIBS=ON ..
+cmake --build . --parallel 4 --target install --config debug
+cd ../..
+
+git clone --jobs 4 --depth=1 --single-branch --branch 2.9.1 --recursive https://github.com/eProsima/Fast-DDS
+cd Fast-DDS
+mkdir build
+cd build
+cmake -G "Visual Studio 16 2019" -DCMAKE_MSVC_RUNTIME_LIBRARY=MultiThreadedDebugDLL -DCMAKE_INSTALL_PREFIX:FILEPATH=../../install -DBUILD_SHARED_LIBS=ON -DTHIRDPARTY=ON ..
+# this actually doesn't make cmake have multiple jobs in this project
+cmake --build . --parallel 4 --target install --config debug
+```
+Notes:
+- required to build this from source instead of just downloading a executable and running that because runtime library must be multithreadeddebug
+- https://fast-dds.docs.eprosima.com/en/latest/installation/sources/sources_windows.html#cmake-installation
+- https://stackoverflow.com/questions/11840482/cmake-install-prefix-environment-variable-doesnt-work
+- [CMAKE_INSTALL_PREFIX with relative paths behaves differently with and without FILEPATH](https://gitlab.kitware.com/cmake/cmake/-/issues/16445)
+- https://github.com/eProsima/Fast-DDS/issues/2275#issuecomment-946429816
+- https://github.com/eProsima/Fast-DDS/issues/107#issuecomment-303091369 (USE THIRDPARTY=ON)
+- https://github.com/eProsima/Fast-DDS/blob/e96f0828759ec6c5def1338b1244ac9c534f1854/CMakeLists.txt#L223-L233
+- https://cmake.org/cmake/help/latest/variable/BUILD_SHARED_LIBS.html
+- https://cmake.org/cmake/help/v3.0/variable/CMAKE_INSTALL_PREFIX.html
+- [Fast-RTPS no longer builds due to non-standard install location for dependency foonathan_memory [6117]](https://github.com/eProsima/Fast-DDS/issues/620)
+- [Including FastRTPS in Qt Projects: LNK2005 already defined [8982]](https://github.com/eProsima/Fast-DDS/issues/904)
+- I'm assuming fast dds libraries are shared if they start with lib and static if they don't according to [this](https://stackoverflow.com/questions/10549669/linking-to-boost-libraries-fails-because-of-lib-prefix) logic
+- Project must use dynamic linking of some sort according to [this](https://stackoverflow.com/questions/9527713/mixing-a-dll-boost-library-with-a-static-runtime-is-a-really-bad-idea) -->
 
 3. copy \$(XZONE_SRC)/vs2019/open_xZone_vs2019_template.bat to $(XZONE_SRC)/vs2019/open_xZone_vs2019_xyz.bat
 
@@ -168,7 +167,7 @@ Note: *C++17 and above is required*
 - All subproject's runtime library should be set to `Multi-threaded Debug DLL (/MDd)`,
 	Except the test subproject, should be set to `Multi-threaded (/MT)` instead
 - unresolved external symbol "_invalid_parameter, _calloc_dbg, _free_dbg, _malloc_dbg, etc ..." ?
-	In the upper left corner change Solution Configuration from `Debug`
+	In the upper left corner change Solution Configuration to `Debug`
 - Random unresolved symbols? 
 	Try looking through [this](https://github.com/eProsima/Fast-DDS/issues/2805)
 - Look at [demo project](https://github.com/eProsima/Fast-DDS-docs/tree/master/code/Examples/C%2B%2B/DDSHelloWorld) (Do this in development command prompt)
@@ -256,12 +255,14 @@ Note: *C++17 and above is required*
 
 		So the following should be the process of installing fast DDS
 		```bash
-		mkdir fastDDS
 		git clone --jobs 4 --depth=1 --single-branch --branch=2.9.1 --recursive https://github.com/eProsima/Fast-DDS fastDDS
+		sudo ./install.sh
 		# Alternative
+		# mkdir fastDDS
+		# cd fastDDS
 		# wget -O eProsima_Fast-DDS-v2.9.1-Linux.tgz https://www.eprosima.com/index.php/component/ars/repository/eprosima-fast-dds/eprosima-fast-dds-2-9-1/eprosima_fast-dds-v2-9-1-linux-tgz?format=raw
 		# tar xzf eProsima_Fast-DDS-v2.9.1-Linux.tgz
-		sudo ./install.sh
+		# sudo ./install.sh
 		```
 
 		4. The library is now located at /usr/local/lib
