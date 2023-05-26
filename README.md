@@ -128,21 +128,24 @@ cd build
 cmake -G "Visual Studio 16 2019" -DCMAKE_MSVC_RUNTIME_LIBRARY=MultiThreadedDebugDLL -DCMAKE_INSTALL_PREFIX:FILEPATH=../../install -DBUILD_SHARED_LIBS=ON -DTHIRDPARTY=ON ..
 # this actually doesn't make cmake have multiple jobs in this project
 cmake --build . --parallel 4 --target install --config debug
-```
-Notes:
-- required to build this from source instead of just downloading a executable and running that because runtime library must be multithreadeddebug
-- https://fast-dds.docs.eprosima.com/en/latest/installation/sources/sources_windows.html#cmake-installation
-- https://stackoverflow.com/questions/11840482/cmake-install-prefix-environment-variable-doesnt-work
-- [CMAKE_INSTALL_PREFIX with relative paths behaves differently with and without FILEPATH](https://gitlab.kitware.com/cmake/cmake/-/issues/16445)
-- https://github.com/eProsima/Fast-DDS/issues/2275#issuecomment-946429816
-- https://github.com/eProsima/Fast-DDS/issues/107#issuecomment-303091369 (USE THIRDPARTY=ON)
-- https://github.com/eProsima/Fast-DDS/blob/e96f0828759ec6c5def1338b1244ac9c534f1854/CMakeLists.txt#L223-L233
-- https://cmake.org/cmake/help/latest/variable/BUILD_SHARED_LIBS.html
-- https://cmake.org/cmake/help/v3.0/variable/CMAKE_INSTALL_PREFIX.html
-- [Fast-RTPS no longer builds due to non-standard install location for dependency foonathan_memory [6117]](https://github.com/eProsima/Fast-DDS/issues/620)
-- [Including FastRTPS in Qt Projects: LNK2005 already defined [8982]](https://github.com/eProsima/Fast-DDS/issues/904)
-- I'm assuming fast dds libraries are shared if they start with lib and static if they don't according to [this](https://stackoverflow.com/questions/10549669/linking-to-boost-libraries-fails-because-of-lib-prefix) logic
-- Project must use dynamic linking of some sort according to [this](https://stackoverflow.com/questions/9527713/mixing-a-dll-boost-library-with-a-static-runtime-is-a-really-bad-idea) -->
+``` -->
+		Notes:
+		- required to build this from source instead of just downloading a executable and running that because runtime library must be multithreadeddebug
+		- https://fast-dds.docs.eprosima.com/en/latest/installation/sources/sources_windows.html#cmake-installation
+		- https://stackoverflow.com/questions/11840482/cmake-install-prefix-environment-variable-doesnt-work
+		- [CMAKE_INSTALL_PREFIX with relative paths behaves differently with and without FILEPATH](https://gitlab.kitware.com/cmake/cmake/-/issues/16445)
+		- https://github.com/eProsima/Fast-DDS/issues/2275#issuecomment-946429816
+		- https://github.com/eProsima/Fast-DDS/issues/107#issuecomment-303091369 (USE THIRDPARTY=ON)
+		- https://github.com/eProsima/Fast-DDS/blob/e96f0828759ec6c5def1338b1244ac9c534f1854/CMakeLists.txt#L223-L233
+		- https://cmake.org/cmake/help/latest/variable/BUILD_SHARED_LIBS.html
+		- https://cmake.org/cmake/help/v3.0/variable/CMAKE_INSTALL_PREFIX.html
+		- [Fast-RTPS no longer builds due to non-standard install location for dependency foonathan_memory [6117]](https://github.com/eProsima/Fast-DDS/issues/620)
+		- [Including FastRTPS in Qt Projects: LNK2005 already defined [8982]](https://github.com/eProsima/Fast-DDS/issues/904)
+		- I'm assuming fast dds libraries are shared if they start with lib and static if they don't according to [this](https://stackoverflow.com/questions/10549669/linking-to-boost-libraries-fails-because-of-lib-prefix) logic
+		- Project must use dynamic linking of some sort according to [this](https://stackoverflow.com/questions/9527713/mixing-a-dll-boost-library-with-a-static-runtime-is-a-really-bad-idea) 
+		- [Including FastRTPS in Qt Projects: LNK2005 already defined [8982]](https://github.com/eProsima/Fast-DDS/issues/904#issuecomment-561022760)
+		- [Build Fail with "fatal error LNK1169: one or more multiply defined symbols found"](https://github.com/google/jax/issues/14165)
+		- [libfastrtps-2.7.lib(Time_t.obj)👎 error: LNK2005: "public: __thiscall eprosima::fastrtps::Time_t::Time_t(int,unsigned int)" (??0Time_t@fastrtps@eprosima@@QAE@HI@Z)ist bereits in fastrtps-2.7.lib(fastrtps-2.7.dll) definiert. [17537]](https://github.com/eProsima/Fast-DDS/issues/3330)
 
 3. copy \$(XZONE_SRC)/vs2019/open_xZone_vs2019_template.bat to $(XZONE_SRC)/vs2019/open_xZone_vs2019_xyz.bat
 
@@ -194,7 +197,7 @@ Notes:
 	sudo apt update && sudo apt install -y cmake g++ wget unzip
 	sudo apt-get install googletest libboost-dev
 	# Kinda not really required for opencv contrib
-	sudo apt-get install ccache libopencv-dev lib32z1 libopenjp2-7-dev libopenexr-dev libva-dev libopenblas-dev libatlas3-base libopenblas-dev liblapack-dev libjna-jni libvtk7-dev libgtk-3-0 libgstreamer1.0-dev libeigen3-dev libharfbuzz-dev libhdf5-dev libjulia-openblas64 libgflags-dev libgoogle-glog-dev libtesseract-dev glogg
+	sudo apt-get install ccache libopencv-dev lib32z1 libopenjp2-7-dev libopenexr-dev libva-dev libopenblas-dev libatlas3-base libopenblas-dev liblapack-dev libjna-jni libvtk7-dev libgtk-3-0 libgstreamer1.0-dev libeigen3-dev libharfbuzz-dev libhdf5-dev libjulia-openblas64 libgflags-dev libgoogle-glog-dev libtesseract-dev glogg libv4l-dev
 	```
 
 	2. Compile the boost library
@@ -224,20 +227,23 @@ Notes:
 	mkdir -p build
 	cd build
 	cmake -DCMAKE_BUILD_TYPE=Release -DBUILD_PERF_TESTS:BOOL=OFF -DBUILD_TESTS:BOOL=OFF -DBUILD_DOCS:BOOL=OFF -DWITH_CUDA:BOOL=OFF -DBUILD_EXAMPLES:BOOL=OFF -DINSTALL_CREATE_DISTRIB=ON -DOPENCV_EXTRA_MODULES_PATH=../opencv_contrib/modules ../opencv
+	make -j8
+	sudo make install
 	# Or use ninja instead, parallel builds automatically
 	# cmake -G Ninja -DCMAKE_BUILD_TYPE=Release -DBUILD_PERF_TESTS:BOOL=OFF -DBUILD_TESTS:BOOL=OFF -DBUILD_DOCS:BOOL=OFF -DWITH_CUDA:BOOL=OFF -DBUILD_EXAMPLES:BOOL=OFF -DINSTALL_CREATE_DISTRIB=ON -DOPENCV_EXTRA_MODULES_PATH=../opencv_contrib/modules ../opencv 
-	cmake --build . --parallel 4
+	# cmake --build . --parallel 4
 	```
 	*Note*: This is specifically suppose to be for opencv 4.1.1.
+	- [The ultimate OpenCV cross compilation guide for embedded processors](https://medium.com/analytics-vidhya/the-ultimate-opencv-cross-compilation-guide-for-embedded-processors-f2fdc8ccb7b2)
 
-	Opencv headers (include) are located at 
-	Opencv libraries are located at `/usr/lib/x86_64-linux-gnu`
+	Opencv headers (include) are located at `/usr/local/include/opencv4`
+	Opencv libraries are located at `/usr/local/lib`
 
 	If Opencv files aren't located there you can try finding where they are located via 
 	```bash
 	dpkg -L libopencv-dev
 	# the following is also worth a shot
-	pkg-config --libs --cflags opencv
+	pkg-config --libs --cflags opencv4
 	```
 
 	4. Compile the fastDDS library
@@ -271,7 +277,7 @@ Notes:
 
 3. cd $(XZONE_SRC)/makeFiles execute 
 
-4. ./run_all_w_cleanAll.sh
+4. ./run_all_wo_cleanAll.sh
 
 5. (you may (probably will) need to to edit Makefile_app_header.mak if there is any errors)	  
 
@@ -280,5 +286,5 @@ Troubleshooting
 - Running into issues trying to run the script on linux? ("/bin/bash^M: bad interpreter: No such file or directory") 
 	remove carriage return characters
 	```
-	sed -i -e 's/\r$//' ./run_all_w_cleanAll.sh
+	sed -i -e 's/\r$//' ./run_all_wo_cleanAll.sh
 	```
