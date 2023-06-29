@@ -19,16 +19,16 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\fastPubEx1\HelloWorldPublisher.cpp" />
+    <ClCompile Include="..\..\fastPubEx1\ImagePublisher.cpp" />
     <ClCompile Include="..\..\fastPubEx1\mainPub.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="..\..\fastPubEx1\HelloWorldPublisher.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\libMsg\libMsg.vcxproj">
       <Project>{23cf582b-ef4f-402e-a6a6-eb1dace6f604}</Project>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\fastPubEx1\ImagePublisher.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
@@ -145,7 +145,7 @@
       <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;CMAKE_INTDIR="Debug"</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(PROJ_INC)</AdditionalIncludeDirectories>
-      <LanguageStandard>Default</LanguageStandard>
+      <LanguageStandard>stdcpp17</LanguageStandard>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
     </ClCompile>
     <Link>

@@ -17,7 +17,7 @@
  *
  */
 
-#include "HelloWorldSubscriber.h"
+#include "ImageSubscriber.h"
 #include <fastrtps/attributes/ParticipantAttributes.h>
 #include <fastrtps/attributes/SubscriberAttributes.h>
 #include <fastdds/dds/domain/DomainParticipantFactory.hpp>
@@ -29,16 +29,16 @@
 using namespace eprosima::fastdds::dds;
 using namespace app;
 
-HelloWorldSubscriber::HelloWorldSubscriber()
+ImageSubscriber::ImageSubscriber()
     : participant_(nullptr)
     , subscriber_(nullptr)
     , topic_(nullptr)
     , reader_(nullptr)
-    , type_(new HelloWorldPubSubType())
+    , type_(new ImagePubSubType())
 {
 }
 
-bool HelloWorldSubscriber::init(
+bool ImageSubscriber::init(
         bool use_env)
 {
     DomainParticipantQos pqos = PARTICIPANT_QOS_DEFAULT;
@@ -85,8 +85,8 @@ bool HelloWorldSubscriber::init(
     }
 
     topic_ = participant_->create_topic(
-        "HelloWorldTopic",
-        "HelloWorld",
+        "ImageTopic",
+        "Image",
         tqos);
 
     if (topic_ == nullptr)
@@ -113,7 +113,7 @@ bool HelloWorldSubscriber::init(
     return true;
 }
 
-HelloWorldSubscriber::~HelloWorldSubscriber()
+ImageSubscriber::~ImageSubscriber()
 {
     if (reader_ != nullptr)
     {
@@ -130,7 +130,7 @@ HelloWorldSubscriber::~HelloWorldSubscriber()
     DomainParticipantFactory::get_instance()->delete_participant(participant_);
 }
 
-void HelloWorldSubscriber::SubListener::on_subscription_matched(
+void ImageSubscriber::SubListener::on_subscription_matched(
         DataReader*,
         const SubscriptionMatchedStatus& info)
 {
@@ -151,7 +151,7 @@ void HelloWorldSubscriber::SubListener::on_subscription_matched(
     }
 }
 
-void HelloWorldSubscriber::SubListener::on_data_available(  DataReader* reader)
+void ImageSubscriber::SubListener::on_data_available(  DataReader* reader)
 {
     SampleInfo info;
     if (reader->take_next_sample(&hello_, &info) == ReturnCode_t::RETCODE_OK)
@@ -160,18 +160,33 @@ void HelloWorldSubscriber::SubListener::on_data_available(  DataReader* reader)
         {
             samples_++;
             // Print your structure data here.
-            APP_LOG("Message=%s with idx=%u received", hello_.message().c_str(), hello_.index() );
+
+            while (1) {
+
+                cv::Mat frame;
+                frame = app::vecUcharToMat(hello_.image(), hello_.width(), hello_.height());
+
+                // Display the resulting frame
+                cv::imshow("Frame", frame);
+
+                // Press  ESC on keyboard to exit
+                char c = (char) cv::waitKey(25);
+                if (c == 27)
+                    break;
+            }
+
+            APP_LOG("idx=%u received", hello_.frame_number() );
         }
     }
 }
 
-void HelloWorldSubscriber::run()
+void ImageSubscriber::run()
 {
-  APP_LOG("subscriber running.Please press enter to stop the Subscriber");
+  APP_LOG("subscriber running. Please press enter to stop the Subscriber");
   std::cin.ignore();
 }
 
-void HelloWorldSubscriber::run( uint32_t number)
+void ImageSubscriber::run(uint32_t number)
 {
     std::cout << "Subscriber running until " << number << "samples have been received" << std::endl;
     while (number > listener_.samples_)

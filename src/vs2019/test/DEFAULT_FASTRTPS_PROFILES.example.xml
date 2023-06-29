@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<profiles xmlns="http://www.eprosima.com/XMLSchemas/fastRTPS_Profiles">
+	<participant profile_name="participant_discovery_protocol_alt" >
+		<rtps>
+			<builtin>
+				<discovery_config>
+					<discoveryProtocol>SERVER</discoveryProtocol>
+					<!-- alternatives
+					<discoveryProtocol>CLIENT</discoveryProtocol>
+                    <discoveryProtocol>SERVER</discoveryProtocol>
+                    <discoveryProtocol>SUPER_CLIENT</discoveryProtocol>
+                    <discoveryProtocol>BACKUP</discoveryProtocol>
+                    -->
+				</discovery_config>
+			</builtin>
+		</rtps>
+	</participant>
+</profiles>

@@ -152,12 +152,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\fastDdsEx1\HelloWorldPublisher.cpp" />
+    <ClCompile Include="..\..\fastDdsEx1\ImagePublisher.cpp" />
     <ClCompile Include="..\..\fastDdsEx1\HelloWorldSubscriber.cpp" />
     <ClCompile Include="..\..\fastDdsEx1\HelloWorld_main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\fastDdsEx1\HelloWorldPublisher.h" />
+    <ClInclude Include="..\..\fastDdsEx1\ImagePublisher.h" />
     <ClInclude Include="..\..\fastDdsEx1\HelloWorldSubscriber.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

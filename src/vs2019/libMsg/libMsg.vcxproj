@@ -19,14 +19,14 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\libMsg\HelloWorld.cxx" />
-    <ClCompile Include="..\..\libMsg\HelloWorldPubSubTypes.cxx" />
+    <ClCompile Include="..\..\libMsg\Image.cxx" />
+    <ClCompile Include="..\..\libMsg\ImagePubSubTypes.cxx" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\libMsg\HelloWorld.h" />
+    <ClInclude Include="..\..\libMsg\Image.h" />
   </ItemGroup>
   <ItemGroup>
-    <Midl Include="..\..\libMsg\idl\HelloWorld.idl">
+    <Midl Include="..\..\libMsg\idl\Image.idl">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </Midl>
@@ -140,6 +140,7 @@
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <AdditionalOptions>
       </AdditionalOptions>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

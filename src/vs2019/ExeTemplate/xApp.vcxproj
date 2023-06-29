@@ -19,11 +19,11 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\fastPubEx1\HelloWorldPublisher.cpp" />
+    <ClCompile Include="..\..\fastPubEx1\ImagePublisher.cpp" />
     <ClCompile Include="..\..\fastPubEx1\mainPub.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\fastPubEx1\HelloWorldPublisher.h" />
+    <ClInclude Include="..\..\fastPubEx1\ImagePublisher.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

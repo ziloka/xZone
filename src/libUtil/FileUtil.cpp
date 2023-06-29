@@ -25,6 +25,7 @@
  *-------------------------------------------------------------------------
  */
 #include "FileUtil.h"
+
 using namespace std;
 
 void app::getExtName( const std::string &fileName, std::string &ext )
@@ -269,4 +270,28 @@ uint64_t app::getAvailableDiskSpaceInByte(const std::string& folderPath)
 #else
 	return 0;
 #endif
+}
+
+// https://stackoverflow.com/questions/52311361/uchar-to-stdvectoruchar-and-back
+
+std::vector<uchar> app::matToVecUchar(cv::Mat image)
+{
+	int COLOR_COMPONENTS = image.channels();
+	int _width = image.cols;
+	int _height = image.rows;
+
+	std::vector<uchar> vec;
+	
+	size_t size_of_buffer = _width * _height * COLOR_COMPONENTS;
+	unsigned char* buffer = image.data;
+
+	vec.assign(buffer, buffer + size_of_buffer);
+	return vec;
+}
+
+cv::Mat app::vecUcharToMat(std::vector<uchar> vec, int width, int height)
+{
+	uchar* _compressed = reinterpret_cast<uchar*>(vec.data());
+	cv::Mat image = cv::Mat(height, width, CV_8UC3, _compressed).clone(); // make a copy
+	return image;
 }

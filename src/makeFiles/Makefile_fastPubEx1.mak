@@ -18,7 +18,7 @@ LIBS	:= -lMsg -lCfg -lUtil \
 	-ldl -lm -lpthread -lrt 
 
 OBJS = \
-	$(ODIR_OBJ)/HelloWorldPublisher.o \
+	$(ODIR_OBJ)/ImagePublisher.o \
 	$(ODIR_OBJ)/mainPub.o 
 
 #	$(ODIR_OBJ)/test_px4_ekf.o \
@@ -38,8 +38,8 @@ $(TARGETFILE)	:	$(OBJS)
 $(ODIR_OBJ)/mainPub.o	:	$(SDIR_PROJ)/mainPub.cpp
 	$(CXX) -o $(ODIR_OBJ)/mainPub.o $(CFLAGS_EXE) $(SDIR_PROJ)/mainPub.cpp
 
-$(ODIR_OBJ)/HelloWorldPublisher.o	:	$(SDIR_PROJ)/HelloWorldPublisher.cpp
-	$(CXX) -o $(ODIR_OBJ)/HelloWorldPublisher.o $(CFLAGS_EXE) $(SDIR_PROJ)/HelloWorldPublisher.cpp
+$(ODIR_OBJ)/ImagePublisher.o	:	$(SDIR_PROJ)/ImagePublisher.cpp
+	$(CXX) -o $(ODIR_OBJ)/ImagePublisher.o $(CFLAGS_EXE) $(SDIR_PROJ)/ImagePublisher.cpp
 
 clean:
 	\rm $(ODIR_OBJ)/*.o $(TARGETFILE)

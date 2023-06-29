@@ -6,23 +6,23 @@ ref:
 	assume your working dir is:
 	WDIR=C:\Users\wus1\Projects\swu-personal\xZone\src\libMsg>
 
-	$(WDIR)>C:\pkg\fastDDS\v2.9.1\bin\fastddsgen.bat -ppDisable .\idl\MsgTmp.idl
+	$(WDIR)>C:\pkg\fastDDS\v2.9.1\bin\fastddsgen.bat -replace .\idl\Image.idl
 
 	output files:
 
-	MsgTmp.cxx/.h: Type definition.
-	MsgTmpPubSubType.cxx/.h: Serialization and deserialization source code for the data type. 
+	Image.cxx/.h: Type definition.
+	ImagePubSubType.cxx/.h: Serialization and deserialization source code for the data type. 
                          It also defines the getKey() member function of the MyTypePubSubType 
 						 class in case the topic implements keys (see Data types with a key).
 						 
 linux:
 	a) run
-		<path/to/Fast DDS-Gen>/scripts/fastddsgen ./idl/MsgTmp.idl
+		<path/to/Fast DDS-Gen>/scripts/fastddsgen -replace ./idl/Image.idl
 	b) output:	
-		MsgTmp.cxx: MsgTmp type definition.
-		MsgTmp.h: Header file for MsgTmp.cxx.
-		MsgTmpPubSubTypes.cxx: Serialization and Deserialization code for the MsgTmp type.
-		MsgTmpPubSubTypes.h: Header file for MsgTmpPubSubTypes.cxx.
+		Image.cxx: Image type definition.
+		Image.h: Header file for Image.cxx.
+		ImagePubSubTypes.cxx: Serialization and Deserialization code for the Image type.
+		ImagePubSubTypes.h: Header file for ImagePubSubTypes.cxx.
 
 
 ----from  https://github.com/eProsima/Fast-DDS-Gen/issues/59 -----------

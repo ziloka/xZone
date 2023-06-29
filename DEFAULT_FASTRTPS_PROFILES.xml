@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<dds xmlns="http://www.eprosima.com/XMLSchemas/fastRTPS_Profiles">
+	<profiles>
+		<participant profile_name="participant_profile_server_full_example">
+			<rtps>
+				<!-- Set SERVER's GUID prefix -->
+				<prefix>44.53.00.5f.45.50.52.4f.53.49.4d.41</prefix>
+				<builtin>
+					<!-- Set participant as SERVER -->
+					<discovery_config>
+						<discoveryProtocol>SERVER</discoveryProtocol>
+						<!--
+                        Set a list of remote servers to which this server connects.
+                        This list may contain one or more <RemoteServer> tags
+                    -->
+						<discoveryServersList>
+							<!--
+                            Set remote server configuration:
+                                - Prefix
+                                - PDP listening locator
+                        -->
+							<RemoteServer prefix="44.53.01.5f.45.50.52.4f.53.49.4d.41">
+								<metatrafficUnicastLocatorList>
+									<!-- Set SERVER's listening locator for PDP -->
+									<locator>
+										<udpv4>
+											<address>127.0.0.1</address>
+											<port>11812</port>
+										</udpv4>
+									</locator>
+								</metatrafficUnicastLocatorList>
+							</RemoteServer>
+						</discoveryServersList>
+					</discovery_config>
+					<!-- Set SERVER's listening locator for PDP -->
+					<metatrafficUnicastLocatorList>
+						<locator>
+							<udpv4>
+								<address>127.0.0.1</address>
+								<port>11811</port>
+							</udpv4>
+						</locator>
+					</metatrafficUnicastLocatorList>
+				</builtin>
+			</rtps>
+		</participant>
+		<participant profile_name="participant_profile_client_full_example">
+			<rtps>
+				<builtin>
+					<discovery_config>
+						<!-- Set participant as CLIENT -->
+						<discoveryProtocol>CLIENT</discoveryProtocol>
+						<!--
+                        Set list of remote servers. This list may contain one or
+                        more <RemoteServer> tags
+                    -->
+						<discoveryServersList>
+							<!--
+                            Set remote server configuration:
+                                - Prefix
+                                - PDP listening locator
+                        -->
+							<RemoteServer prefix="44.53.00.5f.45.50.52.4f.53.49.4d.41">
+								<metatrafficUnicastLocatorList>
+									<!-- Set SERVER's listening locator for PDP -->
+									<locator>
+										<udpv4>
+											<address>127.0.0.1</address>
+											<port>11811</port>
+										</udpv4>
+									</locator>
+								</metatrafficUnicastLocatorList>
+							</RemoteServer>
+						</discoveryServersList>
+						<!-- Set ping period to 250 ms -->
+						<clientAnnouncementPeriod>
+							<nanosec>250000000</nanosec>
+						</clientAnnouncementPeriod>
+					</discovery_config>
+				</builtin>
+			</rtps>
+		</participant>
+		<participant profile_name="participant_profile">
+			<!-- ... -->
+		</participant>
+
+		<data_writer profile_name="datawriter_profile">
+			<!-- ... -->
+		</data_writer>
+
+		<data_reader profile_name="datareader_profile">
+			<!-- ... -->
+		</data_reader>
+
+		<topic profile_name="topic_profile">
+			<!-- ... -->
+		</topic>
+
+		<transport_descriptors>
+			<!-- ... -->
+		</transport_descriptors>
+	</profiles>
+
+	<library_settings>
+		<!-- ... -->
+	</library_settings>
+
+	<log>
+		<!-- ... -->
+	</log>
+
+	<types>
+		<!-- ... -->
+	</types>
+</dds>

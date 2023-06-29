@@ -57,7 +57,15 @@ Note: *C++17 and above is required*
 			- https://stackoverflow.com/questions/59620509/set-msvc-runtime-on-cmake-project-from-command-line
 			- https://github.com/google/googletest/issues/449
 
-	2. Install the opencv library
+	2. Install gstreamer runtime and development packages
+		
+		1. Set up the environment variables
+			- [MSVC 64-bit (VS 2019, Release CRT) 1.22.4 runtime installer](https://gstreamer.freedesktop.org/data/pkg/windows/1.22.4/msvc/gstreamer-1.0-msvc-x86_64-1.22.4.msi)
+			- [MSVC 64-bit (VS 2019, Release CRT) 1.22.4 development installer](https://gstreamer.freedesktop.org/data/pkg/windows/1.22.4/msvc/gstreamer-1.0-devel-msvc-x86_64-1.22.4.msi)
+
+		2. 
+
+	3. Install the opencv library
 
 		1. Compile it
 
@@ -68,14 +76,30 @@ Note: *C++17 and above is required*
 		git clone --jobs 4 --depth=1 --single-branch --branch 4.1.1 --recursive https://github.com/opencv/opencv_contrib
 		mkdir build
 		cd build
-		cmake -G "Visual Studio 16 2019" -DBUILD_PERF_TESTS:BOOL=OFF -DBUILD_TESTS:BOOL=OFF -DBUILD_DOCS:BOOL=OFF -DWITH_CUDA:BOOL=OFF -DBUILD_EXAMPLES:BOOL=OFF -DINSTALL_CREATE_DISTRIB=ON -DOPENCV_EXTRA_MODULES_PATH=../opencv_contrib/modules -DBUILD_SHARED_LIBS=ON ../opencv
+		cmake -G "Visual Studio 16 2019" -DBUILD_PERF_TESTS=OFF -DBUILD_TESTS=OFF -DBUILD_DOCS=OFF -DWITH_CUDA=OFF -DBUILD_EXAMPLES=OFF -DINSTALL_CREATE_DISTRIB=ON -DWITH_GSTREAMER=ON -DOPENCV_EXTRA_MODULES_PATH=../opencv_contrib/modules -DBUILD_SHARED_LIBS=ON ../opencv
+		# configure this
+		GSTREAMER_app_LIBRARY=D:\gstreamer\1.0\msvc_x86_64\lib\gstapp-1.0.lib
+		GSTREAMER_base_LIBRARY=D:\gstreamer\1.0\msvc_x86_64\lib\gstbase-1.0.lib
+		GSTREAMER_glib_INCLUDE_DIR=D:\gstreamer\1.0\msvc_x86_64\include\glib-2.0
+		GSTREAMER_glib_LIBRARY=D:\gstreamer\1.0\msvc_x86_64\lib\glib-2.0.lib
+		GSTREAMER_glibconfig_INCLUDE_DIR=D:\gstreamer\1.0\msvc_x86_64\lib\glib-2.0\include
+		GSTREAMER_gobject_LIBRARY=D:\gstreamer\1.0\msvc_x86_64\lib\gobject-2.0.lib
+		GSTREAMER_gst_INCLUDE_DIR=D:\gstreamer\1.0\msvc_x86_64\include\gstreamer-1.0
+		GSTREAMER_gstreamer_LIBRARY=D:\gstreamer\1.0\msvc_x86_64\lib\gstreamer-1.0.lib
+		GSTREAMER_pbutils_LIBRARY=D:\gstreamer\1.0\msvc_x86_64\lib\gstpbutils-1.0.lib
+		GSTREAMER_riff_LIBRARY=D:\gstreamer\1.0\msvc_x86_64\lib\gstriff-1.0.lib
 		cmake --build . --parallel 4 --target install --config debug
 		```
 		opencv lib is located in ./install/$(arch)/$(MSVC_VER)/lib
 		opencv include is located in ./install/include
 		[extra info](https://github.com/shunguang/HowTo/blob/master/build-opencv/how-to-build-cv-w-contrib-modules-4-VS.txt)
 
-	3. Compile the boost library
+		Shortcut:
+		```pwsh
+		vcpkg install opencv[gstreamer,ffmpeg,python]:x64-windows
+		```
+
+	4. Compile the boost library
 
 		1. Get source code, configure, and compile
 		```sh
@@ -95,7 +119,7 @@ Note: *C++17 and above is required*
 		- Faster alternative: https://boost.teeks99.com/, http://sourceforge.net/projects/boost/files/boost-binaries/
 		- https://anaconda.org/conda-forge/boost
 
-	4. Installing the fast dds library
+	5. Installing the fast dds library
 
 		1. go to https://www.eprosima.com/index.php/component/ars/repository/eprosima-fast-dds/eprosima-fast-dds-2-9-1/eprosima_fast-dds-2-9-1-windows-exe?format=raw
 
@@ -153,7 +177,7 @@ cmake --build . --parallel 4 --target install --config debug
 
 5. look at ./src/libMsg/how-to-run-fastgen.txt before attempting to compile
 
-	C:\pkg\fastDDS\bin\fastddsgen -ppDisable .\idl\MsgTmp.idl
+	C:\pkg\fastDDS\bin\fastddsgen .\idl\Image.idl
 
 6. **configure projects to be compiled in the correct order**
 
@@ -185,7 +209,10 @@ cmake --build . --parallel 4 --target install --config debug
 	cd build
 	cmake ..
 	cmake --build .
-
+- Trying to execute fastPubEx1.exe but it retursn `cannot find opencv_world411d.dll` ?
+	Copy the opencv_world411d.dll from $(PKG)/opencv/build/install/x64/vc16/bin to the same directory as the fastPubEx1.exe executable
+- cv::impl::DynamicLib::libraryLoad load opencv_videoio_gstreamer411_64.dll => FAILED?
+	Copy the opencv_videoio_ffmpeg411_64.dll from $(PKG)/opencv/build/install/x64/vc16/bin to the same directory as the fastPubEx1.exe executable
 
 ### linux
 

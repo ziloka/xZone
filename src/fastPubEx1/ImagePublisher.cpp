@@ -13,11 +13,14 @@
 // limitations under the License.
 
 /**
- * @file HelloWorldPublisher.cpp
+ * @file ImagePublisher.cpp
  *
  */
 
-#include "HelloWorldPublisher.h"
+
+#include "ImagePublisher.h"
+#include <libUtil/FileUtil.h>
+#include "opencv2/opencv.hpp"
 #include <fastrtps/attributes/ParticipantAttributes.h>
 #include <fastrtps/attributes/PublisherAttributes.h>
 #include <fastdds/dds/domain/DomainParticipantFactory.hpp>
@@ -27,23 +30,27 @@
 #include <fastdds/dds/publisher/qos/DataWriterQos.hpp>
 
 #include <thread>
+#include <iostream>
 
 using namespace app;
 using namespace eprosima::fastdds::dds;
 
-HelloWorldPublisher::HelloWorldPublisher()
+ImagePublisher::ImagePublisher()
     : participant_(nullptr)
     , publisher_(nullptr)
     , topic_(nullptr)
     , writer_(nullptr)
-    , type_(new HelloWorldPubSubType())
+    , type_(new ImagePubSubType())
 {
+   
 }
 
-bool HelloWorldPublisher::init( bool use_env)
+bool ImagePublisher::init( bool use_env)
 {
-    hello_.index(0);
-    hello_.message("HelloWorld");
+    image_.frame_number(0);
+
+    //image_.image();
+
     DomainParticipantQos pqos = PARTICIPANT_QOS_DEFAULT;
     pqos.name("Participant_pub");
     auto factory = DomainParticipantFactory::get_instance();
@@ -90,8 +97,8 @@ bool HelloWorldPublisher::init( bool use_env)
     }
 
     topic_ = participant_->create_topic(
-        "HelloWorldTopic",
-        "HelloWorld",
+        "ImageTopic",
+        "Image",
         tqos);
 
     if (topic_ == nullptr)
@@ -120,7 +127,7 @@ bool HelloWorldPublisher::init( bool use_env)
     return true;
 }
 
-HelloWorldPublisher::~HelloWorldPublisher()
+ImagePublisher::~ImagePublisher()
 {
     if (writer_ != nullptr)
     {
@@ -137,7 +144,7 @@ HelloWorldPublisher::~HelloWorldPublisher()
     DomainParticipantFactory::get_instance()->delete_participant(participant_);
 }
 
-void HelloWorldPublisher::PubListener::on_publication_matched(
+void ImagePublisher::PubListener::on_publication_matched(
         eprosima::fastdds::dds::DataWriter*,
         const eprosima::fastdds::dds::PublicationMatchedStatus& info)
 {
@@ -159,7 +166,7 @@ void HelloWorldPublisher::PubListener::on_publication_matched(
     }
 }
 
-void HelloWorldPublisher::runThread(
+void ImagePublisher::runThread(
         uint32_t samples,
         uint32_t sleep)
 {
@@ -169,7 +176,7 @@ void HelloWorldPublisher::runThread(
         {
             if (publish(false))
             {
-                std::cout << "Message: " << hello_.message() << " with index: " << hello_.index()
+                std::cout << " with index: " << image_.frame_number()
                           << " SENT" << std::endl;
             }
             std::this_thread::sleep_for(std::chrono::milliseconds(sleep));
@@ -185,17 +192,17 @@ void HelloWorldPublisher::runThread(
             }
             else
             {
-              APP_LOG("Message: %s  with index: %u Sent", hello_.message().c_str(), hello_.index());
+              APP_LOG("index: %u Sent", image_.frame_number());
             }
             std::this_thread::sleep_for(std::chrono::milliseconds(sleep));
         }
     }
 }
 
-void HelloWorldPublisher::run( uint32_t samples, uint32_t sleep)
+void ImagePublisher::run( uint32_t samples, uint32_t sleep)
 {
     stop_ = false;
-    std::thread thread(&HelloWorldPublisher::runThread, this, samples, sleep);
+    std::thread thread(&ImagePublisher::runThread, this, samples, sleep);
     if (samples == 0)
     {
         std::cout << "Publisher running. Please press enter to stop the Publisher at any time." << std::endl;
@@ -209,12 +216,34 @@ void HelloWorldPublisher::run( uint32_t samples, uint32_t sleep)
     thread.join();
 }
 
-bool HelloWorldPublisher::publish( bool waitForListener )
+bool ImagePublisher::publish( bool waitForListener )
 {
     if (listener_.firstConnected_ || !waitForListener || listener_.matched_ > 0)
     {
-        hello_.index(hello_.index() + 1);
-        writer_->write(&hello_);
+        image_.frame_number(image_.frame_number() + 1);
+
+        // https://learnopencv.com/read-write-and-display-a-video-using-opencv-cpp-python/
+
+        // try and read video camera capture
+        cv::VideoCapture camera_(0, cv::CAP_DSHOW);
+        // Check if camera opened successfully
+        if (!camera_.isOpened()) {
+            std::cout << "Error opening video stream or file" << std::endl;
+        }
+
+        cv::Mat frame;
+        camera_ >> frame;
+        if (frame.empty())
+            return false;
+
+        camera_.release();
+        cv::destroyAllWindows();
+
+        image_.image(app::matToVecUchar(frame));
+        image_.width(frame.cols);
+        image_.height(frame.rows);
+
+        writer_->write(&image_);
         return true;
     }
     return false;
