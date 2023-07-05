@@ -53,11 +53,5 @@ moc_*.cpp
 qrc_*.cpp
 
 CppProperties.json
-src/vs2019/UpgradeLog.htm
 src/vs2019/open_xZone_vs2019_xyz.bat
-src/libMsg/MsgTmp.cxx
-src/libMsg/MsgTmp.h
-src/libMsg/MsgTmpPubSubTypes.cxx
-src/libMsg/MsgTmpPubSubTypes.h
-
 build

@@ -34,5 +34,11 @@
     <Midl Include="..\..\libMsg\idl\Image.idl">
       <Filter>idl</Filter>
     </Midl>
+    <Midl Include="..\..\libMsg\idl\Humidity.idl">
+      <Filter>idl</Filter>
+    </Midl>
+    <Midl Include="..\..\libMsg\idl\Temperature.idl">
+      <Filter>idl</Filter>
+    </Midl>
   </ItemGroup>
 </Project>

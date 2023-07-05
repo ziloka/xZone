@@ -25,13 +25,12 @@
 *-------------------------------------------------------------------------
 */
 #include "Cfg.h"
+
 using namespace std;
 using namespace app;
 
 Cfg::Cfg()
-	: m_camIdVec()
-	, m_camMap()
-	, m_log(new CfgLog())
+	: m_log(new CfgLog())
 {
 }
 
@@ -62,18 +61,23 @@ std::string Cfg::toString()
 
 void Cfg::fromPropertyTree(const boost::property_tree::ptree &pt0)
 {
-	const boost::property_tree::ptree pt = pt0.get_child("cams");
-	m_camIdVec.clear();
-  BOOST_FOREACH(const boost::property_tree::ptree::value_type &g, pt) {
-		CfgCamPtr curr( new CfgCam() );
-		curr->fromPropertyTree( g.second );
-		//cout << curr->toString() << endl;
-		if( curr->valid_ ){
-			int camId = curr->cameraId_;
-			m_camMap[camId] = curr; 
-			m_camIdVec.push_back( camId );
-		}
-	}
+	// set camera
+	const boost::property_tree::ptree camPT = pt0.get_child("cam");
+	CfgCamPtr cam( new CfgCam() );
+	cam->fromPropertyTree(camPT);
+	m_cam = cam;
+
+	// set thermometer
+	const boost::property_tree::ptree thermometerPT = pt0.get_child("thermometer");
+	CfgThermometerPtr thermometer(new CfgThermometer());
+	thermometer->fromPropertyTree(thermometerPT);
+	m_thermometer = thermometer;
+
+	// set hygrometer
+	const boost::property_tree::ptree hygrometerPT = pt0.get_child("hygrometer");
+	CfgHygrometerPtr hygrometer(new CfgHygrometer());
+	hygrometer->fromPropertyTree(hygrometerPT);
+
 	m_log->fromPropertyTree(pt0.get_child("log"));
 }
 
@@ -82,11 +86,8 @@ boost::property_tree::ptree Cfg::toPropertyTree()
 {
 	boost::property_tree::ptree ptLog = m_log->toPropertyTree();
 	boost::property_tree::ptree pt;
-	for ( const auto camId : m_camIdVec){
-		CfgCam cam = getCam( camId );
-		boost::property_tree::ptree  ptCam = cam.toPropertyTree();
-		pt.add_child( "cfg.cams.cam", ptCam );
-	}	
+	boost::property_tree::ptree  ptCam = m_cam->toPropertyTree();
+	pt.add_child( "cfg.cams.cam", ptCam );
 
 	pt.add_child("cfg.log", ptLog);
 
@@ -95,19 +96,19 @@ boost::property_tree::ptree Cfg::toPropertyTree()
 
 
 
-void Cfg::updateRecFlag(int camIdx, bool isRecording) {
+void Cfg::updateRecFlag(bool isRecording) {
 	boost::mutex::scoped_lock lock(m_mutex);
-	m_camMap[camIdx]->isRec_ = isRecording;
+	m_cam->isRec_ = isRecording;
 }
 
-void Cfg::updateDispFlag(int camIdx, bool isDisp) {
+void Cfg::updateDispFlag(bool isDisp) {
 	boost::mutex::scoped_lock lock(m_mutex);
-	m_camMap[camIdx]->isDisp_ = isDisp;
+	m_cam->isDisp_ = isDisp;
 }
 
-void Cfg::updateCamName(int camIdx, std::string name)
+void Cfg::updateCamName(std::string name)
 {
 	boost::mutex::scoped_lock lock(m_mutex);
-	m_camMap[camIdx]->cameraName_ = name;
+	m_cam->cameraName_ = name;
 }
 

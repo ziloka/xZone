@@ -22,14 +22,18 @@
     <ClCompile Include="..\..\libCfg\Cfg.cpp" />
     <ClCompile Include="..\..\libCfg\CfgBase.cpp" />
     <ClCompile Include="..\..\libCfg\CfgCam.cpp" />
+    <ClCompile Include="..\..\libCfg\CfgHygrometer.cpp" />
     <ClCompile Include="..\..\libCfg\CfgLog.cpp" />
+    <ClCompile Include="..\..\libCfg\CfgThermometer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\libCfg\Cfg.h" />
     <ClInclude Include="..\..\libCfg\CfgBase.h" />
     <ClInclude Include="..\..\libCfg\CfgCam.h" />
     <ClInclude Include="..\..\libCfg\CfgDefs.h" />
+    <ClInclude Include="..\..\libCfg\CfgHygrometer.h" />
     <ClInclude Include="..\..\libCfg\CfgLog.h" />
+    <ClInclude Include="..\..\libCfg\CfgThermometer.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
