@@ -50,6 +50,33 @@ namespace app {
 			return ret;
 		}
 
+		CfgCam getCam() {
+			CfgCam ret;
+			{
+				boost::mutex::scoped_lock lock(m_mutex);
+				ret = *(m_cam.get());
+			}
+			return ret;
+		}
+
+		CfgHygrometer getHygrometer() {
+			CfgHygrometer ret;
+			{
+				boost::mutex::scoped_lock lock(m_mutex);
+				ret = *(m_hygrometer.get());
+			}
+			return ret;
+		}
+
+		CfgThermometer geThermometer() {
+			CfgThermometer ret;
+			{
+				boost::mutex::scoped_lock lock(m_mutex);
+				ret = *(m_thermometer.get());
+			}
+			return ret;
+		}
+
 		// functions to update the camera
 		void updateRecFlag(bool isRecording);
 		void updateDispFlag(bool isDisp);
@@ -63,9 +90,9 @@ namespace app {
 	protected:
 		
 		CfgCamPtr					m_cam;
+		CfgHygrometerPtr			m_hygrometer;
 		CfgThermometerPtr			m_thermometer;
 		CfgLogPtr					m_log;   		//log
-		CfgHygrometerPtr			m_hygrometer;
 		boost::mutex				m_mutex;
 	};
 
