@@ -22,22 +22,14 @@ Note: *C++17 and above is required*
 			git clone --jobs 4 --depth=1 --single-branch --branch v1.13.0 --recursive https://github.com/google/googletest
 			mkdir vs2019-install
 			cd vs2019-install
-			cmake -G "Visual Studio 16 2019" -DCMAKE_MSVC_RUNTIME_LIBRARY=MultiThreadedDebug -DCMAKE_DEBUG_POSTFIX=d -DBUILD_SHARED_LIBS=ON ..
+			cmake -G "Visual Studio 16 2019" -D CMAKE_MSVC_RUNTIME_LIBRARY=MultiThreadedDebug -D CMAKE_DEBUG_POSTFIX=d -D BUILD_SHARED_LIBS=ON ..
 			cmake --build . --parallel 4 --config debug
 			```
 			Notes:
 			- https://stackoverflow.com/questions/59620509/set-msvc-runtime-on-cmake-project-from-command-line
 			- https://github.com/google/googletest/issues/449
 
-	2. Install gstreamer runtime and development packages
-		
-		1. Set up the environment variables
-			- [MSVC 64-bit (VS 2019, Release CRT) 1.22.4 runtime installer](https://gstreamer.freedesktop.org/data/pkg/windows/1.22.4/msvc/gstreamer-1.0-msvc-x86_64-1.22.4.msi)
-			- [MSVC 64-bit (VS 2019, Release CRT) 1.22.4 development installer](https://gstreamer.freedesktop.org/data/pkg/windows/1.22.4/msvc/gstreamer-1.0-devel-msvc-x86_64-1.22.4.msi)
-
-		2. 
-
-	3. Install the opencv library
+	2. Install the opencv library
 
 		1. Compile it
 
@@ -48,7 +40,7 @@ Note: *C++17 and above is required*
 		git clone --jobs 4 --depth=1 --single-branch --branch 4.1.1 --recursive https://github.com/opencv/opencv_contrib
 		mkdir build
 		cd build
-		cmake -G "Visual Studio 16 2019" -DBUILD_PERF_TESTS=OFF -DBUILD_TESTS=OFF -DBUILD_DOCS=OFF -DWITH_CUDA=OFF -DBUILD_EXAMPLES=OFF -DINSTALL_CREATE_DISTRIB=ON -DWITH_GSTREAMER=ON -DOPENCV_EXTRA_MODULES_PATH=../opencv_contrib/modules -DBUILD_SHARED_LIBS=ON ../opencv
+		cmake -G "Visual Studio 16 2019" -D BUILD_PERF_TESTS=OFF -D BUILD_TESTS=OFF -D BUILD_DOCS=OFF -D WITH_CUDA=OFF -D BUILD_EXAMPLES=OFF -D INSTALL_CREATE_DISTRIB=ON -D WITH_GSTREAMER=ON -D OPENCV_EXTRA_MODULES_PATH=../opencv_contrib/modules -D BUILD_SHARED_LIBS=ON ../opencv
 		cmake --build . --parallel 4 --target install --config debug
 		```
 		opencv lib is located in ./install/$(arch)/$(MSVC_VER)/lib
@@ -60,7 +52,7 @@ Note: *C++17 and above is required*
 		vcpkg install opencv[gstreamer,ffmpeg,python]:x64-windows
 		```
 
-	4. Compile the boost library
+	3. Compile the boost library
 
 		1. Get source code, configure, and compile
 		```sh
@@ -80,11 +72,13 @@ Note: *C++17 and above is required*
 		- Faster alternative: https://boost.teeks99.com/, http://sourceforge.net/projects/boost/files/boost-binaries/
 		- https://anaconda.org/conda-forge/boost
 
-	5. Installing the fast dds library
+	4. Installing the fast dds library
 
 		1. go to https://www.eprosima.com/index.php/component/ars/repository/eprosima-fast-dds/eprosima-fast-dds-2-9-1/eprosima_fast-dds-2-9-1-windows-exe?format=raw
 
 		2. run executable
+
+		include and lib will be located at C:\Program Files\eProsima\fastrtps 2.9.1\ (default installed location)
 
 <!-- ```pwsh
 mkdir Fast-DDS
@@ -94,15 +88,17 @@ cd foonathan_memory_vendor
 mkdir build
 cd build
 # This library needs to compile shared libraries
-cmake -DCMAKE_MSVC_RUNTIME_LIBRARY=MultiThreadedDebugDLL -DCMAKE_INSTALL_PREFIX:FILEPATH=../../install -DBUILD_SHARED_LIBS=ON ..
+cmake -G "Visual Studio 16 2019" -D CMAKE_MSVC_RUNTIME_LIBRARY=MultiThreadedDebugDLL -D CMAKE_INSTALL_PREFIX:FILEPATH=../../install -D BUILD_SHARED_LIBS=OFF ..
 cmake --build . --parallel 4 --target install --config debug
+# this command is probably needed to merge it because the install prefix is incorrect somehow
+xcopy /E ..\..\..\install\*.* ..\..\install
 cd ../..
 
 git clone https://github.com/eProsima/Fast-CDR.git
 cd Fast-CDR
 mkdir build
 cd build
-cmake -DCMAKE_MSVC_RUNTIME_LIBRARY=MultiThreadedDebugDLL -DCMAKE_INSTALL_PREFIX:FILEPATH=../../install -DBUILD_SHARED_LIBS=ON ..
+cmake -G "Visual Studio 16 2019" -D CMAKE_MSVC_RUNTIME_LIBRARY=MultiThreadedDebugDLL -D CMAKE_INSTALL_PREFIX:FILEPATH=../../install -D BUILD_SHARED_LIBS=OFF ..
 cmake --build . --parallel 4 --target install --config debug
 cd ../..
 
@@ -110,7 +106,9 @@ git clone --jobs 4 --depth=1 --single-branch --branch 2.9.1 --recursive https://
 cd Fast-DDS
 mkdir build
 cd build
-cmake -G "Visual Studio 16 2019" -DCMAKE_MSVC_RUNTIME_LIBRARY=MultiThreadedDebugDLL -DCMAKE_INSTALL_PREFIX:FILEPATH=../../install -DBUILD_SHARED_LIBS=ON -DTHIRDPARTY=ON ..
+# If this command doesn't work try setting the absolute path and trying again
+set CMAKE_PREFIX_PATH=../../install/share/foonathan_memory/cmake
+cmake -G "Visual Studio 16 2019" -D CMAKE_MSVC_RUNTIME_LIBRARY=MultiThreadedDebugDLL -D CMAKE_INSTALL_PREFIX:FILEPATH=../../install -D BUILD_SHARED_LIBS=OFF -DTHIRDPARTY=ON -D foonathan_memory_DIR=../../install/share/foonathan_memory/cmake ..
 # this actually doesn't make cmake have multiple jobs in this project
 cmake --build . --parallel 4 --target install --config debug
 ``` -->
@@ -170,7 +168,7 @@ cmake --build . --parallel 4 --target install --config debug
 	cd build
 	cmake ..
 	cmake --build .
-- Trying to execute fastPubEx1.exe but it retursn `cannot find opencv_world411d.dll` ?
+- Trying to execute fastPubEx1.exe but it returns `cannot find opencv_world411d.dll` ?
 	Copy the opencv_world411d.dll from $(PKG)/opencv/build/install/x64/vc16/bin to the same directory as the fastPubEx1.exe executable
 - cv::impl::DynamicLib::libraryLoad load opencv_videoio_gstreamer411_64.dll => FAILED?
 	Copy the opencv_videoio_ffmpeg411_64.dll from $(PKG)/opencv/build/install/x64/vc16/bin to the same directory as the fastPubEx1.exe executable

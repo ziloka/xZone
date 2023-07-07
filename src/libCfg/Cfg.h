@@ -88,7 +88,6 @@ namespace app {
 		void fromPropertyTree(const boost::property_tree::ptree &pt) ;
 
 	protected:
-		
 		CfgCamPtr					m_cam;
 		CfgHygrometerPtr			m_hygrometer;
 		CfgThermometerPtr			m_thermometer;
