@@ -187,23 +187,23 @@ public:
     eProsima_user_DllExport int32_t& imgW();
 
     /*!
-     * @brief This function sets a value in member imageH
-     * @param _imageH New value for member imageH
+     * @brief This function sets a value in member imgH
+     * @param _imgH New value for member imgH
      */
-    eProsima_user_DllExport void imageH(
-            int32_t _imageH);
+    eProsima_user_DllExport void imgH(
+            int32_t _imgH);
 
     /*!
-     * @brief This function returns the value of member imageH
-     * @return Value of member imageH
+     * @brief This function returns the value of member imgH
+     * @return Value of member imgH
      */
-    eProsima_user_DllExport int32_t imageH() const;
+    eProsima_user_DllExport int32_t imgH() const;
 
     /*!
-     * @brief This function returns a reference to member imageH
-     * @return Reference to member imageH
+     * @brief This function returns a reference to member imgH
+     * @return Reference to member imgH
      */
-    eProsima_user_DllExport int32_t& imageH();
+    eProsima_user_DllExport int32_t& imgH();
 
     /*!
      * @brief This function sets a value in member fpsNum
@@ -426,7 +426,7 @@ private:
     std::string m_rtspUrl;
     int32_t m_valid;
     int32_t m_imgW;
-    int32_t m_imageH;
+    int32_t m_imgH;
     int32_t m_fpsNum;
     int32_t m_fpsDen;
     int32_t m_frmQueSz;

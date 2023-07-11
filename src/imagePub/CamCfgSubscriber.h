@@ -21,17 +21,59 @@
 #define CAMCFGSUBSCRIBER_H_
 
 #include "libMsg/CamCfgPubSubTypes.h"
+#include "libCfg/Cfg.h"
 
 #include <fastdds/dds/domain/DomainParticipant.hpp>
 #include <fastdds/dds/subscriber/DataReaderListener.hpp>
 #include <fastrtps/subscriber/SampleInfo.h>
 #include <fastdds/dds/core/status/SubscriptionMatchedStatus.hpp>
 #include "libUtil/util.h"
+
+using namespace app;
+using namespace eprosima::fastdds::dds;
+
+// https://softwareengineering.stackexchange.com/questions/388977/how-to-reach-the-parent-object
+
+class CamCfgSubscriber;
+
+class SubListener : public eprosima::fastdds::dds::DataReaderListener
+{
+public:
+
+    SubListener(CamCfgSubscriber &camCfgSubscriber)
+        : matched_(0)
+        , samples_(0)
+        , camCfgSubscriber_(camCfgSubscriber)
+    {
+        //camCfgSubscriber_ = camCfgSubscriber;
+    }
+
+    ~SubListener() override
+    {
+    }
+
+    void on_data_available(
+        eprosima::fastdds::dds::DataReader* reader) override;
+
+    void on_subscription_matched(
+        eprosima::fastdds::dds::DataReader* reader,
+        const eprosima::fastdds::dds::SubscriptionMatchedStatus& info) override;
+
+    int matched_;
+
+    uint32_t samples_;
+
+    CamCfg camcfg_;
+private:
+
+    CamCfgSubscriber& camCfgSubscriber_;
+};
+
 class CamCfgSubscriber
 {
 public:
 
-    CamCfgSubscriber();
+    CamCfgSubscriber(CfgCamPtr cfgCamPtr);
 
     virtual ~CamCfgSubscriber();
 
@@ -46,6 +88,8 @@ public:
     void run(
         uint32_t number);
 
+    CfgCamPtr cfgCamPtr_;
+
 private:
 
     eprosima::fastdds::dds::DomainParticipant* participant_;
@@ -58,34 +102,7 @@ private:
 
     eprosima::fastdds::dds::TypeSupport type_;
 
-    class SubListener : public eprosima::fastdds::dds::DataReaderListener
-    {
-    public:
-
-        SubListener()
-            : matched_(0)
-            , samples_(0)
-        {
-        }
-
-        ~SubListener() override
-        {
-        }
-
-        void on_data_available(
-            eprosima::fastdds::dds::DataReader* reader) override;
-
-        void on_subscription_matched(
-            eprosima::fastdds::dds::DataReader* reader,
-            const eprosima::fastdds::dds::SubscriptionMatchedStatus& info) override;
-
-        CamCfg camcfg_;
-
-        int matched_;
-
-        uint32_t samples_;
-    }
-    listener_;
+    SubListener listener_;
 };
 
 #endif /* CAMCFGSUBSCRIBER_H_ */

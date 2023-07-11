@@ -42,7 +42,7 @@ bool ImageSubscriber::init(
         bool use_env)
 {
     DomainParticipantQos pqos = PARTICIPANT_QOS_DEFAULT;
-    pqos.name("Participant_sub");
+    pqos.name("ImageSubscriber");
     auto factory = DomainParticipantFactory::get_instance();
 
     if (use_env)

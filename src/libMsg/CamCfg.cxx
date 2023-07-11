@@ -45,8 +45,8 @@ CamCfg::CamCfg()
     m_valid = 0;
     // long m_imgW
     m_imgW = 0;
-    // long m_imageH
-    m_imageH = 0;
+    // long m_imgH
+    m_imgH = 0;
     // long m_fpsNum
     m_fpsNum = 0;
     // long m_fpsDen
@@ -88,7 +88,7 @@ CamCfg::CamCfg(
     m_rtspUrl = x.m_rtspUrl;
     m_valid = x.m_valid;
     m_imgW = x.m_imgW;
-    m_imageH = x.m_imageH;
+    m_imgH = x.m_imgH;
     m_fpsNum = x.m_fpsNum;
     m_fpsDen = x.m_fpsDen;
     m_frmQueSz = x.m_frmQueSz;
@@ -105,7 +105,7 @@ CamCfg::CamCfg(
     m_rtspUrl = std::move(x.m_rtspUrl);
     m_valid = x.m_valid;
     m_imgW = x.m_imgW;
-    m_imageH = x.m_imageH;
+    m_imgH = x.m_imgH;
     m_fpsNum = x.m_fpsNum;
     m_fpsDen = x.m_fpsDen;
     m_frmQueSz = x.m_frmQueSz;
@@ -123,7 +123,7 @@ CamCfg& CamCfg::operator =(
     m_rtspUrl = x.m_rtspUrl;
     m_valid = x.m_valid;
     m_imgW = x.m_imgW;
-    m_imageH = x.m_imageH;
+    m_imgH = x.m_imgH;
     m_fpsNum = x.m_fpsNum;
     m_fpsDen = x.m_fpsDen;
     m_frmQueSz = x.m_frmQueSz;
@@ -143,7 +143,7 @@ CamCfg& CamCfg::operator =(
     m_rtspUrl = std::move(x.m_rtspUrl);
     m_valid = x.m_valid;
     m_imgW = x.m_imgW;
-    m_imageH = x.m_imageH;
+    m_imgH = x.m_imgH;
     m_fpsNum = x.m_fpsNum;
     m_fpsDen = x.m_fpsDen;
     m_frmQueSz = x.m_frmQueSz;
@@ -160,7 +160,7 @@ bool CamCfg::operator ==(
         const CamCfg& x) const
 {
 
-    return (m_rtspUrl == x.m_rtspUrl && m_valid == x.m_valid && m_imgW == x.m_imgW && m_imageH == x.m_imageH && m_fpsNum == x.m_fpsNum && m_fpsDen == x.m_fpsDen && m_frmQueSz == x.m_frmQueSz && m_detPyrLev == x.m_detPyrLev && m_detMethodId == x.m_detMethodId && m_detNetworkId == x.m_detNetworkId && m_detFrmsToSkip == x.m_detFrmsToSkip && m_mp4LocationAndPrefix == x.m_mp4LocationAndPrefix);
+    return (m_rtspUrl == x.m_rtspUrl && m_valid == x.m_valid && m_imgW == x.m_imgW && m_imgH == x.m_imgH && m_fpsNum == x.m_fpsNum && m_fpsDen == x.m_fpsDen && m_frmQueSz == x.m_frmQueSz && m_detPyrLev == x.m_detPyrLev && m_detMethodId == x.m_detMethodId && m_detNetworkId == x.m_detNetworkId && m_detFrmsToSkip == x.m_detFrmsToSkip && m_mp4LocationAndPrefix == x.m_mp4LocationAndPrefix);
 }
 
 bool CamCfg::operator !=(
@@ -229,7 +229,7 @@ void CamCfg::serialize(
     scdr << m_rtspUrl.c_str();
     scdr << m_valid;
     scdr << m_imgW;
-    scdr << m_imageH;
+    scdr << m_imgH;
     scdr << m_fpsNum;
     scdr << m_fpsDen;
     scdr << m_frmQueSz;
@@ -248,7 +248,7 @@ void CamCfg::deserialize(
     dcdr >> m_rtspUrl;
     dcdr >> m_valid;
     dcdr >> m_imgW;
-    dcdr >> m_imageH;
+    dcdr >> m_imgH;
     dcdr >> m_fpsNum;
     dcdr >> m_fpsDen;
     dcdr >> m_frmQueSz;
@@ -353,31 +353,31 @@ int32_t& CamCfg::imgW()
 }
 
 /*!
- * @brief This function sets a value in member imageH
- * @param _imageH New value for member imageH
+ * @brief This function sets a value in member imgH
+ * @param _imgH New value for member imgH
  */
-void CamCfg::imageH(
-        int32_t _imageH)
+void CamCfg::imgH(
+        int32_t _imgH)
 {
-    m_imageH = _imageH;
+    m_imgH = _imgH;
 }
 
 /*!
- * @brief This function returns the value of member imageH
- * @return Value of member imageH
+ * @brief This function returns the value of member imgH
+ * @return Value of member imgH
  */
-int32_t CamCfg::imageH() const
+int32_t CamCfg::imgH() const
 {
-    return m_imageH;
+    return m_imgH;
 }
 
 /*!
- * @brief This function returns a reference to member imageH
- * @return Reference to member imageH
+ * @brief This function returns a reference to member imgH
+ * @return Reference to member imgH
  */
-int32_t& CamCfg::imageH()
+int32_t& CamCfg::imgH()
 {
-    return m_imageH;
+    return m_imgH;
 }
 
 /*!

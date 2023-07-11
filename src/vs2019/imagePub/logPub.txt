@@ -1,0 +1,13 @@
+----start----
+Publisher will run 10 samples!, F=C:\Users\conno\Documents\xZone\src\imagePub\ImagePublisher.cpp, L=232
+subscriber running. Please press enter to stop the Subscriber, F=C:\Users\conno\Documents\xZone\src\imagePub\CamCfgSubscriber.cpp, L=187
+index: 1 Sent, F=C:\Users\conno\Documents\xZone\src\imagePub\ImagePublisher.cpp, L=213
+index: 2 Sent, F=C:\Users\conno\Documents\xZone\src\imagePub\ImagePublisher.cpp, L=213
+index: 3 Sent, F=C:\Users\conno\Documents\xZone\src\imagePub\ImagePublisher.cpp, L=213
+index: 4 Sent, F=C:\Users\conno\Documents\xZone\src\imagePub\ImagePublisher.cpp, L=213
+index: 5 Sent, F=C:\Users\conno\Documents\xZone\src\imagePub\ImagePublisher.cpp, L=213
+index: 6 Sent, F=C:\Users\conno\Documents\xZone\src\imagePub\ImagePublisher.cpp, L=213
+index: 7 Sent, F=C:\Users\conno\Documents\xZone\src\imagePub\ImagePublisher.cpp, L=213
+index: 8 Sent, F=C:\Users\conno\Documents\xZone\src\imagePub\ImagePublisher.cpp, L=213
+index: 9 Sent, F=C:\Users\conno\Documents\xZone\src\imagePub\ImagePublisher.cpp, L=213
+index: 10 Sent, F=C:\Users\conno\Documents\xZone\src\imagePub\ImagePublisher.cpp, L=213

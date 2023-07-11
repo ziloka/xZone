@@ -16,7 +16,9 @@
  * @file HelloWorld_main.cpp
  *
  */
+#include <memory>
 
+#include "CamCfgSubscriber.h"
 #include "ImagePublisher.h"
 #include "libUtil/util.h"
 
@@ -25,21 +27,29 @@
 #include "libUtil/readCfg.h"
 #include "libCfg/Cfg.h"
 
-using namespace std;
 using namespace app;
+
+void createCamCfgSubscriber(std::shared_ptr<CfgCam> camCfgPtr, bool use_environment_qos) {
+	CamCfgSubscriber mysub(camCfgPtr);
+	mysub.init(use_environment_qos);
+	mysub.run();
+}
 
 int main(int argc, char* argv[])
 {
 	if (argc <= 1) {
-		cout << "pass a config file" << endl;
+		std::cout << "pass a config file" << std::endl;
 		return 0;
 	}
 
+	// visual studio debugging purposes
+	std::cout << std::filesystem::current_path() << std::endl;
+
 	CfgPtr cfg = readCfg(argv[1]);
 
-	printf("used cfg=<%s>\n", argv[1]);
+	std::printf("used cfg=<%s>\n", argv[1]);
 
-	const string logFilename("logPub.txt");
+	const std::string logFilename("logPub.txt");
 	const bool showInConsole = true;
 	startLogThread(logFilename, showInConsole);
 
@@ -47,70 +57,16 @@ int main(int argc, char* argv[])
 	uint32_t sleep_ms = 100;
 	bool use_environment_qos = false;
 
-	ImagePublisher mypub(cfg->getCam());
+	std::shared_ptr<CfgCam> camCfgPtr = std::make_shared<CfgCam>(cfg->getCam());
+	ImagePublisher mypub(camCfgPtr);
 	if (mypub.init(use_environment_qos))
 	{
-		mypub.run(count, sleep_ms);
+		std::thread subscriber(createCamCfgSubscriber, camCfgPtr, use_environment_qos);
+		std::thread publisher = mypub.run(count, sleep_ms);
+		publisher.join();
+		subscriber.join();
 	}
 
 	endLogThread();
 	return 0;
 }
-
-
-//#include "opencv2/opencv.hpp"
-//#include <time.h>
-//
-//using namespace cv;
-//using namespace std;
-//
-//int main(int argc, char** argv)
-//{
-//
-//    // Start default camera
-//    VideoCapture video(0);
-//
-//    // With webcam get(CV_CAP_PROP_FPS) does not work.
-//    // Let's see for ourselves.
-//
-//    // double fps = video.get(CV_CAP_PROP_FPS);
-//    // If you do not care about backward compatibility
-//    // You can use the following instead for OpenCV 3
-//    double fps = video.get(CAP_PROP_FPS);
-//    cout << "Frames per second using video.get(CAP_PROP_FPS) : " << fps << endl;
-//
-//    // Number of frames to capture
-//    int num_frames = 120;
-//
-//    // Start and end times
-//    time_t start, end;
-//
-//    // Variable for storing video frames
-//    Mat frame;
-//
-//    cout << "Capturing " << num_frames << " frames" << endl;
-//
-//    // Start time
-//    time(&start);
-//
-//    // Grab a few frames
-//    for (int i = 0; i < num_frames; i++)
-//    {
-//        video >> frame;
-//    }
-//
-//    // End Time
-//    time(&end);
-//
-//    // Time elapsed
-//    double seconds = difftime(end, start);
-//    cout << "Time taken : " << seconds << " seconds" << endl;
-//
-//    // Calculate frames per second
-//    fps = num_frames / seconds;
-//    cout << "Estimated frames per second : " << fps << endl;
-//
-//    // Release video
-//    video.release();
-//    return 0;
-//}

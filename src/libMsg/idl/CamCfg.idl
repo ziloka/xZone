@@ -4,7 +4,7 @@ struct CamCfg
 	string rtspUrl;
 	long valid;
 	long imgW;
-	long imageH;
+	long imgH;
 	long fpsNum;
 	long fpsDen;
 	long frmQueSz;

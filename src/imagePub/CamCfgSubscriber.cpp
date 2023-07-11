@@ -31,20 +31,22 @@
 using namespace eprosima::fastdds::dds;
 using namespace app;
 
-CamCfgSubscriber::CamCfgSubscriber()
+CamCfgSubscriber::CamCfgSubscriber(CfgCamPtr cfgCamPtr)
     : participant_(nullptr)
     , subscriber_(nullptr)
     , topic_(nullptr)
     , reader_(nullptr)
     , type_(new CamCfgPubSubType())
+    , listener_(*this)
 {
+    cfgCamPtr_ = cfgCamPtr;
 }
 
 bool CamCfgSubscriber::init(
     bool use_env)
 {
     DomainParticipantQos pqos = PARTICIPANT_QOS_DEFAULT;
-    pqos.name("Participant_sub");
+    pqos.name("CamCfgSubscriber");
     auto factory = DomainParticipantFactory::get_instance();
 
     if (use_env)
@@ -87,8 +89,8 @@ bool CamCfgSubscriber::init(
     }
 
     topic_ = participant_->create_topic(
-        "ImageTopic",
-        "Image",
+        "CamCfgTopic",
+        "CamCfg",
         tqos);
 
     if (topic_ == nullptr)
@@ -132,7 +134,7 @@ CamCfgSubscriber::~CamCfgSubscriber()
     DomainParticipantFactory::get_instance()->delete_participant(participant_);
 }
 
-void CamCfgSubscriber::SubListener::on_subscription_matched(
+void SubListener::on_subscription_matched(
     DataReader*,
     const SubscriptionMatchedStatus& info)
 {
@@ -153,7 +155,7 @@ void CamCfgSubscriber::SubListener::on_subscription_matched(
     }
 }
 
-void CamCfgSubscriber::SubListener::on_data_available(DataReader* reader)
+void SubListener::on_data_available(DataReader* reader)
 {
     SampleInfo info;
     if (reader->take_next_sample(&camcfg_, &info) == ReturnCode_t::RETCODE_OK)
@@ -164,7 +166,16 @@ void CamCfgSubscriber::SubListener::on_data_available(DataReader* reader)
             // Print your structure data here.
 
             // process data somehow
-
+            this->camCfgSubscriber_.cfgCamPtr_->valid_ = camcfg_.valid();
+            this->camCfgSubscriber_.cfgCamPtr_->imgSz_ = ImgSize(camcfg_.imgW(), camcfg_.imgH());
+            this->camCfgSubscriber_.cfgCamPtr_->fps_ = VideoFps(camcfg_.fpsNum(), camcfg_.fpsDen());
+            this->camCfgSubscriber_.cfgCamPtr_->frmQueSz_ = camcfg_.frmQueSz();
+            this->camCfgSubscriber_.cfgCamPtr_->frmQueSz_ = camcfg_.frmQueSz();
+            this->camCfgSubscriber_.cfgCamPtr_->detPyrLev_ = camcfg_.detPyrLev();
+            this->camCfgSubscriber_.cfgCamPtr_->detMethodId_ = camcfg_.detMethodId();
+            this->camCfgSubscriber_.cfgCamPtr_->detNetworkId_ = camcfg_.detNetworkId();
+            this->camCfgSubscriber_.cfgCamPtr_->detFrmsToSkip_ = camcfg_.detFrmsToSkip();
+            this->camCfgSubscriber_.cfgCamPtr_->mp4LocationAndPrefix_ = camcfg_.mp4LocationAndPrefix();
 
             APP_LOG("received update sensor message");
         }

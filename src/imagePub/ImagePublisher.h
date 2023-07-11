@@ -34,7 +34,7 @@ class ImagePublisher
 {
 public:
 
-    ImagePublisher(CfgCam cam);
+    ImagePublisher(CfgCamPtr cfgCamPtr);
 
     virtual ~ImagePublisher();
 
@@ -47,13 +47,13 @@ public:
             bool waitForListener = true);
 
     //!Run for number samples
-    void run(
+    std::thread run(
             uint32_t number,
             uint32_t sleep);
 
 private:
 
-    CfgPtr cfgPtr_;
+    CfgCamPtr cfgCamPtr_;
 
     cv::VideoCapture camera_;
 

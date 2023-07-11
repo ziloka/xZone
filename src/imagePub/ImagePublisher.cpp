@@ -35,7 +35,7 @@
 using namespace app;
 using namespace eprosima::fastdds::dds;
 
-ImagePublisher::ImagePublisher(CfgCam cam)
+ImagePublisher::ImagePublisher(CfgCamPtr cfgCamPtr)
     : participant_(nullptr)
     , publisher_(nullptr)
     , topic_(nullptr)
@@ -43,24 +43,25 @@ ImagePublisher::ImagePublisher(CfgCam cam)
     , type_(new ImagePubSubType())
     , stop_(false)
 {
-   // set the camera configuration
 
-   image_.frame_number(image_.frame_number() + 1);
+    cfgCamPtr_ = cfgCamPtr;
 
-    //// https://learnopencv.com/read-write-and-display-a-video-using-opencv-cpp-python/
-
-    //// try and read video camera capture
-    cv::VideoCapture camera_(0, cv::CAP_DSHOW);
+   // https://learnopencv.com/read-write-and-display-a-video-using-opencv-cpp-python/
+   // https://learn.microsoft.com/en-us/windows/win32/directshow/selecting-a-capture-device?redirectedfrom=MSDN
+   // command to list available video and audio devices
+   // ffmpeg -list_devices true -f dshow -i dummy
+   camera_ = cv::VideoCapture(0, cv::CAP_DSHOW);
     //// Check if camera opened successfully
     if (!camera_.isOpened()) {
-        std::cout << "Error opening video stream or file" << std::endl;
+        std::cout << "[ImagePublisher] constructor: Error opening video stream or file" << std::endl;
     }
 
+    // set the camera configuration
     // https://docs.opencv.org/3.4/d4/d15/group__videoio__flags__base.html#gaeb8dd9c89c10a5c63c139bf7c4f5704d
     // "Effective behaviour depends from device hardware, driver and API Backend."
-    camera_.set(cv::CAP_PROP_FRAME_HEIGHT, cam.imgSz_.w);
-    camera_.set(cv::CAP_PROP_FRAME_WIDTH, cam.imgSz_.h);
-    camera_.set(cv::CAP_PROP_FPS, cam.fps_.getFps());
+    camera_.set(cv::CAP_PROP_FRAME_HEIGHT, cfgCamPtr->imgSz_.w);
+    camera_.set(cv::CAP_PROP_FRAME_WIDTH, cfgCamPtr->imgSz_.h);
+    camera_.set(cv::CAP_PROP_FPS, cfgCamPtr->fps_.getFps());
 }
 
 bool ImagePublisher::init( bool use_env)
@@ -69,7 +70,7 @@ bool ImagePublisher::init( bool use_env)
     image_.frame_number(0);
 
     DomainParticipantQos pqos = PARTICIPANT_QOS_DEFAULT;
-    pqos.name("Participant_pub");
+    pqos.name("ImagePublisher");
     auto factory = DomainParticipantFactory::get_instance();
 
     if (use_env)
@@ -216,7 +217,7 @@ void ImagePublisher::runThread(
     }
 }
 
-void ImagePublisher::run( uint32_t samples, uint32_t sleep)
+std::thread ImagePublisher::run( uint32_t samples, uint32_t sleep)
 {
     stop_ = false;
     std::thread thread(&ImagePublisher::runThread, this, samples, sleep);
@@ -230,32 +231,24 @@ void ImagePublisher::run( uint32_t samples, uint32_t sleep)
     {
       APP_LOG("Publisher will run %d samples!", samples );
     }
-    thread.join();
+    //thread.join();
+    return thread;
 }
 
 bool ImagePublisher::publish( bool waitForListener )
 {
     if (listener_.firstConnected_ || !waitForListener || listener_.matched_ > 0)
     {
-        //image_.frame_number(image_.frame_number() + 1);
-
-        //// https://learnopencv.com/read-write-and-display-a-video-using-opencv-cpp-python/
-
-        //// try and read video camera capture
-        //cv::VideoCapture camera_(0, cv::CAP_DSHOW);
-        //// Check if camera opened successfully
-        //if (!camera_.isOpened()) {
-        //    std::cout << "Error opening video stream or file" << std::endl;
-        //}
+        // https://learnopencv.com/read-write-and-display-a-video-using-opencv-cpp-python/
 
         cv::Mat frame;
         camera_ >> frame;
-        if (frame.empty())
+        if (frame.empty()) {
+            std::cout << "empty frame" << std::endl;
             return false;
+        }
 
-        //camera_.release();
-        //cv::destroyAllWindows();
-
+        image_.frame_number(image_.frame_number() + 1);
         image_.image(app::matToVecUchar(frame));
         image_.width(frame.cols);
         image_.height(frame.rows);

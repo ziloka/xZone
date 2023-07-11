@@ -103,13 +103,13 @@
     <Midl Include="..\..\libMsg\idl\Temperature.idl">
       <Filter>idl</Filter>
     </Midl>
-    <Midl Include="..\..\libMsg\CamCfg.idl">
+    <Midl Include="..\..\libMsg\idl\HygrometerCfg.idl">
       <Filter>idl</Filter>
     </Midl>
-    <Midl Include="..\..\libMsg\ThermometerCfg.idl">
+    <Midl Include="..\..\libMsg\idl\ThermometerCfg.idl">
       <Filter>idl</Filter>
     </Midl>
-    <Midl Include="..\..\libMsg\HygrometerCfg.idl">
+    <Midl Include="..\..\libMsg\idl\CamCfg.idl">
       <Filter>idl</Filter>
     </Midl>
   </ItemGroup>
