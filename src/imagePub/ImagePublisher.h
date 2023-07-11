@@ -22,16 +22,19 @@
 
 #include "libUtil/util.h"
 #include "libMsg/ImagePubSubTypes.h"
+#include "libCfg/Cfg.h"
 
 #include <fastdds/dds/publisher/DataWriterListener.hpp>
 #include <fastdds/dds/topic/TypeSupport.hpp>
 #include <fastdds/dds/domain/DomainParticipant.hpp>
 
+using namespace app;
+
 class ImagePublisher
 {
 public:
 
-    ImagePublisher();
+    ImagePublisher(CfgCam cam);
 
     virtual ~ImagePublisher();
 
@@ -50,7 +53,9 @@ public:
 
 private:
 
-    //cv::VideoCapture camera_;
+    CfgPtr cfgPtr_;
+
+    cv::VideoCapture camera_;
 
     Image image_;
 
@@ -94,7 +99,5 @@ private:
 
     eprosima::fastdds::dds::TypeSupport type_;
 };
-
-
 
 #endif /* IMAGEPUBLISHER_H_ */

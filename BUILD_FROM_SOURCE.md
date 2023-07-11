@@ -111,7 +111,14 @@ set CMAKE_PREFIX_PATH=../../install/share/foonathan_memory/cmake
 cmake -G "Visual Studio 16 2019" -D CMAKE_MSVC_RUNTIME_LIBRARY=MultiThreadedDebugDLL -D CMAKE_INSTALL_PREFIX:FILEPATH=../../install -D BUILD_SHARED_LIBS=OFF -DTHIRDPARTY=ON -D foonathan_memory_DIR=../../install/share/foonathan_memory/cmake ..
 # this actually doesn't make cmake have multiple jobs in this project
 cmake --build . --parallel 4 --target install --config debug
-``` -->
+``` 
+
+You will also need fast dds gen tool
+git clone --recursive https://github.com/eProsima/Fast-DDS-Gen.git
+cd Fast-DDS-Gen
+gradlew.bat assemble
+
+-->
 		Notes:
 		- required to build this from source instead of just downloading a executable and running that because runtime library must be multithreadeddebug
 		- https://fast-dds.docs.eprosima.com/en/latest/installation/sources/sources_windows.html#cmake-installation
@@ -168,10 +175,10 @@ cmake --build . --parallel 4 --target install --config debug
 	cd build
 	cmake ..
 	cmake --build .
-- Trying to execute fastPubEx1.exe but it returns `cannot find opencv_world411d.dll` ?
-	Copy the opencv_world411d.dll from $(PKG)/opencv/build/install/x64/vc16/bin to the same directory as the fastPubEx1.exe executable
+- Trying to execute imagePub.exe but it returns `cannot find opencv_world411d.dll` ?
+	Copy the opencv_world411d.dll from $(PKG)/opencv/build/install/x64/vc16/bin to the same directory as the imagePub.exe executable
 - cv::impl::DynamicLib::libraryLoad load opencv_videoio_gstreamer411_64.dll => FAILED?
-	Copy the opencv_videoio_ffmpeg411_64.dll from $(PKG)/opencv/build/install/x64/vc16/bin to the same directory as the fastPubEx1.exe executable
+	Copy the opencv_videoio_ffmpeg411_64.dll from $(PKG)/opencv/build/install/x64/vc16/bin to the same directory as the imagePub.exe executable
 
 ### linux
 

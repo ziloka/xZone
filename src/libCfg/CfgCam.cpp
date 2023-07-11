@@ -95,8 +95,8 @@ CfgCam& CfgCam::operator = (const CfgCam &x)
 
 void CfgCam::fromPropertyTree(const boost::property_tree::ptree &pt)
 {
-	cameraId_	= pt.get<int>("cameraId");
-	cameraName_ = pt.get<std::string>("cameraName");
+	cameraId_	= pt.get<int>("id");
+	cameraName_ = pt.get<std::string>("name");
 	rtspUrl_ = pt.get<std::string>("rtspUrl");
 	valid_		= pt.get<int>("valid");
 	imgSz_.w 	= pt.get<int>("imgW");
@@ -115,8 +115,8 @@ boost::property_tree::ptree CfgCam::toPropertyTree()
 {
 	boost::property_tree::ptree pt;
 
-	pt.put("cameraId", cameraId_);
-	pt.put("cameraName", cameraName_);
+	pt.put("id", cameraId_);
+	pt.put("name", cameraName_);
 	pt.put("rtspUrl", rtspUrl_);
 	pt.put("valid", (int)valid_);
 	pt.put("imgW", imgSz_.w);

@@ -39,6 +39,9 @@
     <ClCompile Include="..\..\libUtil\Uint8Stream.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\libUtil\ReadCfg.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\libUtil\AppBagRead.h">
@@ -90,6 +93,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\libUtil\AppEnums.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\libUtil\ReadCfg.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

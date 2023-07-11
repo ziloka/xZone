@@ -3,8 +3,8 @@ Example
 ```xml
 <cfg>
     <cam>
-        <cameraId>0</cameraId>
-        <cameraName>Main Camera</cameraName>
+        <id>0</id>
+        <name>Main Camera</name>
         <rtspUrl></rtspUrl> <!-- Real time streaming protocol URL -->
         <valid>1</valid> <!-- 0 false, 1 true-->
         <imgW>960</imgW> <!-- Image Width -->
@@ -19,12 +19,14 @@ Example
         <mp4LocationAndPrefix>record</mp4LocationAndPrefix>
     </cam>
     <hygrometer>
-        <hygrometerId>0</hygrometerId>
-        <hygrometerName>Main Hygrometer</hygrometerName>
+        <id>0</id>
+        <name>Main Hygrometer</name>
+        <mps></mps> <!-- messages per second -->
     </hygrometer>
     <thermometer>
-        <thermometerId>0</thermometerId>
-        <thermometerName>Main Hygrometer</thermometerName>
+        <id>0</id>
+        <name>Main Hygrometer</name>
+        <mps></mps> <!-- messages per second -->
     </thermometer>
     <log>
         <appRootFolder>xZone</appRootFolder>
@@ -35,3 +37,5 @@ Example
     </log>
 </cfg>
 ```
+
+Then run test.exe [path to config file]

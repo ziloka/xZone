@@ -1,11 +1,11 @@
 -include Makefile.inc
 
-PROJ_NAME=fastSubEx1
+PROJ_NAME=imagePub
 
 include Makefile_app_header.mak
 
 #the target binary name
-TARGETFILE=$(ODIR_BIN)/fastSubEx1.out
+TARGETFILE=$(ODIR_BIN)/imagePub.out
 
 # link libs
 LIBS	:= -lMsg -lCfg -lUtil \
@@ -18,8 +18,8 @@ LIBS	:= -lMsg -lCfg -lUtil \
 	-ldl -lm -lpthread -lrt 
 
 OBJS = \
-	$(ODIR_OBJ)/HelloWorldSubscriber.o \
-	$(ODIR_OBJ)/mainSub.o 
+	$(ODIR_OBJ)/ImagePublisher.o \
+	$(ODIR_OBJ)/mainPub.o 
 
 #	$(ODIR_OBJ)/test_px4_ekf.o \
 
@@ -35,11 +35,11 @@ $(TARGETFILE)	:	$(OBJS)
 	$(CXX) $(LFLAGS) $(OBJS) $(LIBS) $(LIBS) -o $(TARGETFILE)
 
 
-$(ODIR_OBJ)/mainSub.o	:	$(SDIR_PROJ)/mainSub.cpp
-	$(CXX) -o $(ODIR_OBJ)/mainSub.o $(CFLAGS_EXE) $(SDIR_PROJ)/mainSub.cpp
+$(ODIR_OBJ)/mainPub.o	:	$(SDIR_PROJ)/mainPub.cpp
+	$(CXX) -o $(ODIR_OBJ)/mainPub.o $(CFLAGS_EXE) $(SDIR_PROJ)/mainPub.cpp
 
-$(ODIR_OBJ)/HelloWorldSubscriber.o	:	$(SDIR_PROJ)/HelloWorldSubscriber.cpp
-	$(CXX) -o $(ODIR_OBJ)/HelloWorldSubscriber.o $(CFLAGS_EXE) $(SDIR_PROJ)/HelloWorldSubscriber.cpp
+$(ODIR_OBJ)/ImagePublisher.o	:	$(SDIR_PROJ)/ImagePublisher.cpp
+	$(CXX) -o $(ODIR_OBJ)/ImagePublisher.o $(CFLAGS_EXE) $(SDIR_PROJ)/ImagePublisher.cpp
 
 clean:
 	\rm $(ODIR_OBJ)/*.o $(TARGETFILE)

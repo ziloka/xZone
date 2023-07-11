@@ -81,7 +81,6 @@ void Cfg::fromPropertyTree(const boost::property_tree::ptree &pt0)
 	m_log->fromPropertyTree(pt0.get_child("log"));
 }
 
-
 boost::property_tree::ptree Cfg::toPropertyTree()
 {
 	boost::property_tree::ptree ptLog = m_log->toPropertyTree();
@@ -93,8 +92,6 @@ boost::property_tree::ptree Cfg::toPropertyTree()
 
 	return pt;
 }
-
-
 
 void Cfg::updateRecFlag(bool isRecording) {
 	boost::mutex::scoped_lock lock(m_mutex);
@@ -111,4 +108,3 @@ void Cfg::updateCamName(std::string name)
 	boost::mutex::scoped_lock lock(m_mutex);
 	m_cam->cameraName_ = name;
 }
-

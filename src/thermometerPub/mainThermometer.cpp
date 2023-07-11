@@ -20,7 +20,6 @@
 #include <limits>
 #include <sstream>
 
-#include "ImagePublisher.h"
 #include <fastdds/dds/domain/DomainParticipantFactory.hpp>
 #include "libUtil/util.h"
 
@@ -29,7 +28,7 @@ using namespace app;
 
 int main(int argc, char** argv)
 {
-	const string logFilename("logPub.txt");
+	/*const string logFilename("logPub.txt");
 	const bool showInConsole = true;
 	startLogThread(logFilename, showInConsole);
 
@@ -44,5 +43,5 @@ int main(int argc, char** argv)
 	}
 
 	endLogThread();
-	return 0;
+	return 0;*/
 }

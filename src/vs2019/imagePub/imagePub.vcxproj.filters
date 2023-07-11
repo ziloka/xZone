@@ -15,15 +15,21 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\imagePub\mainPub.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\imagePub\ImagePublisher.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\imagePub\mainPub.cpp">
+    <ClCompile Include="..\..\imagePub\CamCfgSubscriber.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\imagePub\ImagePublisher.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\imagePub\CamCfgSubscriber.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

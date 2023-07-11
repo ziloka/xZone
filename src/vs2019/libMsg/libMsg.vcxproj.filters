@@ -24,9 +24,72 @@
     <ClCompile Include="..\..\libMsg\ImagePubSubTypes.cxx">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\libMsg\Humidity.cxx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\libMsg\HumidityPubSubTypes.cxx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\libMsg\Temperature.cxx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\libMsg\TemperaturePubSubTypes.cxx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\libMsg\CamCfg.cxx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\libMsg\CamCfgPubSubTypes.cxx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\libMsg\HygrometerCfg.cxx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\libMsg\HygrometerCfgPubSubTypes.cxx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\libMsg\ThermometerCfg.cxx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\libMsg\ThermometerCfgPubSubTypes.cxx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\libMsg\Image.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\libMsg\Humidity.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\libMsg\Temperature.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\libMsg\HumidityPubSubTypes.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\libMsg\ImagePubSubTypes.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\libMsg\TemperaturePubSubTypes.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\libMsg\CamCfg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\libMsg\CamCfgPubSubTypes.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\libMsg\HygrometerCfg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\libMsg\HygrometerCfgPubSubTypes.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\libMsg\ThermometerCfg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\libMsg\ThermometerCfgPubSubTypes.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -38,6 +101,15 @@
       <Filter>idl</Filter>
     </Midl>
     <Midl Include="..\..\libMsg\idl\Temperature.idl">
+      <Filter>idl</Filter>
+    </Midl>
+    <Midl Include="..\..\libMsg\CamCfg.idl">
+      <Filter>idl</Filter>
+    </Midl>
+    <Midl Include="..\..\libMsg\ThermometerCfg.idl">
+      <Filter>idl</Filter>
+    </Midl>
+    <Midl Include="..\..\libMsg\HygrometerCfg.idl">
       <Filter>idl</Filter>
     </Midl>
   </ItemGroup>

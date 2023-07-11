@@ -35,21 +35,38 @@
 using namespace app;
 using namespace eprosima::fastdds::dds;
 
-ImagePublisher::ImagePublisher()
+ImagePublisher::ImagePublisher(CfgCam cam)
     : participant_(nullptr)
     , publisher_(nullptr)
     , topic_(nullptr)
     , writer_(nullptr)
     , type_(new ImagePubSubType())
+    , stop_(false)
 {
-   
+   // set the camera configuration
+
+   image_.frame_number(image_.frame_number() + 1);
+
+    //// https://learnopencv.com/read-write-and-display-a-video-using-opencv-cpp-python/
+
+    //// try and read video camera capture
+    cv::VideoCapture camera_(0, cv::CAP_DSHOW);
+    //// Check if camera opened successfully
+    if (!camera_.isOpened()) {
+        std::cout << "Error opening video stream or file" << std::endl;
+    }
+
+    // https://docs.opencv.org/3.4/d4/d15/group__videoio__flags__base.html#gaeb8dd9c89c10a5c63c139bf7c4f5704d
+    // "Effective behaviour depends from device hardware, driver and API Backend."
+    camera_.set(cv::CAP_PROP_FRAME_HEIGHT, cam.imgSz_.w);
+    camera_.set(cv::CAP_PROP_FRAME_WIDTH, cam.imgSz_.h);
+    camera_.set(cv::CAP_PROP_FPS, cam.fps_.getFps());
 }
 
 bool ImagePublisher::init( bool use_env)
 {
-    image_.frame_number(0);
 
-    //image_.image();
+    image_.frame_number(0);
 
     DomainParticipantQos pqos = PARTICIPANT_QOS_DEFAULT;
     pqos.name("Participant_pub");
@@ -220,24 +237,24 @@ bool ImagePublisher::publish( bool waitForListener )
 {
     if (listener_.firstConnected_ || !waitForListener || listener_.matched_ > 0)
     {
-        image_.frame_number(image_.frame_number() + 1);
+        //image_.frame_number(image_.frame_number() + 1);
 
-        // https://learnopencv.com/read-write-and-display-a-video-using-opencv-cpp-python/
+        //// https://learnopencv.com/read-write-and-display-a-video-using-opencv-cpp-python/
 
-        // try and read video camera capture
-        cv::VideoCapture camera_(0, cv::CAP_DSHOW);
-        // Check if camera opened successfully
-        if (!camera_.isOpened()) {
-            std::cout << "Error opening video stream or file" << std::endl;
-        }
+        //// try and read video camera capture
+        //cv::VideoCapture camera_(0, cv::CAP_DSHOW);
+        //// Check if camera opened successfully
+        //if (!camera_.isOpened()) {
+        //    std::cout << "Error opening video stream or file" << std::endl;
+        //}
 
         cv::Mat frame;
         camera_ >> frame;
         if (frame.empty())
             return false;
 
-        camera_.release();
-        cv::destroyAllWindows();
+        //camera_.release();
+        //cv::destroyAllWindows();
 
         image_.image(app::matToVecUchar(frame));
         image_.width(frame.cols);

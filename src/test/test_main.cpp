@@ -37,7 +37,6 @@ CfgPtr readCfg(string cfgFile)
 
 int main(int argc, char* argv[])
 {
-	//string cfgFile = locateCfgFile(argc, argv);
 	if (argc <= 1) {
 		cout << "pass a config file" << std::endl;
 		return 0;
@@ -46,6 +45,8 @@ int main(int argc, char* argv[])
 	printf("used cfg=<%s>\n", cfgFile.c_str());
 
 	CfgPtr cfg = readCfg(cfgFile);
+
+
 
 	//DomainParticipant* participant = DomainParticipantFactory::get_instance()->create_participant_with_profile(0, "participant_xml_profile");
 

@@ -57,16 +57,16 @@ CfgHygrometer& CfgHygrometer::operator = (const CfgHygrometer& x)
 
 void CfgHygrometer::fromPropertyTree(const boost::property_tree::ptree& pt)
 {
-	hygrometerId_ = pt.get<int>("hygrometerId");
-	hygrometerName_ = pt.get<std::string>("hygrometerName");
+	hygrometerId_ = pt.get<int>("id");
+	hygrometerName_ = pt.get<std::string>("name");
 }
 
 boost::property_tree::ptree CfgHygrometer::toPropertyTree()
 {
 	boost::property_tree::ptree pt;
 
-	pt.put("hygrometerId", hygrometerId_);
-	pt.put("hygrometerName", hygrometerName_);
+	pt.put("id", hygrometerId_);
+	pt.put("name", hygrometerName_);
 	return pt;
 }
 

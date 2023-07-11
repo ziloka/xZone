@@ -18,12 +18,25 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\imageSub\ImageSubscriber.cpp" />
+    <ClCompile Include="..\..\imageSub\mainSub.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\libMsg\libMsg.vcxproj">
+      <Project>{23cf582b-ef4f-402e-a6a6-eb1dace6f604}</Project>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\imageSub\ImageSubscriber.h" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{298cc483-6fc2-4a88-8f2a-e82ffd435ef4}</ProjectGuid>
-    <RootNamespace>libUtil</RootNamespace>
+    <ProjectGuid>{DAA10900-56E9-40E5-BF14-522CD8C40E97}</ProjectGuid>
+    <RootNamespace>test</RootNamespace>
     <WindowsTargetPlatformVersion>10.0.22000.0</WindowsTargetPlatformVersion>
+    <ProjectName>imageSub</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -40,13 +53,14 @@
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
+    <PreferredToolArchitecture>x64</PreferredToolArchitecture>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v142</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
@@ -82,11 +96,12 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
+    <LibraryPath>$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);$(PROJ_LIB)</LibraryPath>
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(PROJ_INC)</IncludePath>
     <IntDir>$(APP_BUILD_INT)\$(Configuration)\$(ProjectName)</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <IntDir>$(APP_BUILD_INT)\$(Configuration)\$(ProjectName)</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -94,11 +109,13 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>$(PROJ_INC);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>$(APP_LIBS_R)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -109,6 +126,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>$(PROJ_INC);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
     <Link>
@@ -116,20 +134,23 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>$(APP_LIBS_R)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_WIN32;_DEBUG;_STATICLIB;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;CMAKE_INTDIR="Debug"</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>$(PROJ_INC)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>$(APP_LIBS_D);%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -138,8 +159,9 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_WINDOWS;NDEBUG;_CONSOLE;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_WIN32;NDEBUG;_CONSOLE;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>$(PROJ_INC);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
@@ -147,39 +169,9 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>$(APP_LIBS_D)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClCompile Include="..\..\libUtil\AppBagRead.cpp" />
-    <ClCompile Include="..\..\libUtil\AppBagWrite.cpp" />
-    <ClCompile Include="..\..\libUtil\AppLog.cpp" />
-    <ClCompile Include="..\..\libUtil\CRC.cpp" />
-    <ClCompile Include="..\..\libUtil\FileUtil.cpp" />
-    <ClCompile Include="..\..\libUtil\ReadCfg.cpp" />
-    <ClCompile Include="..\..\libUtil\Roi.cpp" />
-    <ClCompile Include="..\..\libUtil\Uint8Stream.cpp" />
-    <ClCompile Include="..\..\libUtil\UtilFuncs.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="..\..\libUtil\AppBagRead.h" />
-    <ClInclude Include="..\..\libUtil\AppBagWrite.h" />
-    <ClInclude Include="..\..\libUtil\AppCpuTimeProf.h" />
-    <ClInclude Include="..\..\libUtil\AppDefs.h" />
-    <ClInclude Include="..\..\libUtil\AppEnums.h" />
-    <ClInclude Include="..\..\libUtil\AppLog.h" />
-    <ClInclude Include="..\..\libUtil\AppTicToc.h" />
-    <ClInclude Include="..\..\libUtil\CRC.h" />
-    <ClInclude Include="..\..\libUtil\HealthyMonitor.h" />
-    <ClInclude Include="..\..\libUtil\AppRng.h" />
-    <ClInclude Include="..\..\libUtil\FileUtil.h" />
-    <ClInclude Include="..\..\libUtil\libUtilDefs.h" />
-    <ClInclude Include="..\..\libUtil\LinSpace.h" />
-    <ClInclude Include="..\..\libUtil\ReadCfg.h" />
-    <ClInclude Include="..\..\libUtil\Roi.h" />
-    <ClInclude Include="..\..\libUtil\Uint8Stream.h" />
-    <ClInclude Include="..\..\libUtil\util.h" />
-    <ClInclude Include="..\..\libUtil\UtilFuncs.h" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

@@ -57,8 +57,8 @@ CfgThermometer& CfgThermometer::operator = (const CfgThermometer& x)
 
 void CfgThermometer::fromPropertyTree(const boost::property_tree::ptree& pt)
 {
-	thermometerId_ = pt.get<int>("thermometerId");
-	thermometerName_ = pt.get<std::string>("thermometerName");
+	thermometerId_ = pt.get<int>("id");
+	thermometerName_ = pt.get<std::string>("name");
 }
 
 boost::property_tree::ptree CfgThermometer::toPropertyTree()

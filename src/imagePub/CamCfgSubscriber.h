@@ -17,34 +17,34 @@
  *
  */
 
-#ifndef HELLOWORLDSUBSCRIBER_H_
-#define HELLOWORLDSUBSCRIBER_H_
+#ifndef CAMCFGSUBSCRIBER_H_
+#define CAMCFGSUBSCRIBER_H_
 
-#include "libMsg/ImagePubSubTypes.h"
+#include "libMsg/CamCfgPubSubTypes.h"
 
 #include <fastdds/dds/domain/DomainParticipant.hpp>
 #include <fastdds/dds/subscriber/DataReaderListener.hpp>
 #include <fastrtps/subscriber/SampleInfo.h>
 #include <fastdds/dds/core/status/SubscriptionMatchedStatus.hpp>
 #include "libUtil/util.h"
-class ImageSubscriber
+class CamCfgSubscriber
 {
 public:
 
-    ImageSubscriber();
+    CamCfgSubscriber();
 
-    virtual ~ImageSubscriber();
+    virtual ~CamCfgSubscriber();
 
     //!Initialize the subscriber
     bool init(
-            bool use_env);
+        bool use_env);
 
     //!RUN the subscriber
     void run();
 
     //!Run the subscriber until number samples have been received.
     void run(
-            uint32_t number);
+        uint32_t number);
 
 private:
 
@@ -73,13 +73,13 @@ private:
         }
 
         void on_data_available(
-                eprosima::fastdds::dds::DataReader* reader) override;
+            eprosima::fastdds::dds::DataReader* reader) override;
 
         void on_subscription_matched(
-                eprosima::fastdds::dds::DataReader* reader,
-                const eprosima::fastdds::dds::SubscriptionMatchedStatus& info) override;
+            eprosima::fastdds::dds::DataReader* reader,
+            const eprosima::fastdds::dds::SubscriptionMatchedStatus& info) override;
 
-        Image hello_;
+        CamCfg camcfg_;
 
         int matched_;
 
@@ -88,4 +88,4 @@ private:
     listener_;
 };
 
-#endif /* HELLOWORLDSUBSCRIBER_H_ */
+#endif /* CAMCFGSUBSCRIBER_H_ */

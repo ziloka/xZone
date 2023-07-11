@@ -15,15 +15,15 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\fastSubEx1\ImageSubscriber.cpp">
+    <ClCompile Include="..\..\thermometerPub\mainThermometer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\fastSubEx1\mainSub.cpp">
+    <ClCompile Include="..\..\thermometerPub\ThermometerPub.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\fastSubEx1\ImageSubscriber.h">
+    <ClInclude Include="..\..\thermometerPub\ThermometerPub.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
