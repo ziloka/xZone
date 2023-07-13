@@ -12,11 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-/**
- * @file ImagePublisher.h
- *
- */
-
 #ifndef IMAGEPUBLISHER_H_
 #define IMAGEPUBLISHER_H_
 
@@ -28,13 +23,16 @@
 #include <fastdds/dds/topic/TypeSupport.hpp>
 #include <fastdds/dds/domain/DomainParticipant.hpp>
 
+#include <mutex>
+#include <shared_mutex>
+
 using namespace app;
 
 class ImagePublisher
 {
 public:
 
-    ImagePublisher(CfgCamPtr cfgCamPtr);
+    ImagePublisher(std::shared_ptr<std::shared_mutex> mutex, CfgCamPtr cfgCamPtr);
 
     virtual ~ImagePublisher();
 
@@ -54,6 +52,8 @@ public:
 private:
 
     CfgCamPtr cfgCamPtr_;
+
+    std::shared_ptr<std::shared_mutex> mutexPtr_;
 
     cv::VideoCapture camera_;
 

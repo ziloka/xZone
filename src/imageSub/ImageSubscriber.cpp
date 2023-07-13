@@ -12,12 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-/**
- * @file HelloWorldSubscriber.cpp
- *
- */
-
 #include "ImageSubscriber.h"
+#include "UpdateCamPublisher.h"
 #include <fastrtps/attributes/ParticipantAttributes.h>
 #include <fastrtps/attributes/SubscriberAttributes.h>
 #include <fastdds/dds/domain/DomainParticipantFactory.hpp>
@@ -138,6 +134,9 @@ void ImageSubscriber::SubListener::on_subscription_matched(
     {
         matched_ = info.total_count;
         std::cout << "Subscriber matched." << std::endl;
+
+        // instantiate a UpdateCamPublisher class 
+        createUpdateCamPublisher(false);
     }
     else if (info.current_count_change == -1)
     {
@@ -154,7 +153,7 @@ void ImageSubscriber::SubListener::on_subscription_matched(
 void ImageSubscriber::SubListener::on_data_available(  DataReader* reader)
 {
     SampleInfo info;
-    if (reader->take_next_sample(&hello_, &info) == ReturnCode_t::RETCODE_OK)
+    if (reader->take_next_sample(&image_, &info) == ReturnCode_t::RETCODE_OK)
     {
         if (info.instance_state == ALIVE_INSTANCE_STATE)
         {
@@ -164,7 +163,7 @@ void ImageSubscriber::SubListener::on_data_available(  DataReader* reader)
             while (1) {
 
                 cv::Mat frame;
-                frame = app::vecUcharToMat(hello_.image(), hello_.width(), hello_.height());
+                frame = app::vecUcharToMat(image_.image(), image_.width(), image_.height());
 
                 // Display the resulting frame
                 cv::imshow("Frame", frame);
@@ -175,7 +174,7 @@ void ImageSubscriber::SubListener::on_data_available(  DataReader* reader)
                     break;
             }
 
-            APP_LOG("idx=%u received", hello_.frame_number() );
+            APP_LOG("idx=%u received", image_.frame_number() );
         }
     }
 }

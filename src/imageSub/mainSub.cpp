@@ -12,11 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-/**
- * @file HelloWorld_main.cpp
- *
- */
-
 #include <limits>
 #include <sstream>
 

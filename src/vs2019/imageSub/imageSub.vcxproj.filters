@@ -21,9 +21,15 @@
     <ClCompile Include="..\..\imageSub\mainSub.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\imageSub\UpdateCamPublisher.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\imageSub\ImageSubscriber.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\imageSub\UpdateCamPublisher.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

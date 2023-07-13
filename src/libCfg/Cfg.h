@@ -85,7 +85,7 @@ namespace app {
 
 	private:
 		boost::property_tree::ptree toPropertyTree();
-		void fromPropertyTree(const boost::property_tree::ptree &pt) ;
+		void fromPropertyTree(const boost::property_tree::ptree &pt);
 
 	protected:
 		CfgCamPtr					m_cam;

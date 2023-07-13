@@ -1,0 +1,16 @@
+// https://fast-dds.docs.eprosima.com/en/latest/fastddsgen/dataTypes/dataTypes.html
+struct UpdateCam
+{
+	string rtspUrl;
+	long valid;
+	long imgW;
+	long imgH;
+	long fpsNum;
+	long fpsDen;
+	long frmQueSz;
+	long detPyrLev;
+	long detMethodId;
+	long detNetworkId;
+	long detFrmsToSkip;
+	string mp4LocationAndPrefix;
+};

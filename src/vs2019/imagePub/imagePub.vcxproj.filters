@@ -21,7 +21,7 @@
     <ClCompile Include="..\..\imagePub\ImagePublisher.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\imagePub\CamCfgSubscriber.cpp">
+    <ClCompile Include="..\..\imagePub\UpdateCamSubscriber.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -29,7 +29,7 @@
     <ClInclude Include="..\..\imagePub\ImagePublisher.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\imagePub\CamCfgSubscriber.h">
+    <ClInclude Include="..\..\imagePub\UpdateCamSubscriber.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

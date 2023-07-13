@@ -12,12 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-/**
- * @file ImagePublisher.cpp
- *
- */
-
-
 #include "ImagePublisher.h"
 #include <libUtil/FileUtil.h>
 #include "opencv2/opencv.hpp"
@@ -35,7 +29,7 @@
 using namespace app;
 using namespace eprosima::fastdds::dds;
 
-ImagePublisher::ImagePublisher(CfgCamPtr cfgCamPtr)
+ImagePublisher::ImagePublisher(std::shared_ptr<std::shared_mutex> mutexPtr, CfgCamPtr cfgCamPtr)
     : participant_(nullptr)
     , publisher_(nullptr)
     , topic_(nullptr)
@@ -45,6 +39,7 @@ ImagePublisher::ImagePublisher(CfgCamPtr cfgCamPtr)
 {
 
     cfgCamPtr_ = cfgCamPtr;
+    mutexPtr_ = mutexPtr;
 
    // https://learnopencv.com/read-write-and-display-a-video-using-opencv-cpp-python/
    // https://learn.microsoft.com/en-us/windows/win32/directshow/selecting-a-capture-device?redirectedfrom=MSDN

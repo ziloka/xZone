@@ -12,13 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-/**
- * @file HelloWorld_main.cpp
- *
- */
 #include <memory>
 
-#include "CamCfgSubscriber.h"
+#include "UpdateCamSubscriber.h"
 #include "ImagePublisher.h"
 #include "libUtil/util.h"
 
@@ -27,13 +23,11 @@
 #include "libUtil/readCfg.h"
 #include "libCfg/Cfg.h"
 
-using namespace app;
 
-void createCamCfgSubscriber(std::shared_ptr<CfgCam> camCfgPtr, bool use_environment_qos) {
-	CamCfgSubscriber mysub(camCfgPtr);
-	mysub.init(use_environment_qos);
-	mysub.run();
-}
+#include <mutex>
+#include <shared_mutex>
+
+using namespace app;
 
 int main(int argc, char* argv[])
 {
@@ -57,11 +51,12 @@ int main(int argc, char* argv[])
 	uint32_t sleep_ms = 100;
 	bool use_environment_qos = false;
 
-	std::shared_ptr<CfgCam> camCfgPtr = std::make_shared<CfgCam>(cfg->getCam());
-	ImagePublisher mypub(camCfgPtr);
+	std::shared_ptr<std::shared_mutex> mutex;
+	std::shared_ptr<CfgCam> CfgCamPtr = std::make_shared<CfgCam>(cfg->getCam());
+	ImagePublisher mypub(mutex, CfgCamPtr);
 	if (mypub.init(use_environment_qos))
 	{
-		std::thread subscriber(createCamCfgSubscriber, camCfgPtr, use_environment_qos);
+		std::thread subscriber(createUpdateCamSubscriber, mutex, CfgCamPtr, use_environment_qos);
 		std::thread publisher = mypub.run(count, sleep_ms);
 		publisher.join();
 		subscriber.join();

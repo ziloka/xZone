@@ -12,11 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-/**
- * @file HelloWorldSubscriber.h
- *
- */
-
 #ifndef IMAGESUBSCRIBER_H_
 #define IMAGESUBSCRIBER_H_
 
@@ -79,7 +74,7 @@ private:
                 eprosima::fastdds::dds::DataReader* reader,
                 const eprosima::fastdds::dds::SubscriptionMatchedStatus& info) override;
 
-        Image hello_;
+        Image image_;
 
         int matched_;
 

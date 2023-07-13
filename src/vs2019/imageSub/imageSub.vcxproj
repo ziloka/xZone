@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\imageSub\UpdateCamPublisher.cpp" />
     <ClCompile Include="..\..\imageSub\ImageSubscriber.cpp" />
     <ClCompile Include="..\..\imageSub\mainSub.cpp" />
   </ItemGroup>
@@ -28,6 +29,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\imageSub\UpdateCamPublisher.h" />
     <ClInclude Include="..\..\imageSub\ImageSubscriber.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
