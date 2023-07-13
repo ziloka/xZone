@@ -38,7 +38,7 @@ bool HumiditySubscriber::init(
     bool use_env)
 {
     DomainParticipantQos pqos = PARTICIPANT_QOS_DEFAULT;
-    pqos.name("ImageSubscriber");
+    pqos.name("HumiditySubscriber");
     auto factory = DomainParticipantFactory::get_instance();
 
     if (use_env)

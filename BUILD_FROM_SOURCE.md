@@ -5,6 +5,9 @@ Note: *C++17 and above is required*
 ### Windows 10 & __**visual studio 2019**__
 
 
+[set-imx8-env-AIO.txt](https://github.com/shunguang/HowTo/blob/master/set-imx8-env-AIO.txt)
+[solidRun](https://github.com/shunguang/HowTo/tree/master/solidRun)
+
 #### Requirements
 - Visual Studio 2019 version 16.0.0 
 - [Chocolately](https://fast-dds.docs.eprosima.com/en/latest/installation/sources/sources_windows.html#chocolatey-sw)
@@ -40,7 +43,7 @@ Note: *C++17 and above is required*
 		git clone --jobs 4 --depth=1 --single-branch --branch 4.1.1 --recursive https://github.com/opencv/opencv_contrib
 		mkdir build
 		cd build
-		cmake -G "Visual Studio 16 2019" -D BUILD_PERF_TESTS=OFF -D BUILD_TESTS=OFF -D BUILD_DOCS=OFF -D WITH_CUDA=OFF -D BUILD_EXAMPLES=OFF -D INSTALL_CREATE_DISTRIB=ON -D WITH_GSTREAMER=ON -D OPENCV_EXTRA_MODULES_PATH=../opencv_contrib/modules -D BUILD_SHARED_LIBS=ON ../opencv
+		cmake -G "Visual Studio 16 2019" -D BUILD_PERF_TESTS=OFF -D BUILD_TESTS=OFF -D BUILD_DOCS=OFF -D WITH_CUDA=OFF -D BUILD_EXAMPLES=OFF -D INSTALL_CREATE_DISTRIB=ON -D WITH_GSTREAMER=ON -D OPENCV_EXTRA_MODULES_PATH=../opencv_contrib/modules -D BUILD_opencv_world=ON -D BUILD_SHARED_LIBS=OFF ../opencv
 		cmake --build . --parallel 4 --target install --config debug
 		```
 		opencv lib is located in ./install/$(arch)/$(MSVC_VER)/lib

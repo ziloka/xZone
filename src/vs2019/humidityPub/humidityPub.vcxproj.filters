@@ -15,21 +15,21 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\hygrometerPub\HumidityPublisher.h">
+    <ClInclude Include="..\..\humidityPub\HumidityPublisher.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\hygrometerPub\UpdateHygrometerSubscriber.h">
+    <ClInclude Include="..\..\humidityPub\UpdateHygrometerSubscriber.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\hygrometerPub\HumidityPublisher.cpp">
+    <ClCompile Include="..\..\humidityPub\HumidityPublisher.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\hygrometerPub\UpdateHygrometerSubscriber.cpp">
+    <ClCompile Include="..\..\humidityPub\UpdateHygrometerSubscriber.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\hygrometerPub\mainPub.cpp">
+    <ClCompile Include="..\..\humidityPub\mainPub.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

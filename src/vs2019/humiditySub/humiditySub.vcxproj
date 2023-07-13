@@ -18,27 +18,13 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="..\..\hygrometerPub\HumidityPublisher.h" />
-    <ClInclude Include="..\..\hygrometerPub\UpdateHygrometerSubscriber.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="..\..\hygrometerPub\HumidityPublisher.cpp" />
-    <ClCompile Include="..\..\hygrometerPub\mainPub.cpp" />
-    <ClCompile Include="..\..\hygrometerPub\UpdateHygrometerSubscriber.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\libMsg\libMsg.vcxproj">
-      <Project>{23cf582b-ef4f-402e-a6a6-eb1dace6f604}</Project>
-    </ProjectReference>
-  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{6cc25aa7-241b-49af-88b6-34612b7877b1}</ProjectGuid>
-    <RootNamespace>hygrometerPub</RootNamespace>
+    <ProjectGuid>{a3feba36-780e-4717-8297-d0de1db6d8b2}</ProjectGuid>
+    <RootNamespace>humiditySub</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
-    <ProjectName>humditiyPub</ProjectName>
+    <ProjectName>humiditySub</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -137,15 +123,14 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(PROJ_INC)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
+      <AdditionalIncludeDirectories>$(PROJ_INC)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>$(APP_LIBS_D);%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>
-      </AdditionalLibraryDirectories>
+      <AdditionalDependencies>$(APPS_LIB_D);%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalOptions>/verbose:lib %(AdditionalOptions)</AdditionalOptions>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -164,6 +149,20 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\humiditySub\HumiditySubscriber.h" />
+    <ClInclude Include="..\..\humiditySub\UpdateHygrometerPublisher.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\humiditySub\HumiditySubscriber.cpp" />
+    <ClCompile Include="..\..\humiditySub\mainSub.cpp" />
+    <ClCompile Include="..\..\humiditySub\UpdateHygrometerPublisher.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\libMsg\libMsg.vcxproj">
+      <Project>{23cf582b-ef4f-402e-a6a6-eb1dace6f604}</Project>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

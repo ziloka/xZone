@@ -24,14 +24,8 @@
     <ClCompile Include="..\..\imagePub\mainPub.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\libCfg\libCfg.vcxproj">
-      <Project>{3d60dc70-b5c0-4fa6-9b25-2c9073a85504}</Project>
-    </ProjectReference>
     <ProjectReference Include="..\libMsg\libMsg.vcxproj">
       <Project>{23cf582b-ef4f-402e-a6a6-eb1dace6f604}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\libUtil\libUtil.vcxproj">
-      <Project>{298cc483-6fc2-4a88-8f2a-e82ffd435ef4}</Project>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
@@ -163,6 +157,7 @@
       <AdditionalDependencies>$(APP_LIBS_D);%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>
       </AdditionalLibraryDirectories>
+      <AdditionalOptions>/verbose:lib %(AdditionalOptions)</AdditionalOptions>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">

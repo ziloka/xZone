@@ -108,15 +108,47 @@
 //	return 0;
 //}
 
-#include <opencv2/core/core.hpp> 
-#include <opencv2/highgui/highgui.hpp> 
-using namespace cv;
-int main()
-{
-    Mat img = imread("./girl.jpg");
-    namedWindow("opencv");
-    imshow("opencv", img);
-    waitKey(6000);
+//#include <opencv2/core/core.hpp> 
+//#include <opencv2/highgui/highgui.hpp> 
+//using namespace cv;
+//int main()
+//{
+//    Mat img = imread("./girl.jpg");
+//    namedWindow("opencv");
+//    imshow("opencv", img);
+//    waitKey(6000);
+//
+//    return 0;
+//}
 
-    return 0;
+
+#include <iostream>
+#include <opencv2\opencv.hpp>
+
+using namespace std;
+using namespace cv;
+
+
+int main(int argc, const char** argv)
+{
+    Mat image;
+    String inputName;
+
+    for (int i = 1; i < argc; i++)
+    {
+        inputName.assign(argv[i]);
+    }
+
+    if (inputName.empty() || (isdigit(inputName.c_str()[0]) && inputName.c_str()[1] == '\0'))
+    {
+        if (inputName.size())
+        {
+            image = imread(inputName, 1);
+        }
+        else
+        {
+            if (image.empty()) cout << "Couldn't read image" << endl;
+        }
+        imshow("Test", image);
+    }
 }
