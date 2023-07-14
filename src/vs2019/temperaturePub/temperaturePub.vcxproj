@@ -19,26 +19,26 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\imagePub\UpdateCamSubscriber.cpp" />
-    <ClCompile Include="..\..\imagePub\ImagePublisher.cpp" />
-    <ClCompile Include="..\..\imagePub\mainPub.cpp" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\libMsg\libMsg.vcxproj">
       <Project>{23cf582b-ef4f-402e-a6a6-eb1dace6f604}</Project>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\imagePub\UpdateCamSubscriber.h" />
-    <ClInclude Include="..\..\imagePub\ImagePublisher.h" />
+    <ClCompile Include="..\..\temperaturePub\mainPub.cpp" />
+    <ClCompile Include="..\..\temperaturePub\TemperaturePublisher.cpp" />
+    <ClCompile Include="..\..\temperaturePub\UpdateThermometerSubscriber.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\temperaturePub\TemperaturePublisher.h" />
+    <ClInclude Include="..\..\temperaturePub\UpdateThermometerSubscriber.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{4F18D26A-1C54-4C68-87D1-F516D9A01B19}</ProjectGuid>
+    <ProjectGuid>{441A8FA6-86EC-48E3-884D-4A66019308EA}</ProjectGuid>
     <RootNamespace>test</RootNamespace>
     <WindowsTargetPlatformVersion>10.0.22000.0</WindowsTargetPlatformVersion>
-    <ProjectName>imagePub</ProjectName>
+    <ProjectName>temperaturePub</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -157,7 +157,6 @@
       <AdditionalDependencies>$(APP_LIBS_D);%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>
       </AdditionalLibraryDirectories>
-      <AdditionalOptions>/verbose:lib %(AdditionalOptions)</AdditionalOptions>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">

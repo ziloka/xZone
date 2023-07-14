@@ -24,19 +24,21 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\thermometerPub\mainThermometer.cpp" />
-    <ClCompile Include="..\..\thermometerPub\ThermometerPub.cpp" />
+    <ClCompile Include="..\..\temperatureSub\mainSub.cpp" />
+    <ClCompile Include="..\..\temperatureSub\TemperatureSubscriber.cpp" />
+    <ClCompile Include="..\..\temperatureSub\UpdateThermometerPublisher.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\thermometerPub\ThermometerPub.h" />
+    <ClInclude Include="..\..\temperatureSub\TemperatureSubscriber.h" />
+    <ClInclude Include="..\..\temperatureSub\UpdateThermometerPublisher.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{441A8FA6-86EC-48E3-884D-4A66019308EA}</ProjectGuid>
+    <ProjectGuid>{A206073F-E6A6-4E59-8ED4-B5849392163F}</ProjectGuid>
     <RootNamespace>test</RootNamespace>
     <WindowsTargetPlatformVersion>10.0.22000.0</WindowsTargetPlatformVersion>
-    <ProjectName>thermometerPub</ProjectName>
+    <ProjectName>temperatureSub</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">

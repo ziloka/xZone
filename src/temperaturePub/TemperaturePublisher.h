@@ -12,26 +12,29 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef UPDATEHYGROMETERPUBLISHER_H_
-#define UPDATEHYGROMETERPUBLISHER_H_
+#ifndef TEMPERATUREPUBLISHER_H_
+#define TEMPERATUREPUBLISHER_H_
 
 #include "libUtil/util.h"
-#include "libMsg/UpdateCamPubSubTypes.h"
+#include "libMsg/TemperaturePubSubTypes.h"
 #include "libCfg/Cfg.h"
 
 #include <fastdds/dds/publisher/DataWriterListener.hpp>
 #include <fastdds/dds/topic/TypeSupport.hpp>
 #include <fastdds/dds/domain/DomainParticipant.hpp>
 
+#include <mutex>
+#include <shared_mutex>
+
 using namespace app;
 
-class UpdateHygrometerPublisher
+class TemperaturePublisher
 {
 public:
 
-    UpdateHygrometerPublisher();
+    TemperaturePublisher(std::shared_ptr<std::shared_mutex> mutex, CfgThermometerPtr cfgThermometerPtr);
 
-    virtual ~UpdateHygrometerPublisher();
+    virtual ~TemperaturePublisher();
 
     //!Initialize
     bool init(
@@ -48,9 +51,11 @@ public:
 
 private:
 
-    CfgCamPtr cfgCamPtr_;
+    CfgThermometerPtr cfgThermometerPtr_;
 
-    UpdateCam updateCam_;
+    std::shared_ptr<std::shared_mutex> mutexPtr_;
+
+    Temperature temperature_;
 
     eprosima::fastdds::dds::DomainParticipant* participant_;
 
@@ -93,6 +98,4 @@ private:
     eprosima::fastdds::dds::TypeSupport type_;
 };
 
-void createUpdateHygrometerPublisher(bool use_environment_qos);
-
-#endif /* UPDATEHYGROMETERPUBLISHER_H_ */
+#endif

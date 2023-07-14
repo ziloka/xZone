@@ -12,11 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef UPDATEHYGROMETERPUBLISHER_H_
-#define UPDATEHYGROMETERPUBLISHER_H_
+#ifndef UPDATETHERMOMETERPUBLISHER_H_
+#define UPDATETHERMOMETERPUBLISHER_H_
 
 #include "libUtil/util.h"
-#include "libMsg/UpdateCamPubSubTypes.h"
+#include "libMsg/UpdateThermometerPubSubTypes.h"
 #include "libCfg/Cfg.h"
 
 #include <fastdds/dds/publisher/DataWriterListener.hpp>
@@ -25,13 +25,13 @@
 
 using namespace app;
 
-class UpdateHygrometerPublisher
+class UpdateThermometerPublisher
 {
 public:
 
-    UpdateHygrometerPublisher();
+    UpdateThermometerPublisher();
 
-    virtual ~UpdateHygrometerPublisher();
+    virtual ~UpdateThermometerPublisher();
 
     //!Initialize
     bool init(
@@ -48,9 +48,9 @@ public:
 
 private:
 
-    CfgCamPtr cfgCamPtr_;
+    CfgThermometerPtr cfgThermometerPtr_;
 
-    UpdateCam updateCam_;
+    UpdateThermometer updateThermometer_;
 
     eprosima::fastdds::dds::DomainParticipant* participant_;
 
@@ -95,4 +95,4 @@ private:
 
 void createUpdateHygrometerPublisher(bool use_environment_qos);
 
-#endif /* UPDATEHYGROMETERPUBLISHER_H_ */
+#endif /* UPDATETHERMOMETERPUBLISHER_H_ */

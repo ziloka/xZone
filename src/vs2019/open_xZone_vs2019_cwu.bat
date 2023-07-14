@@ -4,8 +4,8 @@ REM define environment variables, do not change the variable name, just it's val
 set GTEST_INC=C:\pkg\googletest\googletest\include\gtest
 set GTEST_LIB=C:\pkg\googletest\vs2019-install\lib\Debug
 
-set CV_INC=D:\cpp_libraries\xZone-libraries\opencv\include
-set CV_LIB=D:\cpp_libraries\xZone-libraries\opencv\x64\vc16\lib
+set CV_INC=C:\pkg\opencv\build\install\include
+set CV_LIB=C:\pkg\opencv\build\install\x64\vc16\lib
 
 set BOOST_INC=C:\pkg\boost\boost_1_71_0
 set BOOST_LIB=C:\pkg\boost\boost_1_71_0\stage\lib

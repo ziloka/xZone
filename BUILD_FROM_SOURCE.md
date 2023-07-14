@@ -43,7 +43,7 @@ Note: *C++17 and above is required*
 		git clone --jobs 4 --depth=1 --single-branch --branch 4.1.1 --recursive https://github.com/opencv/opencv_contrib
 		mkdir build
 		cd build
-		cmake -G "Visual Studio 16 2019" -D BUILD_PERF_TESTS=OFF -D BUILD_TESTS=OFF -D BUILD_DOCS=OFF -D WITH_CUDA=OFF -D BUILD_EXAMPLES=OFF -D INSTALL_CREATE_DISTRIB=ON -D WITH_GSTREAMER=ON -D OPENCV_EXTRA_MODULES_PATH=../opencv_contrib/modules -D BUILD_opencv_world=ON -D BUILD_SHARED_LIBS=OFF ../opencv
+		cmake -G "Visual Studio 16 2019" -D BUILD_PERF_TESTS=OFF -D BUILD_TESTS=OFF -D BUILD_DOCS=OFF -D WITH_CUDA=OFF -D BUILD_EXAMPLES=OFF -D INSTALL_CREATE_DISTRIB=ON -D WITH_GSTREAMER=ON -D OPENCV_EXTRA_MODULES_PATH=../opencv_contrib/modules -D BUILD_opencv_world=ON -D BUILD_SHARED_LIBS=ON ../opencv
 		cmake --build . --parallel 4 --target install --config debug
 		```
 		opencv lib is located in ./install/$(arch)/$(MSVC_VER)/lib
@@ -83,45 +83,51 @@ Note: *C++17 and above is required*
 
 		include and lib will be located at C:\Program Files\eProsima\fastrtps 2.9.1\ (default installed location)
 
-<!-- ```pwsh
-mkdir Fast-DDS
-cd Fast-DDS
-git clone https://github.com/eProsima/foonathan_memory_vendor.git
-cd foonathan_memory_vendor
-mkdir build
-cd build
-# This library needs to compile shared libraries
-cmake -G "Visual Studio 16 2019" -D CMAKE_MSVC_RUNTIME_LIBRARY=MultiThreadedDebugDLL -D CMAKE_INSTALL_PREFIX:FILEPATH=../../install -D BUILD_SHARED_LIBS=OFF ..
-cmake --build . --parallel 4 --target install --config debug
-# this command is probably needed to merge it because the install prefix is incorrect somehow
-xcopy /E ..\..\..\install\*.* ..\..\install
-cd ../..
+		or just build it from source
 
-git clone https://github.com/eProsima/Fast-CDR.git
-cd Fast-CDR
-mkdir build
-cd build
-cmake -G "Visual Studio 16 2019" -D CMAKE_MSVC_RUNTIME_LIBRARY=MultiThreadedDebugDLL -D CMAKE_INSTALL_PREFIX:FILEPATH=../../install -D BUILD_SHARED_LIBS=OFF ..
-cmake --build . --parallel 4 --target install --config debug
-cd ../..
+		using cmake
+		
+		todo: learn how to make it compile in parallel
 
-git clone --jobs 4 --depth=1 --single-branch --branch 2.9.1 --recursive https://github.com/eProsima/Fast-DDS
-cd Fast-DDS
-mkdir build
-cd build
-# If this command doesn't work try setting the absolute path and trying again
-set CMAKE_PREFIX_PATH=../../install/share/foonathan_memory/cmake
-cmake -G "Visual Studio 16 2019" -D CMAKE_MSVC_RUNTIME_LIBRARY=MultiThreadedDebugDLL -D CMAKE_INSTALL_PREFIX:FILEPATH=../../install -D BUILD_SHARED_LIBS=OFF -DTHIRDPARTY=ON -D foonathan_memory_DIR=../../install/share/foonathan_memory/cmake ..
-# this actually doesn't make cmake have multiple jobs in this project
-cmake --build . --parallel 4 --target install --config debug
-``` 
+		 ```pwsh
+		mkdir Fast-DDS
+		cd Fast-DDS
+		git clone https://github.com/eProsima/foonathan_memory_vendor.git
+		cd foonathan_memory_vendor
+		mkdir build
+		cd build
+		# This library needs to compile shared libraries
+		cmake -G "Visual Studio 16 2019" -D CMAKE_MSVC_RUNTIME_LIBRARY=MultiThreadedDebugDLL -D CMAKE_INSTALL_PREFIX:FILEPATH=../../install -D BUILD_SHARED_LIBS=ON ..
+		cmake --build . --parallel 4 --target install --config debug
+		# this command is probably needed to merge it because the install prefix is incorrect somehow
+		xcopy /E ..\..\..\install\*.* ..\..\install
+		cd ../..
 
-You will also need fast dds gen tool
-git clone --recursive https://github.com/eProsima/Fast-DDS-Gen.git
-cd Fast-DDS-Gen
-gradlew.bat assemble
+		git clone https://github.com/eProsima/Fast-CDR.git
+		cd Fast-CDR
+		mkdir build
+		cd build
+		cmake -G "Visual Studio 16 2019" -D CMAKE_MSVC_RUNTIME_LIBRARY=MultiThreadedDebugDLL -D CMAKE_INSTALL_PREFIX:FILEPATH=../../install -D BUILD_SHARED_LIBS=ON ..
+		cmake --build . --parallel 4 --target install --config debug
+		cd ../..
 
--->
+		git clone --jobs 4 --depth=1 --single-branch --branch 2.9.1 --recursive https://github.com/eProsima/Fast-DDS
+		cd Fast-DDS
+		mkdir build
+		cd build
+		# If this command doesn't work try setting the absolute path and trying again
+		set CMAKE_PREFIX_PATH=../../install/share/foonathan_memory/cmake
+		cmake -G "Visual Studio 16 2019" -D CMAKE_MSVC_RUNTIME_LIBRARY=MultiThreadedDebugDLL -D CMAKE_INSTALL_PREFIX:FILEPATH=../../install -D BUILD_SHARED_LIBS=ON -DTHIRDPARTY=ON -D foonathan_memory_DIR=../../install/share/foonathan_memory/cmake ..
+		# this actually doesn't make cmake have multiple jobs in this project
+		cmake --build . --parallel 4 --target install --config debug
+		``` 
+
+		# You will also need fast dds gen tool
+		git clone --recursive https://github.com/eProsima/Fast-DDS-Gen.git
+		cd Fast-DDS-Gen
+		gradlew.bat assemble
+		```
+
 		Notes:
 		- required to build this from source instead of just downloading a executable and running that because runtime library must be multithreadeddebug
 		- https://fast-dds.docs.eprosima.com/en/latest/installation/sources/sources_windows.html#cmake-installation
