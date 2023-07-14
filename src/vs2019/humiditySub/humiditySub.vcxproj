@@ -26,13 +26,11 @@
   <ItemGroup>
     <ClInclude Include="..\..\humiditySub\HumiditySubscriber.h" />
     <ClInclude Include="..\..\humiditySub\UpdateHygrometerPublisher.h" />
-    <ClInclude Include="TemperatureSubscriber.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\humiditySub\HumiditySubscriber.cpp" />
     <ClCompile Include="..\..\humiditySub\mainSub.cpp" />
     <ClCompile Include="..\..\humiditySub\UpdateHygrometerPublisher.cpp" />
-    <ClCompile Include="..\..\temperatureSub\mainSub.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
@@ -57,7 +55,7 @@
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>

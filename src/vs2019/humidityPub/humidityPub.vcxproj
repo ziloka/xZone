@@ -19,26 +19,29 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\imagePub\UpdateCamSubscriber.cpp" />
-    <ClCompile Include="..\..\imagePub\ImagePublisher.cpp" />
-    <ClCompile Include="..\..\imagePub\mainPub.cpp" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\libMsg\libMsg.vcxproj">
       <Project>{23cf582b-ef4f-402e-a6a6-eb1dace6f604}</Project>
     </ProjectReference>
+    <ProjectReference Include="..\libUtil\libUtil.vcxproj">
+      <Project>{298cc483-6fc2-4a88-8f2a-e82ffd435ef4}</Project>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\imagePub\UpdateCamSubscriber.h" />
-    <ClInclude Include="..\..\imagePub\ImagePublisher.h" />
+    <ClCompile Include="..\..\humidityPub\HumidityPublisher.cpp" />
+    <ClCompile Include="..\..\humidityPub\mainPub.cpp" />
+    <ClCompile Include="..\..\humidityPub\UpdateHygrometerSubscriber.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\humidityPub\HumidityPublisher.h" />
+    <ClInclude Include="..\..\humidityPub\UpdateHygrometerSubscriber.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{4F18D26A-1C54-4C68-87D1-F516D9A01B19}</ProjectGuid>
+    <ProjectGuid>{6CC25AA7-241B-49AF-88B6-34612B7877B1}</ProjectGuid>
     <RootNamespace>test</RootNamespace>
     <WindowsTargetPlatformVersion>10.0.22000.0</WindowsTargetPlatformVersion>
-    <ProjectName>imagePub</ProjectName>
+    <ProjectName>humidityPub</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">

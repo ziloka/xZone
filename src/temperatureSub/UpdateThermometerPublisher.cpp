@@ -90,8 +90,8 @@ bool UpdateThermometerPublisher::init(bool use_env)
     }
 
     topic_ = participant_->create_topic(
-        "UpdateHygrometerTopic",
-        "UpdateHygrometer",
+        "UpdateThermometerTopic",
+        "UpdateThermometer",
         tqos);
 
     if (topic_ == nullptr)
