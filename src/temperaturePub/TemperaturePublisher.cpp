@@ -215,6 +215,8 @@ bool TemperaturePublisher::publish(bool waitForListener)
 {
     if (listener_.firstConnected_ || !waitForListener || listener_.matched_ > 0)
     {
+        temperature_.t1(APP_TIME_CURRENT_US);
+
         //cv::Mat frame;
         //camera_ >> frame;
         //if (frame.empty()) {
@@ -227,7 +229,7 @@ bool TemperaturePublisher::publish(bool waitForListener)
         //image_.width(frame.cols);
         //image_.height(frame.rows);
 
-        //writer_->write(&image_);
+        temperature_.t2(APP_TIME_CURRENT_US);
         return true;
     }
     return false;
