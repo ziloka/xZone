@@ -236,6 +236,8 @@ bool ImagePublisher::publish( bool waitForListener )
     {
         // https://learnopencv.com/read-write-and-display-a-video-using-opencv-cpp-python/
 
+        image_.t1(APP_TIME_CURRENT_US);
+
         cv::Mat frame;
         camera_ >> frame;
         if (frame.empty()) {
@@ -247,6 +249,8 @@ bool ImagePublisher::publish( bool waitForListener )
         image_.image(app::matToVecUchar(frame));
         image_.width(frame.cols);
         image_.height(frame.rows);
+
+        image_.t2(APP_TIME_CURRENT_US);
 
         writer_->write(&image_);
         return true;

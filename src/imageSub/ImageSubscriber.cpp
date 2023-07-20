@@ -135,8 +135,8 @@ void ImageSubscriber::SubListener::on_subscription_matched(
         matched_ = info.total_count;
         std::cout << "Subscriber matched." << std::endl;
 
-        // instantiate a UpdateCamPublisher class 
-        createUpdateCamPublisher(false);
+        std::thread updateCamPublisher(createUpdateCamPublisher, false);
+        updateCamPublisher.join();
     }
     else if (info.current_count_change == -1)
     {
@@ -160,21 +160,21 @@ void ImageSubscriber::SubListener::on_data_available(  DataReader* reader)
             samples_++;
             // Print your structure data here.
 
-            while (1) {
+            //while (1) {
 
-                cv::Mat frame;
-                frame = app::vecUcharToMat(image_.image(), image_.width(), image_.height());
+            //    cv::Mat frame;
+            //    frame = app::vecUcharToMat(image_.image(), image_.width(), image_.height());
 
-                // Display the resulting frame
-                cv::imshow("Frame", frame);
+            //    // Display the resulting frame
+            //    cv::imshow("Frame", frame);
 
-                // Press  ESC on keyboard to exit
-                char c = (char) cv::waitKey(25);
-                if (c == 27)
-                    break;
-            }
+            //    // Press  ESC on keyboard to exit
+            //    char c = (char) cv::waitKey(25);
+            //    if (c == 27)
+            //        break;
+            //}
 
-            APP_LOG("idx=%u received", image_.frame_number() );
+            APP_LOG("frame number=%u received, time captured (t1)=%u, time sent msg out (t2)=%u, time received msg (t3)=%u", image_.frame_number(), image_.t1(), image_.t2(), APP_TIME_CURRENT_US);
         }
     }
 }
@@ -193,4 +193,9 @@ void ImageSubscriber::run(uint32_t number)
       APP_LOG("HelloWorldSubscriber::run(): sleep 500 ms");
       std::this_thread::sleep_for(std::chrono::milliseconds(500));
     }
+}
+
+void createImageSubscriber(bool use_environment_qos) {
+    ImageSubscriber imageSubscriber;
+    if (imageSubscriber.init(use_environment_qos)) imageSubscriber.run();
 }

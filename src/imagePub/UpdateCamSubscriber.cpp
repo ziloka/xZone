@@ -84,8 +84,8 @@ bool UpdateCamSubscriber::init(
     }
 
     topic_ = participant_->create_topic(
-        "CfgCamTopic",
-        "CfgCam",
+        "UpdateCamTopic",
+        "UpdateCam",
         tqos);
 
     if (topic_ == nullptr)

@@ -84,4 +84,6 @@ private:
     listener_;
 };
 
+void createHumiditySubscriber(bool use_environment_qos);
+
 #endif /* HUMIDITYSUBSCRIBER_H_ */

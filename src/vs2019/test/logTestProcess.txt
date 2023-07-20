@@ -1,0 +1,2 @@
+----start----
+-------Last log Msg : log thread prepare to exit -----

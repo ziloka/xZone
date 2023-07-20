@@ -13,7 +13,9 @@
 // limitations under the License.
 
 #include "HumidityPublisher.h"
+#include <libUtil/AppDefs.h>
 #include <libUtil/FileUtil.h>
+
 #include <fastrtps/attributes/ParticipantAttributes.h>
 #include <fastrtps/attributes/PublisherAttributes.h>
 #include <fastdds/dds/domain/DomainParticipantFactory.hpp>

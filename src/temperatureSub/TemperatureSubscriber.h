@@ -84,4 +84,7 @@ private:
     listener_;
 };
 
-#endif /* HUMIDITYSUBSCRIBER_H_ */
+
+void createTemperatureSubscriber(bool use_environment_qos);
+
+#endif /* TEMPERATURESUBSCRIBER_H_ */

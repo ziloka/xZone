@@ -34,7 +34,7 @@ using namespace eprosima::fastcdr::exception;
 
 #include <utility>
 
-#define Image_max_cdr_typesize 376ULL;
+#define Image_max_cdr_typesize 400ULL;
 #define Image_max_key_cdr_typesize 0ULL;
 
 Image::Image()
@@ -49,11 +49,20 @@ Image::Image()
     m_height = 0;
     // unsigned long m_width
     m_width = 0;
+    // long long m_t1
+    m_t1 = 0;
+    // long long m_t2
+    m_t2 = 0;
+    // long long m_t3
+    m_t3 = 0;
 
 }
 
 Image::~Image()
 {
+
+
+
 
 
 
@@ -69,6 +78,9 @@ Image::Image(
     m_frame_number = x.m_frame_number;
     m_height = x.m_height;
     m_width = x.m_width;
+    m_t1 = x.m_t1;
+    m_t2 = x.m_t2;
+    m_t3 = x.m_t3;
 }
 
 Image::Image(
@@ -79,6 +91,9 @@ Image::Image(
     m_frame_number = x.m_frame_number;
     m_height = x.m_height;
     m_width = x.m_width;
+    m_t1 = x.m_t1;
+    m_t2 = x.m_t2;
+    m_t3 = x.m_t3;
 }
 
 Image& Image::operator =(
@@ -90,6 +105,9 @@ Image& Image::operator =(
     m_frame_number = x.m_frame_number;
     m_height = x.m_height;
     m_width = x.m_width;
+    m_t1 = x.m_t1;
+    m_t2 = x.m_t2;
+    m_t3 = x.m_t3;
 
     return *this;
 }
@@ -103,6 +121,9 @@ Image& Image::operator =(
     m_frame_number = x.m_frame_number;
     m_height = x.m_height;
     m_width = x.m_width;
+    m_t1 = x.m_t1;
+    m_t2 = x.m_t2;
+    m_t3 = x.m_t3;
 
     return *this;
 }
@@ -111,7 +132,7 @@ bool Image::operator ==(
         const Image& x) const
 {
 
-    return (m_image == x.m_image && m_timestamp == x.m_timestamp && m_frame_number == x.m_frame_number && m_height == x.m_height && m_width == x.m_width);
+    return (m_image == x.m_image && m_timestamp == x.m_timestamp && m_frame_number == x.m_frame_number && m_height == x.m_height && m_width == x.m_width && m_t1 == x.m_t1 && m_t2 == x.m_t2 && m_t3 == x.m_t3);
 }
 
 bool Image::operator !=(
@@ -155,6 +176,15 @@ size_t Image::getCdrSerializedSize(
     current_alignment += 4 + eprosima::fastcdr::Cdr::alignment(current_alignment, 4);
 
 
+    current_alignment += 8 + eprosima::fastcdr::Cdr::alignment(current_alignment, 8);
+
+
+    current_alignment += 8 + eprosima::fastcdr::Cdr::alignment(current_alignment, 8);
+
+
+    current_alignment += 8 + eprosima::fastcdr::Cdr::alignment(current_alignment, 8);
+
+
 
     return current_alignment - initial_alignment;
 }
@@ -168,6 +198,9 @@ void Image::serialize(
     scdr << m_frame_number;
     scdr << m_height;
     scdr << m_width;
+    scdr << m_t1;
+    scdr << m_t2;
+    scdr << m_t3;
 
 }
 
@@ -180,6 +213,9 @@ void Image::deserialize(
     dcdr >> m_frame_number;
     dcdr >> m_height;
     dcdr >> m_width;
+    dcdr >> m_t1;
+    dcdr >> m_t2;
+    dcdr >> m_t3;
 }
 
 /*!
@@ -338,6 +374,90 @@ uint32_t Image::width() const
 uint32_t& Image::width()
 {
     return m_width;
+}
+
+/*!
+ * @brief This function sets a value in member t1
+ * @param _t1 New value for member t1
+ */
+void Image::t1(
+        int64_t _t1)
+{
+    m_t1 = _t1;
+}
+
+/*!
+ * @brief This function returns the value of member t1
+ * @return Value of member t1
+ */
+int64_t Image::t1() const
+{
+    return m_t1;
+}
+
+/*!
+ * @brief This function returns a reference to member t1
+ * @return Reference to member t1
+ */
+int64_t& Image::t1()
+{
+    return m_t1;
+}
+
+/*!
+ * @brief This function sets a value in member t2
+ * @param _t2 New value for member t2
+ */
+void Image::t2(
+        int64_t _t2)
+{
+    m_t2 = _t2;
+}
+
+/*!
+ * @brief This function returns the value of member t2
+ * @return Value of member t2
+ */
+int64_t Image::t2() const
+{
+    return m_t2;
+}
+
+/*!
+ * @brief This function returns a reference to member t2
+ * @return Reference to member t2
+ */
+int64_t& Image::t2()
+{
+    return m_t2;
+}
+
+/*!
+ * @brief This function sets a value in member t3
+ * @param _t3 New value for member t3
+ */
+void Image::t3(
+        int64_t _t3)
+{
+    m_t3 = _t3;
+}
+
+/*!
+ * @brief This function returns the value of member t3
+ * @return Value of member t3
+ */
+int64_t Image::t3() const
+{
+    return m_t3;
+}
+
+/*!
+ * @brief This function returns a reference to member t3
+ * @return Reference to member t3
+ */
+int64_t& Image::t3()
+{
+    return m_t3;
 }
 
 

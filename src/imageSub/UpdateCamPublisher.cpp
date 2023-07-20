@@ -227,7 +227,7 @@ bool UpdateCamPublisher::publish(bool waitForListener)
 }
 
 void createUpdateCamPublisher(bool use_environment_qos) {
-//    UpdateCamPublisher mypub;
-//    mypub.init(use_environment_qos);
-//    mypub.runThread();
+    UpdateCamPublisher mypub;
+    mypub.init(use_environment_qos);
+    //mypub.runThread();
 }

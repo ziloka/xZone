@@ -1,5 +1,5 @@
+#include "libutil/AppLog.h"
 #include "libutil/util.h"
-#include "libutil/applog.h"
 #include "libcfg/cfg.h"
 
 #include "humiditySub/HumiditySubscriber.h"
@@ -19,49 +19,25 @@ using namespace std;
 using namespace eprosima::fastdds::dds;
 using namespace app;
 
-//CfgPtr readcfg(string cfgfile)
-//{
-//	CfgPtr cfg(new Cfg());
-//	try {
-//		cfg->readFromFile(cfgfile.c_str());
-//	}
-//	catch (const std::overflow_error& e) {
-//		printf("overflow error: %s\n", e.what());
-//	}
-//	catch (const boost::property_tree::xml_parser::xml_parser_error& e) {
-//		printf("xml parse error: %s\n", e.what());
-//	}
-//	catch (const boost::property_tree::ptree_bad_path& e) {
-//		printf("ptree bad path: %s\n", e.what());
-//	}
-//	printf("cfg read successfully\n");
-//
-//	return cfg;
-//}
-
 int main(int argc, char* argv[])
 {
-	//if (argc <= 1) {
-	//	cout << "pass a config file" << std::endl;
-	//	return 0;
-	//}
-	//string cfgfile(argv[1]);
-	//printf("used cfg=<%s>\n", cfgfile.c_str());
-
-	//CfgPtr cfg = readCfg(cfgfile);
-
 	bool use_environment_qos = false;
+	const string logFilename("./logTestProcess.txt");
 	const bool showInConsole = true;
+	startLogThread(logFilename, showInConsole);
 
-	HumiditySubscriber humiditySubscriber;
-	if (humiditySubscriber.init(use_environment_qos)) humiditySubscriber.run();
+	thread humiditySubscriberThread(createHumiditySubscriber, use_environment_qos);
 
-	ImageSubscriber imageSubscriber;
-	if (imageSubscriber.init(use_environment_qos)) imageSubscriber.run();
+	thread imageSubscriberThread(createImageSubscriber, use_environment_qos);
 
-	TemperatureSubscriber temperatureSubscriber;
-	if (temperatureSubscriber.init(use_environment_qos)) temperatureSubscriber.run();
+	thread temperatureSubscriberThread(createTemperatureSubscriber, use_environment_qos);
 	
+	humiditySubscriberThread.join();
+	imageSubscriberThread.join();
+	temperatureSubscriberThread.join();
+
+	endLogThread();
 
 	return 0;
 }
+

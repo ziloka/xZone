@@ -34,30 +34,46 @@ using namespace eprosima::fastcdr::exception;
 
 #include <utility>
 
-#define UpdateThermometer_max_cdr_typesize 4ULL;
+#define UpdateThermometer_max_cdr_typesize 32ULL;
 #define UpdateThermometer_max_key_cdr_typesize 0ULL;
 
 UpdateThermometer::UpdateThermometer()
 {
     // long m_mps
     m_mps = 0;
+    // long long m_t1
+    m_t1 = 0;
+    // long long m_t2
+    m_t2 = 0;
+    // long long m_t3
+    m_t3 = 0;
 
 }
 
 UpdateThermometer::~UpdateThermometer()
 {
+
+
+
+
 }
 
 UpdateThermometer::UpdateThermometer(
         const UpdateThermometer& x)
 {
     m_mps = x.m_mps;
+    m_t1 = x.m_t1;
+    m_t2 = x.m_t2;
+    m_t3 = x.m_t3;
 }
 
 UpdateThermometer::UpdateThermometer(
         UpdateThermometer&& x) noexcept 
 {
     m_mps = x.m_mps;
+    m_t1 = x.m_t1;
+    m_t2 = x.m_t2;
+    m_t3 = x.m_t3;
 }
 
 UpdateThermometer& UpdateThermometer::operator =(
@@ -65,6 +81,9 @@ UpdateThermometer& UpdateThermometer::operator =(
 {
 
     m_mps = x.m_mps;
+    m_t1 = x.m_t1;
+    m_t2 = x.m_t2;
+    m_t3 = x.m_t3;
 
     return *this;
 }
@@ -74,6 +93,9 @@ UpdateThermometer& UpdateThermometer::operator =(
 {
 
     m_mps = x.m_mps;
+    m_t1 = x.m_t1;
+    m_t2 = x.m_t2;
+    m_t3 = x.m_t3;
 
     return *this;
 }
@@ -82,7 +104,7 @@ bool UpdateThermometer::operator ==(
         const UpdateThermometer& x) const
 {
 
-    return (m_mps == x.m_mps);
+    return (m_mps == x.m_mps && m_t1 == x.m_t1 && m_t2 == x.m_t2 && m_t3 == x.m_t3);
 }
 
 bool UpdateThermometer::operator !=(
@@ -109,6 +131,16 @@ size_t UpdateThermometer::getCdrSerializedSize(
     current_alignment += 4 + eprosima::fastcdr::Cdr::alignment(current_alignment, 4);
 
 
+    current_alignment += 8 + eprosima::fastcdr::Cdr::alignment(current_alignment, 8);
+
+
+    current_alignment += 8 + eprosima::fastcdr::Cdr::alignment(current_alignment, 8);
+
+
+    current_alignment += 8 + eprosima::fastcdr::Cdr::alignment(current_alignment, 8);
+
+
+
     return current_alignment - initial_alignment;
 }
 
@@ -117,6 +149,9 @@ void UpdateThermometer::serialize(
 {
 
     scdr << m_mps;
+    scdr << m_t1;
+    scdr << m_t2;
+    scdr << m_t3;
 
 }
 
@@ -125,6 +160,9 @@ void UpdateThermometer::deserialize(
 {
 
     dcdr >> m_mps;
+    dcdr >> m_t1;
+    dcdr >> m_t2;
+    dcdr >> m_t3;
 }
 
 /*!
@@ -153,6 +191,90 @@ int32_t UpdateThermometer::mps() const
 int32_t& UpdateThermometer::mps()
 {
     return m_mps;
+}
+
+/*!
+ * @brief This function sets a value in member t1
+ * @param _t1 New value for member t1
+ */
+void UpdateThermometer::t1(
+        int64_t _t1)
+{
+    m_t1 = _t1;
+}
+
+/*!
+ * @brief This function returns the value of member t1
+ * @return Value of member t1
+ */
+int64_t UpdateThermometer::t1() const
+{
+    return m_t1;
+}
+
+/*!
+ * @brief This function returns a reference to member t1
+ * @return Reference to member t1
+ */
+int64_t& UpdateThermometer::t1()
+{
+    return m_t1;
+}
+
+/*!
+ * @brief This function sets a value in member t2
+ * @param _t2 New value for member t2
+ */
+void UpdateThermometer::t2(
+        int64_t _t2)
+{
+    m_t2 = _t2;
+}
+
+/*!
+ * @brief This function returns the value of member t2
+ * @return Value of member t2
+ */
+int64_t UpdateThermometer::t2() const
+{
+    return m_t2;
+}
+
+/*!
+ * @brief This function returns a reference to member t2
+ * @return Reference to member t2
+ */
+int64_t& UpdateThermometer::t2()
+{
+    return m_t2;
+}
+
+/*!
+ * @brief This function sets a value in member t3
+ * @param _t3 New value for member t3
+ */
+void UpdateThermometer::t3(
+        int64_t _t3)
+{
+    m_t3 = _t3;
+}
+
+/*!
+ * @brief This function returns the value of member t3
+ * @return Value of member t3
+ */
+int64_t UpdateThermometer::t3() const
+{
+    return m_t3;
+}
+
+/*!
+ * @brief This function returns a reference to member t3
+ * @return Reference to member t3
+ */
+int64_t& UpdateThermometer::t3()
+{
+    return m_t3;
 }
 
 

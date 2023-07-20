@@ -81,8 +81,8 @@ bool TemperatureSubscriber::init(
     }
 
     topic_ = participant_->create_topic(
-        "ImageTopic",
-        "Image",
+        "TemperatureTopic",
+        "Temperature",
         tqos);
 
     if (topic_ == nullptr)
@@ -175,6 +175,8 @@ void TemperatureSubscriber::SubListener::on_data_available(DataReader* reader)
             //}
 
             //APP_LOG("idx=%u received", hello_.frame_number());
+
+            APP_LOG("frame number=%u received, time captured (t1)=%u, time sent msg out (t2)=%u, time received msg (t3)=%u", humidity_.frame_number(), humidity_.t1(), humidity_.t2(), APP_TIME_CURRENT_US);
         }
     }
 }
@@ -193,4 +195,9 @@ void TemperatureSubscriber::run(uint32_t number)
         APP_LOG("HelloWorldSubscriber::run(): sleep 500 ms");
         std::this_thread::sleep_for(std::chrono::milliseconds(500));
     }
+}
+
+void createTemperatureSubscriber(bool use_environment_qos) {
+    TemperatureSubscriber temperatureSubscriber;
+    if (temperatureSubscriber.init(use_environment_qos)) temperatureSubscriber.run();
 }

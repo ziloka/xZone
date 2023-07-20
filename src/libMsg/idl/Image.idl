@@ -6,4 +6,8 @@ struct Image
 	unsigned long frame_number;
 	unsigned long height;
 	unsigned long width;
+
+	long long t1;
+	long long t2;
+	long long t3;
 };

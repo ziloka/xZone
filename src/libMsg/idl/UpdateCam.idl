@@ -13,4 +13,8 @@ struct UpdateCam
 	long detNetworkId;
 	long detFrmsToSkip;
 	string mp4LocationAndPrefix;
+
+	long long t1;
+	long long t2;
+	long long t3;
 };

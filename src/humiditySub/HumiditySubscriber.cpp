@@ -81,8 +81,8 @@ bool HumiditySubscriber::init(
     }
 
     topic_ = participant_->create_topic(
-        "ImageTopic",
-        "Image",
+        "HumidityTopic",
+        "Humidity",
         tqos);
 
     if (topic_ == nullptr)
@@ -193,4 +193,9 @@ void HumiditySubscriber::run(uint32_t number)
         APP_LOG("HelloWorldSubscriber::run(): sleep 500 ms");
         std::this_thread::sleep_for(std::chrono::milliseconds(500));
     }
+}
+
+void createHumiditySubscriber(bool use_environment_qos) {
+    HumiditySubscriber humiditySubscriber;
+    if (humiditySubscriber.init(use_environment_qos)) humiditySubscriber.run();
 }

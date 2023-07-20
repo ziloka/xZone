@@ -83,4 +83,6 @@ private:
     listener_;
 };
 
+void createImageSubscriber(bool use_environment_qos);
+
 #endif /* IMAGESUBSCRIBER_H_ */

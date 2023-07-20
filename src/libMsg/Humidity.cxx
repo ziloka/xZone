@@ -34,7 +34,7 @@ using namespace eprosima::fastcdr::exception;
 
 #include <utility>
 
-#define Humidity_max_cdr_typesize 264ULL;
+#define Humidity_max_cdr_typesize 288ULL;
 #define Humidity_max_key_cdr_typesize 0ULL;
 
 Humidity::Humidity()
@@ -43,11 +43,20 @@ Humidity::Humidity()
     m_humidity = 0;
     // string m_timestamp
     m_timestamp ="";
+    // long long m_t1
+    m_t1 = 0;
+    // long long m_t2
+    m_t2 = 0;
+    // long long m_t3
+    m_t3 = 0;
 
 }
 
 Humidity::~Humidity()
 {
+
+
+
 
 
 }
@@ -57,6 +66,9 @@ Humidity::Humidity(
 {
     m_humidity = x.m_humidity;
     m_timestamp = x.m_timestamp;
+    m_t1 = x.m_t1;
+    m_t2 = x.m_t2;
+    m_t3 = x.m_t3;
 }
 
 Humidity::Humidity(
@@ -64,6 +76,9 @@ Humidity::Humidity(
 {
     m_humidity = x.m_humidity;
     m_timestamp = std::move(x.m_timestamp);
+    m_t1 = x.m_t1;
+    m_t2 = x.m_t2;
+    m_t3 = x.m_t3;
 }
 
 Humidity& Humidity::operator =(
@@ -72,6 +87,9 @@ Humidity& Humidity::operator =(
 
     m_humidity = x.m_humidity;
     m_timestamp = x.m_timestamp;
+    m_t1 = x.m_t1;
+    m_t2 = x.m_t2;
+    m_t3 = x.m_t3;
 
     return *this;
 }
@@ -82,6 +100,9 @@ Humidity& Humidity::operator =(
 
     m_humidity = x.m_humidity;
     m_timestamp = std::move(x.m_timestamp);
+    m_t1 = x.m_t1;
+    m_t2 = x.m_t2;
+    m_t3 = x.m_t3;
 
     return *this;
 }
@@ -90,7 +111,7 @@ bool Humidity::operator ==(
         const Humidity& x) const
 {
 
-    return (m_humidity == x.m_humidity && m_timestamp == x.m_timestamp);
+    return (m_humidity == x.m_humidity && m_timestamp == x.m_timestamp && m_t1 == x.m_t1 && m_t2 == x.m_t2 && m_t3 == x.m_t3);
 }
 
 bool Humidity::operator !=(
@@ -119,6 +140,15 @@ size_t Humidity::getCdrSerializedSize(
 
     current_alignment += 4 + eprosima::fastcdr::Cdr::alignment(current_alignment, 4) + data.timestamp().size() + 1;
 
+    current_alignment += 8 + eprosima::fastcdr::Cdr::alignment(current_alignment, 8);
+
+
+    current_alignment += 8 + eprosima::fastcdr::Cdr::alignment(current_alignment, 8);
+
+
+    current_alignment += 8 + eprosima::fastcdr::Cdr::alignment(current_alignment, 8);
+
+
 
     return current_alignment - initial_alignment;
 }
@@ -129,6 +159,9 @@ void Humidity::serialize(
 
     scdr << m_humidity;
     scdr << m_timestamp.c_str();
+    scdr << m_t1;
+    scdr << m_t2;
+    scdr << m_t3;
 
 }
 
@@ -138,6 +171,9 @@ void Humidity::deserialize(
 
     dcdr >> m_humidity;
     dcdr >> m_timestamp;
+    dcdr >> m_t1;
+    dcdr >> m_t2;
+    dcdr >> m_t3;
 }
 
 /*!
@@ -205,6 +241,90 @@ std::string& Humidity::timestamp()
 {
     return m_timestamp;
 }
+/*!
+ * @brief This function sets a value in member t1
+ * @param _t1 New value for member t1
+ */
+void Humidity::t1(
+        int64_t _t1)
+{
+    m_t1 = _t1;
+}
+
+/*!
+ * @brief This function returns the value of member t1
+ * @return Value of member t1
+ */
+int64_t Humidity::t1() const
+{
+    return m_t1;
+}
+
+/*!
+ * @brief This function returns a reference to member t1
+ * @return Reference to member t1
+ */
+int64_t& Humidity::t1()
+{
+    return m_t1;
+}
+
+/*!
+ * @brief This function sets a value in member t2
+ * @param _t2 New value for member t2
+ */
+void Humidity::t2(
+        int64_t _t2)
+{
+    m_t2 = _t2;
+}
+
+/*!
+ * @brief This function returns the value of member t2
+ * @return Value of member t2
+ */
+int64_t Humidity::t2() const
+{
+    return m_t2;
+}
+
+/*!
+ * @brief This function returns a reference to member t2
+ * @return Reference to member t2
+ */
+int64_t& Humidity::t2()
+{
+    return m_t2;
+}
+
+/*!
+ * @brief This function sets a value in member t3
+ * @param _t3 New value for member t3
+ */
+void Humidity::t3(
+        int64_t _t3)
+{
+    m_t3 = _t3;
+}
+
+/*!
+ * @brief This function returns the value of member t3
+ * @return Value of member t3
+ */
+int64_t Humidity::t3() const
+{
+    return m_t3;
+}
+
+/*!
+ * @brief This function returns a reference to member t3
+ * @return Reference to member t3
+ */
+int64_t& Humidity::t3()
+{
+    return m_t3;
+}
+
 
 
 size_t Humidity::getKeyMaxCdrSerializedSize(

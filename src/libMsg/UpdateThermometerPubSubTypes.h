@@ -51,12 +51,12 @@ namespace detail {
 
     struct UpdateThermometer_f
     {
-        typedef int32_t UpdateThermometer::* type;
+        typedef int64_t UpdateThermometer::* type;
         friend constexpr type get(
                 UpdateThermometer_f);
     };
 
-    template struct UpdateThermometer_rob<UpdateThermometer_f, &UpdateThermometer::m_mps>;
+    template struct UpdateThermometer_rob<UpdateThermometer_f, &UpdateThermometer::m_t3>;
 
     template <typename T, typename Tag>
     inline size_t constexpr UpdateThermometer_offset_of() {
@@ -133,7 +133,7 @@ private:
 
     static constexpr bool is_plain_impl()
     {
-        return 4ULL == (detail::UpdateThermometer_offset_of<UpdateThermometer, detail::UpdateThermometer_f>() + sizeof(int32_t));
+        return 32ULL == (detail::UpdateThermometer_offset_of<UpdateThermometer, detail::UpdateThermometer_f>() + sizeof(int64_t));
 
     }};
 

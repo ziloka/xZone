@@ -363,6 +363,63 @@ public:
      * @return Reference to member mp4LocationAndPrefix
      */
     eProsima_user_DllExport std::string& mp4LocationAndPrefix();
+    /*!
+     * @brief This function sets a value in member t1
+     * @param _t1 New value for member t1
+     */
+    eProsima_user_DllExport void t1(
+            int64_t _t1);
+
+    /*!
+     * @brief This function returns the value of member t1
+     * @return Value of member t1
+     */
+    eProsima_user_DllExport int64_t t1() const;
+
+    /*!
+     * @brief This function returns a reference to member t1
+     * @return Reference to member t1
+     */
+    eProsima_user_DllExport int64_t& t1();
+
+    /*!
+     * @brief This function sets a value in member t2
+     * @param _t2 New value for member t2
+     */
+    eProsima_user_DllExport void t2(
+            int64_t _t2);
+
+    /*!
+     * @brief This function returns the value of member t2
+     * @return Value of member t2
+     */
+    eProsima_user_DllExport int64_t t2() const;
+
+    /*!
+     * @brief This function returns a reference to member t2
+     * @return Reference to member t2
+     */
+    eProsima_user_DllExport int64_t& t2();
+
+    /*!
+     * @brief This function sets a value in member t3
+     * @param _t3 New value for member t3
+     */
+    eProsima_user_DllExport void t3(
+            int64_t _t3);
+
+    /*!
+     * @brief This function returns the value of member t3
+     * @return Value of member t3
+     */
+    eProsima_user_DllExport int64_t t3() const;
+
+    /*!
+     * @brief This function returns a reference to member t3
+     * @return Reference to member t3
+     */
+    eProsima_user_DllExport int64_t& t3();
+
 
     /*!
     * @brief This function returns the maximum serialized size of an object
@@ -435,6 +492,9 @@ private:
     int32_t m_detNetworkId;
     int32_t m_detFrmsToSkip;
     std::string m_mp4LocationAndPrefix;
+    int64_t m_t1;
+    int64_t m_t2;
+    int64_t m_t3;
 
 };
 

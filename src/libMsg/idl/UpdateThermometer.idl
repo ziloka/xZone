@@ -2,4 +2,8 @@
 struct UpdateThermometer
 {
 	long mps;
+
+	long long t1;
+	long long t2;
+	long long t3;
 };

@@ -84,8 +84,8 @@ bool UpdateHygrometerSubscriber::init(
     }
 
     topic_ = participant_->create_topic(
-        "CfgCamTopic",
-        "CfgCam",
+        "UpdateHygrometerTopic",
+        "UpdateHygrometer",
         tqos);
 
     if (topic_ == nullptr)
