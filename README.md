@@ -104,13 +104,15 @@ Note: *C++17 and above is required*
 1. set up dependencies
 	#### Ubuntu 20.04
 	Install prebuilt dependencies of the latest version
-	```
+	```bash
 	sudo apt update && sudo apt install -y cmake g++ wget unzip
 	sudo apt-get install googletest libboost-dev
 	# Kinda not really required for opencv contrib
-	sudo apt-get install ccache libopencv-dev lib32z1 libopenjp2-7-dev libopenexr-dev libva-dev libopenblas-dev libatlas3-base libopenblas-dev liblapack-dev libjna-jni libvtk7-dev libgtk-3-0 libgstreamer1.0-dev libeigen3-dev libharfbuzz-dev libhdf5-dev libjulia-openblas64 libgflags-dev libgoogle-glog-dev libtesseract-dev glogg
+	sudo apt-get install ccache libopencv-dev
+	# More dependencies that may be used in the future
+	# lib32z1 libopenjp2-7-dev libopenexr-dev libva-dev libopenblas-dev libatlas3-base libopenblas-dev liblapack-dev libjna-jni libvtk7-dev libgtk-3-0 libgstreamer1.0-dev libeigen3-dev libharfbuzz-dev libhdf5-dev libjulia-openblas64 libgflags-dev libgoogle-glog-dev libtesseract-dev glogg
 	```
-
+<!-- 
 	~~wget -O opencv.zip https://github.com/opencv/opencv/archive/4.x.zip
 	wget -O opencv_contrib.zip https://github.com/opencv/opencv_contrib/archive/4.x.zip
 	unzip -q opencv.zip
@@ -125,17 +127,17 @@ Note: *C++17 and above is required*
 	mkdir -p build && cd build
 	cmake -DOPENCV_EXTRA_MODULES_PATH=../opencv_contrib/modules ../opencv
 	cmake --build .
-	```
+	``` -->
 
 	Opencv headers (include) are located at 
-	Opencv libraries are located at `/usr/lib/x86_64-linux-gnu`
+	Opencv libraries by default are located at `/usr/include/opencv4`
 
 	If Opencv files aren't located there you can try finding where they are located via 
 	```
 	dpkg -L libopencv-dev
 	```
 
-	Any Unix / Linux platform probably requires to install FastDDS in the following
+	I believe only Ubuntu is able to install FastDDS in the following without modifying the script at all
 
 	1. Download source code here https://www.eprosima.com/index.php/component/ars/repository/eprosima-fast-dds/eprosima-fast-dds-2-9-1/eprosima_fast-dds-v2-9-1-linux-tgz?format=raw
 	
@@ -151,8 +153,9 @@ Note: *C++17 and above is required*
 	mkdir fastDDS
 	wget -O eProsima_Fast-DDS-v2.9.1-Linux.tgz https://www.eprosima.com/index.php/component/ars/repository/eprosima-fast-dds/eprosima-fast-dds-2-9-1/eprosima_fast-dds-v2-9-1-linux-tgz?format=raw
 	tar xzf eProsima_Fast-DDS-v2.9.1-Linux.tgz
-	sudo ./install.sh
+	sudo ./install.sh --no-static-libs
 	```
+	Looking at ./devcontainer/Dockerfile should give you a rough idea of how it should be set up
 
 	4. The library is now located at /usr/local/lib
 
