@@ -15,7 +15,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\fastPubEx1\HelloWorldPublisher.cpp">
+    <ClCompile Include="..\..\fastPubEx1\ImagePublisher.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\fastPubEx1\mainPub.cpp">
@@ -23,7 +23,7 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\fastPubEx1\HelloWorldPublisher.h">
+    <ClInclude Include="..\..\fastPubEx1\ImagePublisher.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

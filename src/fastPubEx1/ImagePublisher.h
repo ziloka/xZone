@@ -13,27 +13,27 @@
 // limitations under the License.
 
 /**
- * @file HelloWorldPublisher.h
+ * @file ImagePublisher.h
  *
  */
 
-#ifndef HELLOWORLDPUBLISHER_H_
-#define HELLOWORLDPUBLISHER_H_
+#ifndef IMAGEPUBLISHER_H_
+#define IMAGEPUBLISHER_H_
 
 #include "libUtil/util.h"
-#include "libMsg/HelloWorldPubSubTypes.h"
+#include "libMsg/ImagePubSubTypes.h"
 
 #include <fastdds/dds/publisher/DataWriterListener.hpp>
 #include <fastdds/dds/topic/TypeSupport.hpp>
 #include <fastdds/dds/domain/DomainParticipant.hpp>
 
-class HelloWorldPublisher
+class ImagePublisher
 {
 public:
 
-    HelloWorldPublisher();
+    ImagePublisher();
 
-    virtual ~HelloWorldPublisher();
+    virtual ~ImagePublisher();
 
     //!Initialize
     bool init(
@@ -50,7 +50,9 @@ public:
 
 private:
 
-    HelloWorld hello_;
+    //cv::VideoCapture camera_;
+
+    Image image_;
 
     eprosima::fastdds::dds::DomainParticipant* participant_;
 
@@ -95,4 +97,4 @@ private:
 
 
 
-#endif /* HELLOWORLDPUBLISHER_H_ */
+#endif /* IMAGEPUBLISHER_H_ */

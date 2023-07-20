@@ -15,7 +15,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\fastSubEx1\HelloWorldSubscriber.cpp">
+    <ClCompile Include="..\..\fastSubEx1\ImageSubscriber.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\fastSubEx1\mainSub.cpp">
@@ -23,7 +23,7 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\fastSubEx1\HelloWorldSubscriber.h">
+    <ClInclude Include="..\..\fastSubEx1\ImageSubscriber.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

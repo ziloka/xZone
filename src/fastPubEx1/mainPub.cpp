@@ -20,7 +20,7 @@
 #include <limits>
 #include <sstream>
 
-#include "HelloWorldPublisher.h"
+#include "ImagePublisher.h"
 #include <fastdds/dds/domain/DomainParticipantFactory.hpp>
 #include "libUtil/util.h"
 
@@ -37,7 +37,7 @@ int main(int argc, char** argv)
 	uint32_t sleep_ms = 100;
 	bool use_environment_qos = false;
 
-	HelloWorldPublisher mypub;
+	ImagePublisher mypub;
 	if (mypub.init(use_environment_qos))
 	{
 		mypub.run(count, sleep_ms);

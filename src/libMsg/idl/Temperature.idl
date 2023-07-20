@@ -1,0 +1,6 @@
+// https://fast-dds.docs.eprosima.com/en/latest/fastddsgen/dataTypes/dataTypes.html
+struct Temperature
+{
+	long temperature;
+	string timestamp;
+};

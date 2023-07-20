@@ -1,0 +1,9 @@
+// https://fast-dds.docs.eprosima.com/en/latest/fastddsgen/dataTypes/dataTypes.html
+struct Image
+{
+	sequence<octet> image;
+	string timestamp;
+	unsigned long frame_number;
+	unsigned long height;
+	unsigned long width;
+};

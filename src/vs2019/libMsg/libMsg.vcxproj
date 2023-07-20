@@ -19,14 +19,28 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\libMsg\HelloWorld.cxx" />
-    <ClCompile Include="..\..\libMsg\HelloWorldPubSubTypes.cxx" />
+    <ClCompile Include="..\..\libMsg\Humidity.cxx" />
+    <ClCompile Include="..\..\libMsg\HumidityPubSubTypes.cxx" />
+    <ClCompile Include="..\..\libMsg\Image.cxx" />
+    <ClCompile Include="..\..\libMsg\ImagePubSubTypes.cxx" />
+    <ClCompile Include="..\..\libMsg\Temperature.cxx" />
+    <ClCompile Include="..\..\libMsg\TemperaturePubSubTypes.cxx" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\libMsg\HelloWorld.h" />
+    <ClInclude Include="..\..\libMsg\Humidity.h"/>
+    <ClInclude Include="..\..\libMsg\Image.h" />
+    <ClInclude Include="..\..\libMsg\Temperature.h" />
   </ItemGroup>
   <ItemGroup>
-    <Midl Include="..\..\libMsg\idl\HelloWorld.idl">
+    <Midl Include="..\..\libMsg\idl\Humidity.idl">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </Midl>
+    <Midl Include="..\..\libMsg\idl\Image.idl">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </Midl>
+    <Midl Include="..\..\libMsg\idl\Temperature.idl">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </Midl>
@@ -107,6 +121,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -121,6 +136,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -135,7 +151,10 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_WIN32;_DEBUG;_STATICLIB;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <AdditionalOptions>
+      </AdditionalOptions>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -150,6 +169,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_WINDOWS;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

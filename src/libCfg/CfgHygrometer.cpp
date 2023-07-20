@@ -1,6 +1,6 @@
 /*
 *------------------------------------------------------------------------
-*Cfg.h
+* CfgHygrometer.cpp
 *
 * This code was developed by Shunguang Wu in his spare time. No government
 * or any client funds were used.
@@ -24,51 +24,54 @@
 * Copyright(c) 2020 by Shunguang Wu, All Right Reserved
 *-------------------------------------------------------------------------
 */
-#ifndef __CFG_H__
-#define __CFG_H__
-
-#include "CfgLog.h"
 #include "CfgHygrometer.h"
-#include "CfgCam.h"
-#include "CfgThermometer.h"
-#include "CfgDefs.h"
-namespace app {
-	class CFG_EXPORT Cfg {
-	public:
-		Cfg();
 
-		void readFromFile(const char *fname);
-		void writeToFile(const char *fname);
-		std::string toString();
+using namespace std;
+using namespace app;
 
-		CfgLog getLog() {
-			CfgLog ret; 
-			{
-				boost::mutex::scoped_lock lock(m_mutex);
-				ret = *(m_log.get());
-			}
-			return ret;
-		}
+CfgHygrometer::CfgHygrometer()
+	: CfgBase()
+	, hygrometerId_(0)
+	, hygrometerName_("unkn")
+{
 
-		// functions to update the camera
-		void updateRecFlag(bool isRecording);
-		void updateDispFlag(bool isDisp);
-		void updateCamName(std::string name);
-
-
-	private:
-		boost::property_tree::ptree toPropertyTree();
-		void fromPropertyTree(const boost::property_tree::ptree &pt) ;
-
-	protected:
-		
-		CfgCamPtr					m_cam;
-		CfgThermometerPtr			m_thermometer;
-		CfgLogPtr					m_log;   		//log
-		CfgHygrometerPtr			m_hygrometer;
-		boost::mutex				m_mutex;
-	};
-
-	typedef std::shared_ptr<Cfg>		CfgPtr;
 }
-#endif
+
+CfgHygrometer::CfgHygrometer(const CfgHygrometer& x)
+	: CfgBase(x)
+	, hygrometerId_(x.hygrometerId_)
+	, hygrometerName_(x.hygrometerName_)
+{
+}
+
+CfgHygrometer& CfgHygrometer::operator = (const CfgHygrometer& x)
+{
+	//todo: m-thread unsafe
+	if (this != &x) {
+		CfgBase::operator=(x);
+		hygrometerId_ = x.hygrometerId_;
+		hygrometerName_ = x.hygrometerName_;
+	}
+	return *this;
+}
+
+void CfgHygrometer::fromPropertyTree(const boost::property_tree::ptree& pt)
+{
+	hygrometerId_ = pt.get<int>("hygrometerId");
+	hygrometerName_ = pt.get<std::string>("hygrometerName");
+}
+
+boost::property_tree::ptree CfgHygrometer::toPropertyTree()
+{
+	boost::property_tree::ptree pt;
+
+	pt.put("hygrometerId", hygrometerId_);
+	pt.put("hygrometerName", hygrometerName_);
+	return pt;
+}
+
+std::string CfgHygrometer::toString()
+{
+	boost::property_tree::ptree pt = toPropertyTree();
+	return CfgBase::toString(pt);
+}

@@ -20,20 +20,20 @@
 #ifndef HELLOWORLDSUBSCRIBER_H_
 #define HELLOWORLDSUBSCRIBER_H_
 
-#include "libMsg/HelloWorldPubSubTypes.h"
+#include "libMsg/ImagePubSubTypes.h"
 
 #include <fastdds/dds/domain/DomainParticipant.hpp>
 #include <fastdds/dds/subscriber/DataReaderListener.hpp>
 #include <fastrtps/subscriber/SampleInfo.h>
 #include <fastdds/dds/core/status/SubscriptionMatchedStatus.hpp>
 #include "libUtil/util.h"
-class HelloWorldSubscriber
+class ImageSubscriber
 {
 public:
 
-    HelloWorldSubscriber();
+    ImageSubscriber();
 
-    virtual ~HelloWorldSubscriber();
+    virtual ~ImageSubscriber();
 
     //!Initialize the subscriber
     bool init(
@@ -79,7 +79,7 @@ private:
                 eprosima::fastdds::dds::DataReader* reader,
                 const eprosima::fastdds::dds::SubscriptionMatchedStatus& info) override;
 
-        HelloWorld hello_;
+        Image hello_;
 
         int matched_;
 

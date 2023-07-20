@@ -18,20 +18,26 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\libMsg\HelloWorld.cxx">
+    <ClCompile Include="..\..\libMsg\Image.cxx">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\libMsg\HelloWorldPubSubTypes.cxx">
+    <ClCompile Include="..\..\libMsg\ImagePubSubTypes.cxx">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\libMsg\HelloWorld.h">
+    <ClInclude Include="..\..\libMsg\Image.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Midl Include="..\..\libMsg\idl\HelloWorld.idl">
+    <Midl Include="..\..\libMsg\idl\Image.idl">
+      <Filter>idl</Filter>
+    </Midl>
+    <Midl Include="..\..\libMsg\idl\Humidity.idl">
+      <Filter>idl</Filter>
+    </Midl>
+    <Midl Include="..\..\libMsg\idl\Temperature.idl">
       <Filter>idl</Filter>
     </Midl>
   </ItemGroup>

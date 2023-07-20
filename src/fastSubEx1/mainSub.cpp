@@ -20,7 +20,7 @@
 #include <limits>
 #include <sstream>
 
-#include "HelloWorldSubscriber.h"
+#include "ImageSubscriber.h"
 
 #include <fastdds/dds/domain/DomainParticipantFactory.hpp>
 #include <fastrtps/log/Log.h>
@@ -35,7 +35,7 @@ int main(int argc, char** argv)
 	const bool showInConsole = true;
 	startLogThread( logFilename, showInConsole);
 
-	HelloWorldSubscriber mysub;
+	ImageSubscriber mysub;
 	if (mysub.init(use_environment_qos))
 	{
 		mysub.run();
