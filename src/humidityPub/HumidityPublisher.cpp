@@ -225,7 +225,7 @@ bool HumidityPublisher::publish(bool waitForListener)
 {
     if (listener_.firstConnected_ || !waitForListener || listener_.matched_ > 0)
     {
-        humidity_.t1(APP_TIME_CURRENT_US);
+        humidity_.t1(TS_SINCE_EPOCH_US);
 
         //cv::Mat frame;
         //camera_ >> frame;
@@ -239,7 +239,7 @@ bool HumidityPublisher::publish(bool waitForListener)
         //image_.width(frame.cols);
         //image_.height(frame.rows);
 
-        humidity_.t2(APP_TIME_CURRENT_US);
+        humidity_.t2(TS_SINCE_EPOCH_US);
         return true;
     }
     return false;

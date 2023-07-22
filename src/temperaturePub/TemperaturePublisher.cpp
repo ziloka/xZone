@@ -170,7 +170,7 @@ void TemperaturePublisher::runThread(
         {
             if (publish(false))
             {
-                /*            std::cout << " with index: " << image_.frame_number()
+                /*std::cout << " with index: " << image_.frame_number()
                                 << " SENT" << std::endl;*/
             }
             std::this_thread::sleep_for(std::chrono::milliseconds(sleep));
@@ -215,7 +215,7 @@ bool TemperaturePublisher::publish(bool waitForListener)
 {
     if (listener_.firstConnected_ || !waitForListener || listener_.matched_ > 0)
     {
-        temperature_.t1(APP_TIME_CURRENT_US);
+        temperature_.t1(TS_SINCE_EPOCH_US);
 
         //cv::Mat frame;
         //camera_ >> frame;
@@ -229,7 +229,7 @@ bool TemperaturePublisher::publish(bool waitForListener)
         //image_.width(frame.cols);
         //image_.height(frame.rows);
 
-        temperature_.t2(APP_TIME_CURRENT_US);
+        temperature_.t2(TS_SINCE_EPOCH_US);
         return true;
     }
     return false;

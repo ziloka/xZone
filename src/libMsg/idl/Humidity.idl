@@ -1,10 +1,13 @@
 // https://fast-dds.docs.eprosima.com/en/latest/fastddsgen/dataTypes/dataTypes.html
+
 struct Humidity
 {
 	unsigned long humidity;
 	string timestamp;
+	
+	unsigned long long t1;
+	unsigned long long t2;
+	unsigned long long t3;
 
-	long long t1;
-	long long t2;
-	long long t3;
+	long frequency;
 };

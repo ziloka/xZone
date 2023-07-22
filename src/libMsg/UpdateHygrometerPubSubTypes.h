@@ -51,12 +51,12 @@ namespace detail {
 
     struct UpdateHygrometer_f
     {
-        typedef int64_t UpdateHygrometer::* type;
+        typedef int32_t UpdateHygrometer::* type;
         friend constexpr type get(
                 UpdateHygrometer_f);
     };
 
-    template struct UpdateHygrometer_rob<UpdateHygrometer_f, &UpdateHygrometer::m_t3>;
+    template struct UpdateHygrometer_rob<UpdateHygrometer_f, &UpdateHygrometer::m_frequency>;
 
     template <typename T, typename Tag>
     inline size_t constexpr UpdateHygrometer_offset_of() {
@@ -133,7 +133,7 @@ private:
 
     static constexpr bool is_plain_impl()
     {
-        return 32ULL == (detail::UpdateHygrometer_offset_of<UpdateHygrometer, detail::UpdateHygrometer_f>() + sizeof(int64_t));
+        return 36ULL == (detail::UpdateHygrometer_offset_of<UpdateHygrometer, detail::UpdateHygrometer_f>() + sizeof(int32_t));
 
     }};
 

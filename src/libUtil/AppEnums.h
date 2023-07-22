@@ -70,5 +70,22 @@ namespace app {
 		int num;
 		int den;
 	};
+
+	struct Frequency {
+		Frequency(int start_ = 0, int step_ = 0, int end_ = 1) : start(start_), step(step_), end(end_) {}
+		void set(int start_, int step_, int end_) {
+			start = start_;
+			step = step_;
+			end = end_;
+		}
+
+		bool isSame(int start_, int step_, int end_) const {
+			return ((start == start_) && (step == step_) && (end == end_));
+		};
+
+		int start;
+		int step;
+		int end;
+	};
 }
 #endif

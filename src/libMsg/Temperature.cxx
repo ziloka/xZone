@@ -34,7 +34,7 @@ using namespace eprosima::fastcdr::exception;
 
 #include <utility>
 
-#define Temperature_max_cdr_typesize 288ULL;
+#define Temperature_max_cdr_typesize 292ULL;
 #define Temperature_max_key_cdr_typesize 0ULL;
 
 Temperature::Temperature()
@@ -43,17 +43,20 @@ Temperature::Temperature()
     m_temperature = 0;
     // string m_timestamp
     m_timestamp ="";
-    // long long m_t1
+    // unsigned long long m_t1
     m_t1 = 0;
-    // long long m_t2
+    // unsigned long long m_t2
     m_t2 = 0;
-    // long long m_t3
+    // unsigned long long m_t3
     m_t3 = 0;
+    // long m_frequency
+    m_frequency = 0;
 
 }
 
 Temperature::~Temperature()
 {
+
 
 
 
@@ -69,6 +72,7 @@ Temperature::Temperature(
     m_t1 = x.m_t1;
     m_t2 = x.m_t2;
     m_t3 = x.m_t3;
+    m_frequency = x.m_frequency;
 }
 
 Temperature::Temperature(
@@ -79,6 +83,7 @@ Temperature::Temperature(
     m_t1 = x.m_t1;
     m_t2 = x.m_t2;
     m_t3 = x.m_t3;
+    m_frequency = x.m_frequency;
 }
 
 Temperature& Temperature::operator =(
@@ -90,6 +95,7 @@ Temperature& Temperature::operator =(
     m_t1 = x.m_t1;
     m_t2 = x.m_t2;
     m_t3 = x.m_t3;
+    m_frequency = x.m_frequency;
 
     return *this;
 }
@@ -103,6 +109,7 @@ Temperature& Temperature::operator =(
     m_t1 = x.m_t1;
     m_t2 = x.m_t2;
     m_t3 = x.m_t3;
+    m_frequency = x.m_frequency;
 
     return *this;
 }
@@ -111,7 +118,7 @@ bool Temperature::operator ==(
         const Temperature& x) const
 {
 
-    return (m_temperature == x.m_temperature && m_timestamp == x.m_timestamp && m_t1 == x.m_t1 && m_t2 == x.m_t2 && m_t3 == x.m_t3);
+    return (m_temperature == x.m_temperature && m_timestamp == x.m_timestamp && m_t1 == x.m_t1 && m_t2 == x.m_t2 && m_t3 == x.m_t3 && m_frequency == x.m_frequency);
 }
 
 bool Temperature::operator !=(
@@ -149,6 +156,9 @@ size_t Temperature::getCdrSerializedSize(
     current_alignment += 8 + eprosima::fastcdr::Cdr::alignment(current_alignment, 8);
 
 
+    current_alignment += 4 + eprosima::fastcdr::Cdr::alignment(current_alignment, 4);
+
+
 
     return current_alignment - initial_alignment;
 }
@@ -162,6 +172,7 @@ void Temperature::serialize(
     scdr << m_t1;
     scdr << m_t2;
     scdr << m_t3;
+    scdr << m_frequency;
 
 }
 
@@ -174,6 +185,7 @@ void Temperature::deserialize(
     dcdr >> m_t1;
     dcdr >> m_t2;
     dcdr >> m_t3;
+    dcdr >> m_frequency;
 }
 
 /*!
@@ -246,7 +258,7 @@ std::string& Temperature::timestamp()
  * @param _t1 New value for member t1
  */
 void Temperature::t1(
-        int64_t _t1)
+        uint64_t _t1)
 {
     m_t1 = _t1;
 }
@@ -255,7 +267,7 @@ void Temperature::t1(
  * @brief This function returns the value of member t1
  * @return Value of member t1
  */
-int64_t Temperature::t1() const
+uint64_t Temperature::t1() const
 {
     return m_t1;
 }
@@ -264,7 +276,7 @@ int64_t Temperature::t1() const
  * @brief This function returns a reference to member t1
  * @return Reference to member t1
  */
-int64_t& Temperature::t1()
+uint64_t& Temperature::t1()
 {
     return m_t1;
 }
@@ -274,7 +286,7 @@ int64_t& Temperature::t1()
  * @param _t2 New value for member t2
  */
 void Temperature::t2(
-        int64_t _t2)
+        uint64_t _t2)
 {
     m_t2 = _t2;
 }
@@ -283,7 +295,7 @@ void Temperature::t2(
  * @brief This function returns the value of member t2
  * @return Value of member t2
  */
-int64_t Temperature::t2() const
+uint64_t Temperature::t2() const
 {
     return m_t2;
 }
@@ -292,7 +304,7 @@ int64_t Temperature::t2() const
  * @brief This function returns a reference to member t2
  * @return Reference to member t2
  */
-int64_t& Temperature::t2()
+uint64_t& Temperature::t2()
 {
     return m_t2;
 }
@@ -302,7 +314,7 @@ int64_t& Temperature::t2()
  * @param _t3 New value for member t3
  */
 void Temperature::t3(
-        int64_t _t3)
+        uint64_t _t3)
 {
     m_t3 = _t3;
 }
@@ -311,7 +323,7 @@ void Temperature::t3(
  * @brief This function returns the value of member t3
  * @return Value of member t3
  */
-int64_t Temperature::t3() const
+uint64_t Temperature::t3() const
 {
     return m_t3;
 }
@@ -320,9 +332,37 @@ int64_t Temperature::t3() const
  * @brief This function returns a reference to member t3
  * @return Reference to member t3
  */
-int64_t& Temperature::t3()
+uint64_t& Temperature::t3()
 {
     return m_t3;
+}
+
+/*!
+ * @brief This function sets a value in member frequency
+ * @param _frequency New value for member frequency
+ */
+void Temperature::frequency(
+        int32_t _frequency)
+{
+    m_frequency = _frequency;
+}
+
+/*!
+ * @brief This function returns the value of member frequency
+ * @return Value of member frequency
+ */
+int32_t Temperature::frequency() const
+{
+    return m_frequency;
+}
+
+/*!
+ * @brief This function returns a reference to member frequency
+ * @return Reference to member frequency
+ */
+int32_t& Temperature::frequency()
+{
+    return m_frequency;
 }
 
 

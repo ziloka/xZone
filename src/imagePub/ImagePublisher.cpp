@@ -179,64 +179,61 @@ void ImagePublisher::PubListener::on_publication_matched(
     }
 }
 
-void ImagePublisher::runThread(
-        uint32_t samples,
-        uint32_t sleep)
+void ImagePublisher::runThread()
 {
-    if (samples == 0)
-    {
-        while (!stop_)
-        {
-            if (publish(false))
-            {
-                std::cout << " with index: " << image_.frame_number()
-                          << " SENT" << std::endl;
+    auto [start, step, end] = cfgCamPtr_->frequency_;
+
+    for (uint32_t nSamples = start; nSamples < end; nSamples += step) {
+        auto start = std::chrono::high_resolution_clock::now();
+        std::cout << "sending " << nSamples << " samples" << std::endl;
+        for (uint32_t i = 0; i < nSamples; i++) {
+            if (publish(false, nSamples)) {
+                //std::cout << " with index: " << image_.frame_number()
+                //    << " SENT" << std::endl;
             }
-            std::this_thread::sleep_for(std::chrono::milliseconds(sleep));
+        }
+
+        // sleep until a second has passed
+        std::chrono::duration<double> elapsed = std::chrono::high_resolution_clock::now() - start;
+        // elapsed.count() is the amount of seconds that have elapsed
+        if (elapsed.count() < 1) {
+            std::cout << "sleeping for" << elapsed.count() << std::endl;
+            std::this_thread::sleep_for(std::chrono::seconds((uint32_t) (1 - elapsed.count())));
+            std::cout << "finished sleeping" << std::endl;
         }
     }
-    else
-    {
-        for (uint32_t i = 0; i < samples; ++i)
-        {
-            if (!publish())
-            {
-                --i;
-            }
-            else
-            {
-              APP_LOG("index: %u Sent", image_.frame_number());
-            }
-            std::this_thread::sleep_for(std::chrono::milliseconds(sleep));
-        }
-    }
+    std::cout << "finished sending samples" << std::endl;
 }
 
-std::thread ImagePublisher::run( uint32_t samples, uint32_t sleep)
+std::thread ImagePublisher::run()
 {
     stop_ = false;
-    std::thread thread(&ImagePublisher::runThread, this, samples, sleep);
-    if (samples == 0)
-    {
-        std::cout << "Publisher running. Please press enter to stop the Publisher at any time." << std::endl;
-        std::cin.ignore();
-        stop_ = true;
-    }
-    else
-    {
-      APP_LOG("Publisher will run %d samples!", samples );
-    }
-    //thread.join();
+    std::thread thread(&ImagePublisher::runThread, this);
+    //if (samples == 0)
+    //{
+    //    std::cout << "Publisher running. Please press enter to stop the Publisher at any time." << std::endl;
+    //    std::cin.ignore();
+    //    stop_ = true;
+    //}
+    //else
+    //{
+       auto [start, step, end] = cfgCamPtr_->frequency_;
+       // min: 10, step: 5, max: 100
+       // Array.from({length: 19}, (e, i) => 10 + (i * 5)).reduce((a, b) => a + b)
+       // sum of arithmetic sequence formula: Sn = (n/2)(a1+a2) to calculate the number of samples
+       int iterations = ((end - start) / step) + 1;
+      APP_LOG("Publisher will start at %u hertz step by %u and end at %u hertz, completing %u samples!", start, step, end, (iterations / 2) * (start + end));
+    //}
     return thread;
 }
 
-bool ImagePublisher::publish( bool waitForListener )
+bool ImagePublisher::publish( bool waitForListener, uint32_t frequency)
 {
     if (listener_.firstConnected_ || !waitForListener || listener_.matched_ > 0)
     {
         // https://learnopencv.com/read-write-and-display-a-video-using-opencv-cpp-python/
 
-        image_.t1(APP_TIME_CURRENT_US);
+        image_.t1(TS_SINCE_EPOCH_US);
 
         cv::Mat frame;
         camera_ >> frame;
@@ -249,8 +246,9 @@ bool ImagePublisher::publish( bool waitForListener )
         image_.image(app::matToVecUchar(frame));
         image_.width(frame.cols);
         image_.height(frame.rows);
+        image_.frequency(frequency);
 
-        image_.t2(APP_TIME_CURRENT_US);
+        image_.t2(TS_SINCE_EPOCH_US);
 
         writer_->write(&image_);
         return true;

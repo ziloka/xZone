@@ -19,32 +19,18 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\libMsg\Humidity.cxx" />
-    <ClCompile Include="..\..\libMsg\HumidityPubSubTypes.cxx" />
-    <ClCompile Include="..\..\libMsg\Image.cxx" />
-    <ClCompile Include="..\..\libMsg\ImagePubSubTypes.cxx" />
-    <ClCompile Include="..\..\libMsg\Temperature.cxx" />
-    <ClCompile Include="..\..\libMsg\TemperaturePubSubTypes.cxx" />
-    <ClCompile Include="..\..\libMsg\UpdateCam.cxx" />
-    <ClCompile Include="..\..\libMsg\UpdateCamPubSubTypes.cxx" />
-    <ClCompile Include="..\..\libMsg\UpdateHygrometer.cxx" />
-    <ClCompile Include="..\..\libMsg\UpdateHygrometerPubSubTypes.cxx" />
-    <ClCompile Include="..\..\libMsg\UpdateThermometer.cxx" />
-    <ClCompile Include="..\..\libMsg\UpdateThermometerPubSubTypes.cxx" />
-  </ItemGroup>
-  <ItemGroup>
     <ClInclude Include="..\..\libMsg\CfgCam.h" />
     <ClInclude Include="..\..\libMsg\CfgCamPubSubTypes.h" />
     <ClInclude Include="..\..\libMsg\Humidity.h" />
-    <ClInclude Include="..\..\libMsg\HumidityPubSubTypes.h" />
     <ClInclude Include="..\..\libMsg\CfgHygrometer.h" />
     <ClInclude Include="..\..\libMsg\CfgHygrometerPubSubTypes.h" />
+    <ClInclude Include="..\..\libMsg\HumidityPubSubTypes.h" />
     <ClInclude Include="..\..\libMsg\Image.h" />
     <ClInclude Include="..\..\libMsg\ImagePubSubTypes.h" />
     <ClInclude Include="..\..\libMsg\Temperature.h" />
-    <ClInclude Include="..\..\libMsg\TemperaturePubSubTypes.h" />
     <ClInclude Include="..\..\libMsg\CfgThermometer.h" />
     <ClInclude Include="..\..\libMsg\CfgThermometerPubSubTypes.h" />
+    <ClInclude Include="..\..\libMsg\TemperaturePubSubTypes.h" />
     <ClInclude Include="..\..\libMsg\UpdateCam.h" />
     <ClInclude Include="..\..\libMsg\UpdateCamPubSubTypes.h" />
     <ClInclude Include="..\..\libMsg\UpdateHygrometer.h" />
@@ -74,6 +60,20 @@
     <Midl Include="..\..\libMsg\idl\UpdateThermometer.idl">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </Midl>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\libMsg\Humidity.cxx" />
+    <ClCompile Include="..\..\libMsg\HumidityPubSubTypes.cxx" />
+    <ClCompile Include="..\..\libMsg\Image.cxx" />
+    <ClCompile Include="..\..\libMsg\ImagePubSubTypes.cxx" />
+    <ClCompile Include="..\..\libMsg\Temperature.cxx" />
+    <ClCompile Include="..\..\libMsg\TemperaturePubSubTypes.cxx" />
+    <ClCompile Include="..\..\libMsg\UpdateCam.cxx" />
+    <ClCompile Include="..\..\libMsg\UpdateCamPubSubTypes.cxx" />
+    <ClCompile Include="..\..\libMsg\UpdateHygrometer.cxx" />
+    <ClCompile Include="..\..\libMsg\UpdateHygrometerPubSubTypes.cxx" />
+    <ClCompile Include="..\..\libMsg\UpdateThermometer.cxx" />
+    <ClCompile Include="..\..\libMsg\UpdateThermometerPubSubTypes.cxx" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

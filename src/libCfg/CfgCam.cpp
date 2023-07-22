@@ -37,6 +37,7 @@ CfgCam::CfgCam()
 	, valid_(true)
 	, imgSz_(0, 0)
 	, fps_(0, 0)
+	, frequency_(Frequency(10, 5, 100))
 	, frmQueSz_(10)
 	, detPyrLev_(1)
 	, detMethodId_(0)
@@ -56,6 +57,7 @@ CfgCam::CfgCam( const CfgCam &x )
 , valid_		( x.valid_ )			
 , imgSz_		( x.imgSz_ )
 , fps_			( x.fps_ )
+, frequency_    ( x.frequency_ )
 , frmQueSz_		( x.frmQueSz_ )
 , detPyrLev_	( x.detPyrLev_ )
 , detMethodId_	( x.detMethodId_)
@@ -78,8 +80,9 @@ CfgCam& CfgCam::operator = (const CfgCam &x)
 		valid_		= x.valid_ ;
 		imgSz_		= x.imgSz_;
 		fps_		= x.fps_;
-		frmQueSz_	= x.frmQueSz_;
+		frequency_ = x.frequency_;
 
+		frmQueSz_	= x.frmQueSz_;
 		detPyrLev_	=  x.detPyrLev_;
 		detMethodId_ = x.detMethodId_;
 		detNetworkId_ = x.detNetworkId_;
@@ -97,12 +100,15 @@ void CfgCam::fromPropertyTree(const boost::property_tree::ptree &pt)
 {
 	cameraId_	= pt.get<int>("id");
 	cameraName_ = pt.get<std::string>("name");
-	rtspUrl_ = pt.get<std::string>("rtspUrl");
+	rtspUrl_    = pt.get<std::string>("rtspUrl");
 	valid_		= pt.get<int>("valid");
 	imgSz_.w 	= pt.get<int>("imgW");
 	imgSz_.h 	= pt.get<int>("imgH");
 	fps_.num 	= pt.get<int>("fpsNum");
 	fps_.den 	= pt.get<int>("fpsDen");
+	frequency_.start = pt.get<int>("frequencyStart");
+	frequency_.step = pt.get<int>("frequencyStep");
+	frequency_.end = pt.get<int>("frequencyEnd");
 	frmQueSz_	= pt.get<int>("frmQueSz");
 	detPyrLev_	= pt.get<int>("detPyrLev");
 	detMethodId_ = pt.get<int>("detMethodId");
@@ -123,6 +129,10 @@ boost::property_tree::ptree CfgCam::toPropertyTree()
 	pt.put("imgH", imgSz_.h);
 	pt.put("fpsNum", fps_.num);
 	pt.put("fpsDen", fps_.den);
+	pt.put("frequencyStart", frequency_.start);
+	pt.put("frequencyStep", frequency_.step);
+	pt.put("frequencyEnd", frequency_.end);
+
 	pt.put("frmQueSz", frmQueSz_);
 
 	pt.put("detPyrLev", detPyrLev_);

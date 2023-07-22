@@ -1,4 +1,5 @@
 // https://fast-dds.docs.eprosima.com/en/latest/fastddsgen/dataTypes/dataTypes.html
+
 struct Image
 {
 	sequence<octet> image;
@@ -7,7 +8,9 @@ struct Image
 	unsigned long height;
 	unsigned long width;
 
-	long long t1;
-	long long t2;
-	long long t3;
+	unsigned long long t1;
+	unsigned long long t2;
+	unsigned long long t3;
+
+	long frequency;
 };

@@ -47,8 +47,6 @@ int main(int argc, char* argv[])
 	const bool showInConsole = true;
 	startLogThread(logFilename, showInConsole);
 
-	uint32_t count = 10;
-	uint32_t sleep_ms = 100;
 	bool use_environment_qos = false;
 
 	std::shared_ptr<std::shared_mutex> mutex;
@@ -57,7 +55,7 @@ int main(int argc, char* argv[])
 	if (mypub.init(use_environment_qos))
 	{
 		std::thread subscriber(createUpdateCamSubscriber, mutex, CfgCamPtr, use_environment_qos);
-		std::thread publisher = mypub.run(count, sleep_ms);
+		std::thread publisher = mypub.run();
 		publisher.join();
 		subscriber.join();
 	}

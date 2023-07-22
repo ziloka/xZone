@@ -176,7 +176,7 @@ void HumiditySubscriber::SubListener::on_data_available(DataReader* reader)
 
             //APP_LOG("idx=%u received", hello_.frame_number());
 
-            APP_LOG("humidity message received, time captured (t1)=%u, time sent msg out (t2)=%u, time received msg (t3)=%u", humidity_.t1(), humidity_.t2(), APP_TIME_CURRENT_US);
+            APP_LOG("humidity message received, time captured (t1)=%u, time sent msg out (t2)=%u, time received msg (t3)=%u", humidity_.t1(), humidity_.t2(), TS_SINCE_EPOCH_US);
         }
     }
 }

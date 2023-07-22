@@ -11,7 +11,14 @@ Example
         <imgH>630</imgH> <!-- Image Height -->
         <fpsNum>30</fpsNum> <!-- frames per second numerator -->
         <fpsDen>1</fpsDen> <!-- frames per second denominator -->
+
+        <!-- a single hertz is one event per second-->
+        <frequencyStart>10</frequencyStart> <!-- minimum hertz -->
+        <frequencyStep>5</frequencyStep> <!-- interval to step by -->
+        <frequencyEnd>100</frequencyEnd> <!-- maximum hertz-->
+
         <frmQueSz>10</frmQueSz>
+        <!-- currently not used configurations -->
         <detPyrLev>1</detPyrLev>
         <detMethodId>0</detMethodId>
         <detNetworkId>0</detNetworkId>

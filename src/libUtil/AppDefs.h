@@ -159,6 +159,9 @@
 #define APP_FRM_CNT			      uint64_t
 #define APP_TIME_MS           int64_t    //milli second
 #define APP_TIME_US           uint64_t   //micro second
+// https://en.cppreference.com/w/cpp/chrono/high_resolution_clock
+// "The high_resolution_clock is not implemented consistently across different standard library implementations, and its use should be avoided."
+// https://stackoverflow.com/questions/31552193/difference-between-steady-clock-vs-system-clock
 #define APP_TIME_CURRENT_US (std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::high_resolution_clock::now().time_since_epoch()).count())
 #define APP_TIME_CURRENT_MS (std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::high_resolution_clock::now().time_since_epoch()).count())
 #define APP_TIME_US2MS( t_us )  ( (int64_t)(t_us/1000) )

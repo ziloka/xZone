@@ -26,7 +26,8 @@
     <ClCompile Include="..\..\humiditySub\HumiditySubscriber.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\humiditySub\mainSub.cpp">
+    <ClCompile Include="..\..\humiditySub\mainSu
+    
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\humiditySub\UpdateHygrometerPublisher.cpp">

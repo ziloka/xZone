@@ -1,9 +1,12 @@
 // https://fast-dds.docs.eprosima.com/en/latest/fastddsgen/dataTypes/dataTypes.html
+
 struct UpdateHygrometer
 {
 	long mps;
 
-	long long t1;
-	long long t2;
-	long long t3;
+	unsigned long long t1;
+	unsigned long long t2;
+	unsigned long long t3;
+
+	long frequency;
 };
