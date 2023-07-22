@@ -21,6 +21,6 @@ ax.scatter(data["frequency"], data["latency"], s=50, facecolor='C0', edgecolor='
 
 plt.show()
 
-plt.savefig('pubsub_benchmark.png')
+fig.savefig('pubsub_benchmark.png')
 
 print("generated the graph")
