@@ -15,7 +15,7 @@
 #ifndef TEMPERATUREPUBLISHER_H_
 #define TEMPERATUREPUBLISHER_H_
 
-#include "libUtil/util.h"
+#include "libUtil/Util.h"
 #include "libMsg/TemperaturePubSubTypes.h"
 #include "libCfg/Cfg.h"
 

@@ -4,10 +4,6 @@ Note: *C++17 and above is required*
 
 ### Windows 10 & __**visual studio 2019**__
 
-
-[set-imx8-env-AIO.txt](https://github.com/shunguang/HowTo/blob/master/set-imx8-env-AIO.txt)
-[solidRun](https://github.com/shunguang/HowTo/tree/master/solidRun)
-
 #### Requirements
 - Visual Studio 2019 version 16.0.0 
 - [Chocolately](https://fast-dds.docs.eprosima.com/en/latest/installation/sources/sources_windows.html#chocolatey-sw)
@@ -123,6 +119,7 @@ Note: *C++17 and above is required*
 		``` 
 
 		# You will also need fast dds gen tool
+		```
 		git clone --recursive https://github.com/eProsima/Fast-DDS-Gen.git
 		cd Fast-DDS-Gen
 		gradlew.bat assemble
@@ -192,14 +189,15 @@ Note: *C++17 and above is required*
 ### linux
 
 1. set up dependencies
-	#### Ubuntu 20.04
+	#### Ubuntu
 	1. Install prebuilt dependencies of the latest version
 
 	```bash
-	sudo apt update && sudo apt install -y cmake g++ wget unzip
+	sudo apt-get update && apt-get upgrade -y
+	sudo apt-get install -y cmake g++ wget unzip
 	sudo apt-get install googletest libboost-dev
 	# Kinda not really required for opencv contrib
-	sudo apt-get install ccache libopencv-dev lib32z1 libopenjp2-7-dev libopenexr-dev libva-dev libopenblas-dev libatlas3-base libopenblas-dev liblapack-dev libjna-jni libvtk7-dev libgtk-3-0 libgstreamer1.0-dev libeigen3-dev libharfbuzz-dev libhdf5-dev libjulia-openblas64 libgflags-dev libgoogle-glog-dev libtesseract-dev glogg libv4l-dev
+	# sudo apt-get install ccache libopencv-dev lib32z1 libopenjp2-7-dev libopenexr-dev libva-dev libopenblas-dev libatlas3-base libopenblas-dev liblapack-dev libjna-jni libvtk7-dev libgtk-3-0 libgstreamer1.0-dev libeigen3-dev libharfbuzz-dev libhdf5-dev libjulia-openblas64 libgflags-dev libgoogle-glog-dev libtesseract-dev glogg libv4l-dev
 	```
 
 	2. Compile the boost library
@@ -222,19 +220,42 @@ Note: *C++17 and above is required*
 	unzip -q opencv_contrib.zip~~
 
 	```bash
+	# sudo apt-cache search libopencv | grep -o ^libopencv-[a-z0-9\.-]* | awk '{split($0, arr, "\n"); for(i in arr) printf arr[i] " "; "\n"}'
+
+	# this is for the sfm opencv contrib module
+	# https://github.com/ceres-solver/ceres-solver/issues/669
+	sudo apt-get install -y libeigen3-dev libgflags-dev libgoogle-glog-dev libatlas-base-dev libsuitesparse-dev
+	git clone --jobs 4 --depth=1 --branch 1.14.0 https://ceres-solver.googlesource.com/ceres-solver
+	cd ceres-solver
+	mkdir build
+	cd build
+	cmake ..
+	make -j8
+	make test
+	sudo make install -j 8
+	cd ../
+	
+	apt-get update && apt-get upgrade -y && apt-get install -y build-essential cmake git libavcodec-dev libavformat-dev libavutil-dev libswscale-dev
 	mkdir opencv
 	cd opencv
 	git clone --jobs 4 --depth=1 --single-branch --branch 4.1.1 --recursive https://github.com/opencv/opencv
 	git clone --jobs 4 --depth=1 --single-branch --branch 4.1.1 --recursive https://github.com/opencv/opencv_contrib
 	mkdir -p build
 	cd build
-	cmake -DCMAKE_BUILD_TYPE=Release -DBUILD_PERF_TESTS:BOOL=OFF -DBUILD_TESTS:BOOL=OFF -DBUILD_DOCS:BOOL=OFF -DWITH_CUDA:BOOL=OFF -DBUILD_EXAMPLES:BOOL=OFF -DINSTALL_CREATE_DISTRIB=ON -DOPENCV_EXTRA_MODULES_PATH=../opencv_contrib/modules ../opencv
+	cmake -DCMAKE_BUILD_TYPE=Release -DBUILD_PERF_TESTS:BOOL=OFF -DBUILD_TESTS:BOOL=OFF -DBUILD_DOCS:BOOL=OFF -DWITH_CUDA:BOOL=OFF -DBUILD_EXAMPLES:BOOL=OFF -DINSTALL_CREATE_DISTRIB=ON -DOPENCV_EXTRA_MODULES_PATH=../opencv_contrib/modules -DBUILD_SHARED_LIBS=ON ../opencv
 	make -j8
 	sudo make install
-	# Or use ninja instead, parallel builds automatically
-	# cmake -G Ninja -DCMAKE_BUILD_TYPE=Release -DBUILD_PERF_TESTS:BOOL=OFF -DBUILD_TESTS:BOOL=OFF -DBUILD_DOCS:BOOL=OFF -DWITH_CUDA:BOOL=OFF -DBUILD_EXAMPLES:BOOL=OFF -DINSTALL_CREATE_DISTRIB=ON -DOPENCV_EXTRA_MODULES_PATH=../opencv_contrib/modules ../opencv 
-	# cmake --build . --parallel 4
 	```
+	Troubleshooting
+	- Having an error .../"grfmt_exr.hpp" fatal error: ImfChromaticities.h no such file or directory?
+		- Run `sudo apt-get install libopenexr-dev`
+		- [Source](https://answers.launchpad.net/ubuntu/+source/libxtst/+question/259047)
+	- Having an error ../cap_dc1394_v2.cpp fatal error: dc1394/dc1394.h: No such file or directory?
+		- Run `sudo apt-get install libdc1394-dev`
+		Note: 
+		- Suppose to be a [system library](https://github.com/opencv/opencv/issues/17322)
+		- [This might be called a different package](https://askubuntu.com/questions/1407580/unable-to-locate-package-libdc1394-22-dev)
+
 	*Note*: This is specifically suppose to be for opencv 4.1.1.
 	- [The ultimate OpenCV cross compilation guide for embedded processors](https://medium.com/analytics-vidhya/the-ultimate-opencv-cross-compilation-guide-for-embedded-processors-f2fdc8ccb7b2)
 
@@ -246,6 +267,11 @@ Note: *C++17 and above is required*
 	dpkg -L libopencv-dev
 	# the following is also worth a shot
 	pkg-config --libs --cflags opencv4
+	```
+
+	Install prebuilt dependencies:
+	```sh
+	sudo apt-get install libopencv-dev
 	```
 
 	4. Compile the fastDDS library
@@ -290,3 +316,13 @@ Troubleshooting
 	```
 	sed -i -e 's/\r$//' ./run_all_wo_cleanAll.sh
 	```
+- Figure out where ld is trying to search libraries
+	```
+	ld -l<libraryname> --verbose
+	```
+	[Source](https://stackoverflow.com/a/21647591)
+
+### Additional References
+[set-imx8-env-AIO.txt](https://github.com/shunguang/HowTo/blob/master/set-imx8-env-AIO.txt)
+
+[solidRun](https://github.com/shunguang/HowTo/tree/master/solidRun)

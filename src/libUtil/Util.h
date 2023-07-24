@@ -7,7 +7,7 @@
 #include "libUtil/AppMeanStd.h"
 #include "libUtil/AppCpuTimeProf.h"
 #include "libUtil/AppTicToc.h"
-#include "libUtil/fileUtil.h"
-#include "libUtil/utilFuncs.h"
+#include "libUtil/FileUtil.h"
+#include "libUtil/UtilFuncs.h"
 #include "libUtil/Uint8Stream.h"
 #endif

@@ -28,8 +28,8 @@ PLTF_LIB=/usr/lib
 BOOST_INC=/usr/include
 BOOST_LIB=/usr/lib
 
-CV_INC=/usr/include/opencv4
-CV_LIB=/usr/lib/x86_64-linux-gnu
+CV_INC=/usr/local/include/opencv4
+CV_LIB=/usr/local/lib
 
 DDS_INC=/usr/local/include
 DDS_LIB=/usr/local/lib
@@ -45,11 +45,11 @@ DEBUG = -DNDEBUG -g
 #DEBUG = -DDEBUG -g
 
 #include flags for building libs
-CFLAGS = -Wall -static -c $(DEBUG) -DECL_STANDALONE=1 -DqDNGDebug=1 -D__xlC__=1 -DNO_FCGI_DEFINES=1 -DqDNGUseStdInt=0 -DUNIX_ENV=1 -D__LITTLE_ENDIAN__=1 -DqMacOS=0 -DqWinOS=0 -std=gnu++14 \
+CFLAGS = -Wall -static -c $(DEBUG) -DECL_STANDALONE=1 -DqDNGDebug=1 -D__xlC__=1 -DNO_FCGI_DEFINES=1 -DqDNGUseStdInt=0 -DUNIX_ENV=1 -D__LITTLE_ENDIAN__=1 -DqMacOS=0 -DqWinOS=0 -std=gnu++17 \
 	-I$(SDIR_PROJ) -I$(SDIR_ROOT) -I$(DDS_INC) -I$(CV_INC) -I$(BOOST_INC) -I$(PLTF_INC)
 
 #include flags for building executable
-CFLAGS_EXE	:= -Wall -c $(DEBUG) -DECL_STANDALONE=1 -DqDNGDebug=1 -D__xlC__=1 -DNO_FCGI_DEFINES=1 -DqDNGUseStdInt=0 -DUNIX_ENV=1 -D__LITTLE_ENDIAN__=1 -DqMacOS=0 -DqWinOS=0 -std=gnu++14 \
+CFLAGS_EXE	:= -Wall -c $(DEBUG) -DECL_STANDALONE=1 -DqDNGDebug=1 -D__xlC__=1 -DNO_FCGI_DEFINES=1 -DqDNGUseStdInt=0 -DUNIX_ENV=1 -D__LITTLE_ENDIAN__=1 -DqMacOS=0 -DqWinOS=0 -std=gnu++17 \
 	-I$(SDIR_PROJ) -I$(SDIR_ROOT) -I$(DDS_INC) -I$(CV_INC) -I$(BOOST_INC) -I$(PLTF_INC)
 
 #link flags and lib searching paths

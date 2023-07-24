@@ -21,7 +21,7 @@
 #include <sstream>
 
 #include <fastdds/dds/domain/DomainParticipantFactory.hpp>
-#include "libUtil/util.h"
+#include "libUtil/Util.h"
 
 using namespace std;
 using namespace app;

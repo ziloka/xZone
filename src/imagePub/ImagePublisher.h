@@ -15,7 +15,7 @@
 #ifndef IMAGEPUBLISHER_H_
 #define IMAGEPUBLISHER_H_
 
-#include "libUtil/util.h"
+#include "libUtil/Util.h"
 #include "libMsg/ImagePubSubTypes.h"
 #include "libCfg/Cfg.h"
 

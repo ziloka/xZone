@@ -1,11 +1,11 @@
 -include Makefile.inc
 
-PROJ_NAME=imageSub
+PROJ_NAME=humiditySub
 
 include Makefile_app_header.mak
 
 #the target binary name
-TARGETFILE=$(ODIR_BIN)/imageSub.out
+TARGETFILE=$(ODIR_BIN)/humiditySub.out
 
 # link libs
 LIBS	:= -lMsg -lCfg -lUtil \
@@ -18,7 +18,7 @@ LIBS	:= -lMsg -lCfg -lUtil \
 	-ldl -lm -lpthread -lrt 
 
 OBJS = \
-	$(ODIR_OBJ)/ImageSubscriber.o \
+	$(ODIR_OBJ)/HumiditySubscriber.o \
 	$(ODIR_OBJ)/mainSub.o 
 
 #	$(ODIR_OBJ)/test_px4_ekf.o \
@@ -38,8 +38,8 @@ $(TARGETFILE)	:	$(OBJS)
 $(ODIR_OBJ)/mainSub.o	:	$(SDIR_PROJ)/mainSub.cpp
 	$(CXX) -o $(ODIR_OBJ)/mainSub.o $(CFLAGS_EXE) $(SDIR_PROJ)/mainSub.cpp
 
-$(ODIR_OBJ)/ImageSubscriber.o	:	$(SDIR_PROJ)/ImageSubscriber.cpp
-	$(CXX) -o $(ODIR_OBJ)/ImageSubscriber.o $(CFLAGS_EXE) $(SDIR_PROJ)/ImageSubscriber.cpp
+$(ODIR_OBJ)/HumiditySubscriber.o	:	$(SDIR_PROJ)/HumiditySubscriber.cpp
+	$(CXX) -o $(ODIR_OBJ)/HumiditySubscriber.o $(CFLAGS_EXE) $(SDIR_PROJ)/HumiditySubscriber.cpp
 
 clean:
 	\rm $(ODIR_OBJ)/*.o $(TARGETFILE)

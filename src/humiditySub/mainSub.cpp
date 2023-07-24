@@ -19,7 +19,7 @@
 
 #include <fastdds/dds/domain/DomainParticipantFactory.hpp>
 #include <fastrtps/log/Log.h>
-#include "libUtil/util.h"
+#include "libUtil/Util.h"
 
 using namespace std;
 using namespace app;

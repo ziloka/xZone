@@ -16,11 +16,11 @@
 
 #include "UpdateHygrometerSubscriber.h"
 #include "HumidityPublisher.h"
-#include "libUtil/util.h"
+#include "libUtil/Util.h"
 
-#include "libUtil/util.h"
+#include "libUtil/Util.h"
 #include "libUtil/AppLog.h"
-#include "libUtil/readCfg.h"
+#include "libUtil/ReadCfg.h"
 #include "libCfg/Cfg.h"
 
 #include <filesystem>

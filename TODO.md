@@ -1,0 +1,11 @@
+
+ - use AppMeanStd.h to profile code
+ - write more profile code
+ - matlab graph
+    - x axis frequency
+    - y axis latency (t3-t2)
+ - add in config.xml for each sensor frequency (start, step, end) (hertz)
+    - start at what frequency to start
+    - what step to increment the start
+    - when to end the frequency
+ - Write GUI 

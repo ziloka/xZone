@@ -1,17 +1,17 @@
-#include "libutil/AppLog.h"
-#include "libutil/util.h"
-#include "libcfg/cfg.h"
+#include "libUtil/AppLog.h"
+#include "libUtil/Util.h"
+#include "libCfg/Cfg.h"
 
 #include "humiditySub/HumiditySubscriber.h"
 #include "imageSub/ImageSubscriber.h"
 #include "temperatureSub/TemperatureSubscriber.h"
 
-#include <fastdds/dds/domain/domainparticipantfactory.hpp>
-#include <fastdds/dds/domain/domainparticipant.hpp>
-#include <fastdds/dds/topic/typesupport.hpp>
-#include <fastdds/dds/publisher/publisher.hpp>
-#include <fastdds/dds/publisher/datawriter.hpp>
-#include <fastdds/dds/publisher/datawriterlistener.hpp>
+#include <fastdds/dds/domain/DomainParticipantFactory.hpp>
+#include <fastdds/dds/domain/DomainParticipant.hpp>
+#include <fastdds/dds/topic/TypeSupport.hpp>
+#include <fastdds/dds/publisher/Publisher.hpp>
+#include <fastdds/dds/publisher/DataWriter.hpp>
+#include <fastdds/dds/publisher/DataWriterListener.hpp>
 
 int test_mat_part1(int argc, char* argv[]);
 

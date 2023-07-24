@@ -15,7 +15,7 @@
 #ifndef HUMIDITYPUBLISHER_H_
 #define HUMIDITYPUBLISHER_H_
 
-#include "libUtil/util.h"
+#include "libUtil/Util.h"
 #include "libMsg/HumidityPubSubTypes.h"
 #include "libCfg/Cfg.h"
 

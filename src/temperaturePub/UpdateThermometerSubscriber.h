@@ -22,7 +22,7 @@
 #include <fastdds/dds/subscriber/DataReaderListener.hpp>
 #include <fastrtps/subscriber/SampleInfo.h>
 #include <fastdds/dds/core/status/SubscriptionMatchedStatus.hpp>
-#include "libUtil/util.h"
+#include "libUtil/Util.h"
 
 #include <mutex>
 #include <shared_mutex>

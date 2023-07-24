@@ -15,7 +15,7 @@
 #ifndef UPDATETHERMOMETERPUBLISHER_H_
 #define UPDATETHERMOMETERPUBLISHER_H_
 
-#include "libUtil/util.h"
+#include "libUtil/Util.h"
 #include "libMsg/UpdateThermometerPubSubTypes.h"
 #include "libCfg/Cfg.h"
 

@@ -15,7 +15,7 @@
 #ifndef UPDATEHYGROMETERPUBLISHER_H_
 #define UPDATEHYGROMETERPUBLISHER_H_
 
-#include "libUtil/util.h"
+#include "libUtil/Util.h"
 #include "libMsg/UpdateCamPubSubTypes.h"
 #include "libCfg/Cfg.h"
 
