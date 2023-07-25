@@ -8,7 +8,7 @@ include Makefile_app_header.mak
 TARGETFILE=$(ODIR_BIN)/test.out
 
 # link libs
-LIBS	:= -lMsg -lCfg -lUtil \
+LIBS	:= -lMsg -lCfg -lUtil -lhumiditySub -limageSub -ltemperatureSub \
 	-lfastrtps -lfastcdr \
 	-lboost_timer -lboost_filesystem -lboost_system -lboost_date_time -lboost_regex \
 	-lboost_chrono -lboost_thread -pthread \

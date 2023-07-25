@@ -24,21 +24,20 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\humiditySub\HumiditySubscriber.h" />
-    <ClInclude Include="..\..\humiditySub\UpdateHygrometerPublisher.h" />
+    <ClCompile Include="..\..\libTemperatureSub\TemperatureSubscriber.cpp" />
+    <ClCompile Include="..\..\libTemperatureSub\UpdateThermometerPublisher.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\humiditySub\HumiditySubscriber.cpp" />
-    <ClCompile Include="..\..\humiditySub\mainSub.cpp" />
-    <ClCompile Include="..\..\humiditySub\UpdateHygrometerPublisher.cpp" />
+    <ClInclude Include="..\..\libTemperatureSub\TemperatureSubscriber.h" />
+    <ClInclude Include="..\..\libTemperatureSub\UpdateThermometerPublisher.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{A3FEBA36-780E-4717-8297-D0DE1DB6D8B2}</ProjectGuid>
+    <ProjectGuid>{A206073F-E6A6-4E59-8ED4-B5849392163F}</ProjectGuid>
     <RootNamespace>test</RootNamespace>
     <WindowsTargetPlatformVersion>10.0.22000.0</WindowsTargetPlatformVersion>
-    <ProjectName>humiditySub</ProjectName>
+    <ProjectName>libTemperatureSub</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">

@@ -15,21 +15,18 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\imageSub\ImageSubscriber.cpp">
+    <ClCompile Include="..\..\libImageSub\ImageSubscriber.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\imageSub\mainSub.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\imageSub\UpdateCamPublisher.cpp">
+    <ClCompile Include="..\..\libImageSub\UpdateCamPublisher.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\imageSub\ImageSubscriber.h">
+    <ClInclude Include="..\..\libImageSub\ImageSubscriber.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\imageSub\UpdateCamPublisher.h">
+    <ClInclude Include="..\..\libImageSub\UpdateCamPublisher.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

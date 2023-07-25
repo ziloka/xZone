@@ -2,9 +2,9 @@
 #include "libUtil/Util.h"
 #include "libCfg/Cfg.h"
 
-#include "humiditySub/HumiditySubscriber.h"
-#include "imageSub/ImageSubscriber.h"
-#include "temperatureSub/TemperatureSubscriber.h"
+#include "libHumiditySub/HumiditySubscriber.h"
+#include "libImageSub/ImageSubscriber.h"
+#include "libTemperatureSub/TemperatureSubscriber.h"
 
 #include <fastdds/dds/domain/DomainParticipantFactory.hpp>
 #include <fastdds/dds/domain/DomainParticipant.hpp>

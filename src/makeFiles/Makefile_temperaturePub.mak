@@ -18,6 +18,7 @@ LIBS	:= -lMsg -lCfg -lUtil \
 	-ldl -lm -lpthread -lrt 
 
 OBJS = \
+	$(ODIR_OBJ)/UpdateThermometerSubscriber.o \
 	$(ODIR_OBJ)/TemperaturePublisher.o \
 	$(ODIR_OBJ)/mainPub.o 
 
@@ -40,6 +41,9 @@ $(ODIR_OBJ)/mainPub.o	:	$(SDIR_PROJ)/mainPub.cpp
 
 $(ODIR_OBJ)/TemperaturePublisher.o	:	$(SDIR_PROJ)/TemperaturePublisher.cpp
 	$(CXX) -o $(ODIR_OBJ)/TemperaturePublisher.o $(CFLAGS_EXE) $(SDIR_PROJ)/TemperaturePublisher.cpp
+
+$(ODIR_OBJ)/UpdateThermometerSubscriber.o	:	$(SDIR_PROJ)/UpdateThermometerSubscriber.cpp
+	$(CXX) -o $(ODIR_OBJ)/UpdateThermometerSubscriber.o $(CFLAGS_EXE) $(SDIR_PROJ)/UpdateThermometerSubscriber.cpp
 
 clean:
 	\rm $(ODIR_OBJ)/*.o $(TARGETFILE)

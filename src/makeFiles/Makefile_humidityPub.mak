@@ -18,6 +18,7 @@ LIBS	:= -lMsg -lCfg -lUtil \
 	-ldl -lm -lpthread -lrt 
 
 OBJS = \
+	$(ODIR_OBJ)/UpdateHygrometerSubscriber.o \
 	$(ODIR_OBJ)/HumidityPublisher.o \
 	$(ODIR_OBJ)/mainPub.o 
 
@@ -34,12 +35,14 @@ directories:
 $(TARGETFILE)	:	$(OBJS)
 	$(CXX) $(LFLAGS) $(OBJS) $(LIBS) $(LIBS) -o $(TARGETFILE)
 
-
 $(ODIR_OBJ)/mainPub.o	:	$(SDIR_PROJ)/mainPub.cpp
 	$(CXX) -o $(ODIR_OBJ)/mainPub.o $(CFLAGS_EXE) $(SDIR_PROJ)/mainPub.cpp
 
 $(ODIR_OBJ)/HumidityPublisher.o	:	$(SDIR_PROJ)/HumidityPublisher.cpp
 	$(CXX) -o $(ODIR_OBJ)/HumidityPublisher.o $(CFLAGS_EXE) $(SDIR_PROJ)/HumidityPublisher.cpp
+
+$(ODIR_OBJ)/UpdateHygrometerSubscriber.o	:	$(SDIR_PROJ)/UpdateHygrometerSubscriber.cpp
+	$(CXX) -o $(ODIR_OBJ)/UpdateHygrometerSubscriber.o $(CFLAGS_EXE) $(SDIR_PROJ)/UpdateHygrometerSubscriber.cpp
 
 clean:
 	\rm $(ODIR_OBJ)/*.o $(TARGETFILE)

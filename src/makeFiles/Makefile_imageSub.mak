@@ -1,11 +1,7 @@
--include Makefile.inc
+#this Makefile outputs image as a static lib for <PLTF> machine
 
-PROJ_NAME=imageSub
-
+PROJ_NAME=libImageSub
 include Makefile_app_header.mak
-
-#the target binary name
-TARGETFILE=$(ODIR_BIN)/imageSub.out
 
 # link libs
 LIBS	:= -lMsg -lCfg -lUtil \
@@ -18,8 +14,8 @@ LIBS	:= -lMsg -lCfg -lUtil \
 	-ldl -lm -lpthread -lrt 
 
 OBJS = \
-	$(ODIR_OBJ)/ImageSubscriber.o \
-	$(ODIR_OBJ)/mainSub.o 
+	$(ODIR_OBJ)/UpdateCamPublisher.o \
+	$(ODIR_OBJ)/ImageSubscriber.o
 
 #	$(ODIR_OBJ)/test_px4_ekf.o \
 
@@ -28,18 +24,16 @@ default:  directories $(TARGETFILE)
 directories:    
 	mkdir -p $(ODIR_OBJ)
 	mkdir -p $(ODIR_LIB)
-	mkdir -p $(ODIR_BIN)
 	
-#the output binary file name is <$(TARGETFILE)>
+#the output lib file name is <$(TARGETFILE)>
 $(TARGETFILE)	:	$(OBJS)
-	$(CXX) $(LFLAGS) $(OBJS) $(LIBS) $(LIBS) -o $(TARGETFILE)
-
-
-$(ODIR_OBJ)/mainSub.o	:	$(SDIR_PROJ)/mainSub.cpp
-	$(CXX) -o $(ODIR_OBJ)/mainSub.o $(CFLAGS_EXE) $(SDIR_PROJ)/mainSub.cpp
+	ar rcs $(TARGETFILE) $(OBJS)
 
 $(ODIR_OBJ)/ImageSubscriber.o	:	$(SDIR_PROJ)/ImageSubscriber.cpp
 	$(CXX) -o $(ODIR_OBJ)/ImageSubscriber.o $(CFLAGS_EXE) $(SDIR_PROJ)/ImageSubscriber.cpp
+
+$(ODIR_OBJ)/UpdateCamPublisher.o	:	$(SDIR_PROJ)/UpdateCamPublisher.cpp
+	$(CXX) -o $(ODIR_OBJ)/UpdateCamPublisher.o $(CFLAGS_EXE) $(SDIR_PROJ)/UpdateCamPublisher.cpp
 
 clean:
 	\rm $(ODIR_OBJ)/*.o $(TARGETFILE)

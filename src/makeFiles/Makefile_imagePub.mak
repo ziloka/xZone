@@ -18,6 +18,7 @@ LIBS	:= -lMsg -lCfg -lUtil \
 	-ldl -lm -lpthread -lrt 
 
 OBJS = \
+	$(ODIR_OBJ)/UpdateCamSubscriber.o \
 	$(ODIR_OBJ)/ImagePublisher.o \
 	$(ODIR_OBJ)/mainPub.o 
 
@@ -40,6 +41,9 @@ $(ODIR_OBJ)/mainPub.o	:	$(SDIR_PROJ)/mainPub.cpp
 
 $(ODIR_OBJ)/ImagePublisher.o	:	$(SDIR_PROJ)/ImagePublisher.cpp
 	$(CXX) -o $(ODIR_OBJ)/ImagePublisher.o $(CFLAGS_EXE) $(SDIR_PROJ)/ImagePublisher.cpp
+
+$(ODIR_OBJ)/UpdateCamSubscriber.o	:	$(SDIR_PROJ)/UpdateCamSubscriber.cpp
+	$(CXX) -o $(ODIR_OBJ)/UpdateCamSubscriber.o $(CFLAGS_EXE) $(SDIR_PROJ)/UpdateCamSubscriber.cpp
 
 clean:
 	\rm $(ODIR_OBJ)/*.o $(TARGETFILE)

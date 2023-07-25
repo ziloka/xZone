@@ -10,6 +10,7 @@ OBJS = \
 	$(ODIR_OBJ)/CRC.o \
 	$(ODIR_OBJ)/CvUtilFuncs.o \
 	$(ODIR_OBJ)/FileUtil.o \
+	$(ODIR_OBJ)/ReadCfg.o \
 	$(ODIR_OBJ)/Roi.o \
 	$(ODIR_OBJ)/Uint8Stream.o \
 	$(ODIR_OBJ)/UtilFuncs.o 
@@ -41,6 +42,9 @@ $(ODIR_OBJ)/CvUtilFuncs.o: $(SDIR_PROJ)/CvUtilFuncs.cpp $(SDIR_PROJ)/CvUtilFuncs
 
 $(ODIR_OBJ)/FileUtil.o: $(SDIR_PROJ)/FileUtil.cpp $(SDIR_PROJ)/FileUtil.h
 	$(CXX) -o $(ODIR_OBJ)/FileUtil.o $(CFLAGS) $(SDIR_PROJ)/FileUtil.cpp
+
+$(ODIR_OBJ)/ReadCfg.o: $(SDIR_PROJ)/ReadCfg.cpp $(SDIR_PROJ)/ReadCfg.h
+	$(CXX) -o $(ODIR_OBJ)/ReadCfg.o $(CFLAGS) $(SDIR_PROJ)/ReadCfg.cpp
 
 $(ODIR_OBJ)/Roi.o: $(SDIR_PROJ)/Roi.cpp $(SDIR_PROJ)/Roi.h
 	$(CXX) -o $(ODIR_OBJ)/Roi.o $(CFLAGS) $(SDIR_PROJ)/Roi.cpp

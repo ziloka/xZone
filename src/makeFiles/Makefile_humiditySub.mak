@@ -1,11 +1,7 @@
--include Makefile.inc
+#this Makefile outputs image as a static lib for <PLTF> machine
 
-PROJ_NAME=humiditySub
-
+PROJ_NAME=libHumiditySub
 include Makefile_app_header.mak
-
-#the target binary name
-TARGETFILE=$(ODIR_BIN)/humiditySub.out
 
 # link libs
 LIBS	:= -lMsg -lCfg -lUtil \
@@ -18,8 +14,8 @@ LIBS	:= -lMsg -lCfg -lUtil \
 	-ldl -lm -lpthread -lrt 
 
 OBJS = \
-	$(ODIR_OBJ)/HumiditySubscriber.o \
-	$(ODIR_OBJ)/mainSub.o 
+	$(ODIR_OBJ)/UpdateHygrometerPublisher.o \
+	$(ODIR_OBJ)/HumiditySubscriber.o
 
 #	$(ODIR_OBJ)/test_px4_ekf.o \
 
@@ -28,18 +24,16 @@ default:  directories $(TARGETFILE)
 directories:    
 	mkdir -p $(ODIR_OBJ)
 	mkdir -p $(ODIR_LIB)
-	mkdir -p $(ODIR_BIN)
 	
-#the output binary file name is <$(TARGETFILE)>
+#the output lib file name is <$(TARGETFILE)>
 $(TARGETFILE)	:	$(OBJS)
-	$(CXX) $(LFLAGS) $(OBJS) $(LIBS) $(LIBS) -o $(TARGETFILE)
-
-
-$(ODIR_OBJ)/mainSub.o	:	$(SDIR_PROJ)/mainSub.cpp
-	$(CXX) -o $(ODIR_OBJ)/mainSub.o $(CFLAGS_EXE) $(SDIR_PROJ)/mainSub.cpp
+	ar rcs $(TARGETFILE) $(OBJS)
 
 $(ODIR_OBJ)/HumiditySubscriber.o	:	$(SDIR_PROJ)/HumiditySubscriber.cpp
 	$(CXX) -o $(ODIR_OBJ)/HumiditySubscriber.o $(CFLAGS_EXE) $(SDIR_PROJ)/HumiditySubscriber.cpp
+
+$(ODIR_OBJ)/UpdateHygrometerPublisher.o	:	$(SDIR_PROJ)/UpdateHygrometerPublisher.cpp
+	$(CXX) -o $(ODIR_OBJ)/UpdateHygrometerPublisher.o $(CFLAGS_EXE) $(SDIR_PROJ)/UpdateHygrometerPublisher.cpp
 
 clean:
 	\rm $(ODIR_OBJ)/*.o $(TARGETFILE)

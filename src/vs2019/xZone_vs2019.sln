@@ -32,7 +32,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "test", "test\test.vcxproj",
 		{298CC483-6FC2-4A88-8F2A-E82FFD435EF4} = {298CC483-6FC2-4A88-8F2A-E82FFD435EF4}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "imageSub", "imageSub\imageSub.vcxproj", "{DAA10900-56E9-40E5-BF14-522CD8C40E97}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libImageSub", "libImageSub\libImageSub.vcxproj", "{DAA10900-56E9-40E5-BF14-522CD8C40E97}"
 	ProjectSection(ProjectDependencies) = postProject
 		{23CF582B-EF4F-402E-A6A6-EB1DACE6F604} = {23CF582B-EF4F-402E-A6A6-EB1DACE6F604}
 	EndProjectSection
@@ -49,7 +49,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libCfg", "libCfg\libCfg.vcx
 		{298CC483-6FC2-4A88-8F2A-E82FFD435EF4} = {298CC483-6FC2-4A88-8F2A-E82FFD435EF4}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "temperatureSub", "temperatureSub\temperatureSub.vcxproj", "{A206073F-E6A6-4E59-8ED4-B5849392163F}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libTemperatureSub", "libTemperatureSub\libTemperatureSub.vcxproj", "{A206073F-E6A6-4E59-8ED4-B5849392163F}"
 	ProjectSection(ProjectDependencies) = postProject
 		{23CF582B-EF4F-402E-A6A6-EB1DACE6F604} = {23CF582B-EF4F-402E-A6A6-EB1DACE6F604}
 	EndProjectSection
@@ -65,7 +65,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "temperaturePub", "temperatu
 		{298CC483-6FC2-4A88-8F2A-E82FFD435EF4} = {298CC483-6FC2-4A88-8F2A-E82FFD435EF4}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "humiditySub", "humiditySub\humiditySub.vcxproj", "{A3FEBA36-780E-4717-8297-D0DE1DB6D8B2}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libHumiditySub", "libHumiditySub\libHumiditySub.vcxproj", "{A3FEBA36-780E-4717-8297-D0DE1DB6D8B2}"
 	ProjectSection(ProjectDependencies) = postProject
 		{298CC483-6FC2-4A88-8F2A-E82FFD435EF4} = {298CC483-6FC2-4A88-8F2A-E82FFD435EF4}
 	EndProjectSection

@@ -1,11 +1,7 @@
--include Makefile.inc
+#this Makefile outputs image as a static lib for <PLTF> machine
 
-PROJ_NAME=temperatureSub
-
+PROJ_NAME=libTemperatureSub
 include Makefile_app_header.mak
-
-#the target binary name
-TARGETFILE=$(ODIR_BIN)/temperatureSub.out
 
 # link libs
 LIBS	:= -lMsg -lCfg -lUtil \
@@ -18,8 +14,8 @@ LIBS	:= -lMsg -lCfg -lUtil \
 	-ldl -lm -lpthread -lrt 
 
 OBJS = \
-	$(ODIR_OBJ)/TemperatureSubscriber.o \
-	$(ODIR_OBJ)/mainSub.o 
+	$(ODIR_OBJ)/UpdateThermometerPublisher.o \
+	$(ODIR_OBJ)/TemperatureSubscriber.o
 
 #	$(ODIR_OBJ)/test_px4_ekf.o \
 
@@ -28,18 +24,16 @@ default:  directories $(TARGETFILE)
 directories:    
 	mkdir -p $(ODIR_OBJ)
 	mkdir -p $(ODIR_LIB)
-	mkdir -p $(ODIR_BIN)
 	
-#the output binary file name is <$(TARGETFILE)>
+#the output lib file name is <$(TARGETFILE)>
 $(TARGETFILE)	:	$(OBJS)
-	$(CXX) $(LFLAGS) $(OBJS) $(LIBS) $(LIBS) -o $(TARGETFILE)
-
-
-$(ODIR_OBJ)/mainSub.o	:	$(SDIR_PROJ)/mainSub.cpp
-	$(CXX) -o $(ODIR_OBJ)/mainSub.o $(CFLAGS_EXE) $(SDIR_PROJ)/mainSub.cpp
+	ar rcs $(TARGETFILE) $(OBJS)
 
 $(ODIR_OBJ)/TemperatureSubscriber.o	:	$(SDIR_PROJ)/TemperatureSubscriber.cpp
 	$(CXX) -o $(ODIR_OBJ)/TemperatureSubscriber.o $(CFLAGS_EXE) $(SDIR_PROJ)/TemperatureSubscriber.cpp
+
+$(ODIR_OBJ)/UpdateThermometerPublisher.o	:	$(SDIR_PROJ)/UpdateThermometerPublisher.cpp
+	$(CXX) -o $(ODIR_OBJ)/UpdateThermometerPublisher.o $(CFLAGS_EXE) $(SDIR_PROJ)/UpdateThermometerPublisher.cpp
 
 clean:
 	\rm $(ODIR_OBJ)/*.o $(TARGETFILE)

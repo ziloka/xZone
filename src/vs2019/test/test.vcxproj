@@ -159,13 +159,13 @@
     <ClCompile Include="..\..\test\test_mat_part1.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\humiditySub\humiditySub.vcxproj">
+    <ProjectReference Include="..\libHumiditySub\libHumiditySub.vcxproj">
       <Project>{a3feba36-780e-4717-8297-d0de1db6d8b2}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\imageSub\imageSub.vcxproj">
+    <ProjectReference Include="..\libImageSub\libImageSub.vcxproj">
       <Project>{daa10900-56e9-40e5-bf14-522cd8c40e97}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\temperatureSub\temperatureSub.vcxproj">
+    <ProjectReference Include="..\libTemperatureSub\libTemperatureSub.vcxproj">
       <Project>{a206073f-e6a6-4e59-8ed4-b5849392163f}</Project>
     </ProjectReference>
   </ItemGroup>
