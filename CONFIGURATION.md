@@ -28,12 +28,18 @@ Example
     <hygrometer>
         <id>0</id>
         <name>Main Hygrometer</name>
-        <mps></mps> <!-- messages per second -->
+
+        <frequencyStart>10</frequencyStart> <!-- minimum hertz -->
+        <frequencyStep>5</frequencyStep> <!-- interval to step by -->
+        <frequencyEnd>100</frequencyEnd> <!-- maximum hertz-->
     </hygrometer>
     <thermometer>
         <id>0</id>
         <name>Main Hygrometer</name>
-        <mps></mps> <!-- messages per second -->
+        
+        <frequencyStart>10</frequencyStart> <!-- minimum hertz -->
+        <frequencyStep>5</frequencyStep> <!-- interval to step by -->
+        <frequencyEnd>100</frequencyEnd> <!-- maximum hertz-->
     </thermometer>
     <log>
         <appRootFolder>xZone</appRootFolder>

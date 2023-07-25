@@ -124,6 +124,25 @@ public:
             const Temperature& x) const;
 
     /*!
+     * @brief This function sets a value in member index
+     * @param _index New value for member index
+     */
+    eProsima_user_DllExport void index(
+            uint32_t _index);
+
+    /*!
+     * @brief This function returns the value of member index
+     * @return Value of member index
+     */
+    eProsima_user_DllExport uint32_t index() const;
+
+    /*!
+     * @brief This function returns a reference to member index
+     * @return Reference to member index
+     */
+    eProsima_user_DllExport uint32_t& index();
+
+    /*!
      * @brief This function sets a value in member temperature
      * @param _temperature New value for member temperature
      */
@@ -142,31 +161,6 @@ public:
      */
     eProsima_user_DllExport int32_t& temperature();
 
-    /*!
-     * @brief This function copies the value in member timestamp
-     * @param _timestamp New value to be copied in member timestamp
-     */
-    eProsima_user_DllExport void timestamp(
-            const std::string& _timestamp);
-
-    /*!
-     * @brief This function moves the value in member timestamp
-     * @param _timestamp New value to be moved in member timestamp
-     */
-    eProsima_user_DllExport void timestamp(
-            std::string&& _timestamp);
-
-    /*!
-     * @brief This function returns a constant reference to member timestamp
-     * @return Constant reference to member timestamp
-     */
-    eProsima_user_DllExport const std::string& timestamp() const;
-
-    /*!
-     * @brief This function returns a reference to member timestamp
-     * @return Reference to member timestamp
-     */
-    eProsima_user_DllExport std::string& timestamp();
     /*!
      * @brief This function sets a value in member t1
      * @param _t1 New value for member t1
@@ -303,8 +297,8 @@ public:
 
 private:
 
+    uint32_t m_index;
     int32_t m_temperature;
-    std::string m_timestamp;
     uint64_t m_t1;
     uint64_t m_t2;
     uint64_t m_t3;

@@ -174,13 +174,11 @@ void ImageSubscriber::SubListener::on_data_available(  DataReader* reader)
             //        break;
             //}
 
-            //APP_LOG("frame number=%u received, time captured (t1)=%u, time sent msg out (t2)=%u, time received msg (t3)=%u", image_.frame_number(), image_.t1(), image_.t2(), TS_SINCE_EPOCH_US);
-            //auto elapse = std::chrono::duration<uint64_t>(TS_SINCE_EPOCH_US - image_.t2());
-            //APP_LOG("frame number=%u received, elapsed time = %u", image_.frame_number(), elapse.count());
+            //APP_LOG("frame number=%u received, time captured (t1)=%u, time sent msg out (t2)=%u, time received msg (t3)=%u", image_.frame_number(), image_.t1(), image_.t2(), APP_TIME_CURRENT_US);
 
             // write data to data.csv file 
             // frame number, frequency, latency
-            file_ << image_.frame_number() << "," << image_.frequency() << "," << TS_SINCE_EPOCH_US - image_.t2() << std::endl;
+            file_ << image_.frame_number() << "," << image_.frequency() << "," << APP_TIME_CURRENT_US - image_.t2() << std::endl;
             
         }
     }

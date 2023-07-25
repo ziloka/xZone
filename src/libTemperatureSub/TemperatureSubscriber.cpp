@@ -160,23 +160,11 @@ void TemperatureSubscriber::SubListener::on_data_available(DataReader* reader)
             samples_++;
             // Print your structure data here.
 
-            //while (1) {
+            //APP_LOG("temperature message received, time captured (t1)=%u, time sent msg out (t2)=%u, time received msg (t3)=%u", temperature_.t1(), temperature_.t2(), APP_TIME_CURRENT_US);
 
-            //    cv::Mat frame;
-            //    frame = app::vecUcharToMat(humidity_.image(), humidity_.width(), humidity_.height());
-
-            //    // Display the resulting frame
-            //    cv::imshow("Frame", frame);
-
-            //    // Press  ESC on keyboard to exit
-            //    char c = (char)cv::waitKey(25);
-            //    if (c == 27)
-            //        break;
-            //}
-
-            //APP_LOG("idx=%u received", hello_.frame_number());
-
-            APP_LOG("temperature message received, time captured (t1)=%u, time sent msg out (t2)=%u, time received msg (t3)=%u", temperature_.t1(), temperature_.t2(), TS_SINCE_EPOCH_US);
+            // write data to data.csv file 
+            // frame number, frequency, latency
+            file_ << temperature_.index() << "," << temperature_.frequency() << "," << APP_TIME_CURRENT_US - temperature_.t2() << std::endl;
         }
     }
 }

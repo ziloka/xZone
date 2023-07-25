@@ -36,6 +36,35 @@
 #endif  // GEN_API_VER
 
 
+#ifndef SWIG
+namespace detail {
+
+    template<typename Tag, typename Tag::type M>
+    struct Temperature_rob
+    {
+        friend constexpr typename Tag::type get(
+                Tag)
+        {
+            return M;
+        }
+    };
+
+    struct Temperature_f
+    {
+        typedef int32_t Temperature::* type;
+        friend constexpr type get(
+                Temperature_f);
+    };
+
+    template struct Temperature_rob<Temperature_f, &Temperature::m_frequency>;
+
+    template <typename T, typename Tag>
+    inline size_t constexpr Temperature_offset_of() {
+        return ((::size_t) &reinterpret_cast<char const volatile&>((((T*)0)->*get(Tag()))));
+    }
+}
+#endif
+
 /*!
  * @brief This class represents the TopicDataType of the type Temperature defined by the user in the IDL file.
  * @ingroup Temperature
@@ -74,7 +103,7 @@ public:
 #ifdef TOPIC_DATA_TYPE_API_HAS_IS_BOUNDED
     eProsima_user_DllExport inline bool is_bounded() const override
     {
-        return false;
+        return true;
     }
 
 #endif  // TOPIC_DATA_TYPE_API_HAS_IS_BOUNDED
@@ -82,7 +111,7 @@ public:
 #ifdef TOPIC_DATA_TYPE_API_HAS_IS_PLAIN
     eProsima_user_DllExport inline bool is_plain() const override
     {
-        return false;
+        return is_plain_impl();
     }
 
 #endif  // TOPIC_DATA_TYPE_API_HAS_IS_PLAIN
@@ -91,8 +120,8 @@ public:
     eProsima_user_DllExport inline bool construct_sample(
             void* memory) const override
     {
-        (void)memory;
-        return false;
+        new (memory) Temperature();
+        return true;
     }
 
 #endif  // TOPIC_DATA_TYPE_API_HAS_CONSTRUCT_SAMPLE
@@ -100,7 +129,13 @@ public:
     MD5 m_md5;
     unsigned char* m_keyBuffer;
 
-};
+private:
+
+    static constexpr bool is_plain_impl()
+    {
+        return 36ULL == (detail::Temperature_offset_of<Temperature, detail::Temperature_f>() + sizeof(int32_t));
+
+    }};
 
 #endif // _FAST_DDS_GENERATED_TEMPERATURE_PUBSUBTYPES_H_
 

@@ -61,7 +61,11 @@ private:
         SubListener()
             : matched_(0)
             , samples_(0)
+            , file_(std::ofstream())
         {
+            file_.open("temperature_pubsub_data.csv");
+            std::cout << "Opened image_pubsub_data.csv.. appending to file" << std::endl;
+            file_ << "frame number,frequency,latency" << std::endl;
         }
 
         ~SubListener() override
@@ -80,6 +84,8 @@ private:
         int matched_;
 
         uint32_t samples_;
+
+        std::ofstream file_;
     }
     listener_;
 };

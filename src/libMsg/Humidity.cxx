@@ -34,15 +34,15 @@ using namespace eprosima::fastcdr::exception;
 
 #include <utility>
 
-#define Humidity_max_cdr_typesize 292ULL;
+#define Humidity_max_cdr_typesize 36ULL;
 #define Humidity_max_key_cdr_typesize 0ULL;
 
 Humidity::Humidity()
 {
+    // unsigned long m_index
+    m_index = 0;
     // unsigned long m_humidity
     m_humidity = 0;
-    // string m_timestamp
-    m_timestamp ="";
     // unsigned long long m_t1
     m_t1 = 0;
     // unsigned long long m_t2
@@ -67,8 +67,8 @@ Humidity::~Humidity()
 Humidity::Humidity(
         const Humidity& x)
 {
+    m_index = x.m_index;
     m_humidity = x.m_humidity;
-    m_timestamp = x.m_timestamp;
     m_t1 = x.m_t1;
     m_t2 = x.m_t2;
     m_t3 = x.m_t3;
@@ -78,8 +78,8 @@ Humidity::Humidity(
 Humidity::Humidity(
         Humidity&& x) noexcept 
 {
+    m_index = x.m_index;
     m_humidity = x.m_humidity;
-    m_timestamp = std::move(x.m_timestamp);
     m_t1 = x.m_t1;
     m_t2 = x.m_t2;
     m_t3 = x.m_t3;
@@ -90,8 +90,8 @@ Humidity& Humidity::operator =(
         const Humidity& x)
 {
 
+    m_index = x.m_index;
     m_humidity = x.m_humidity;
-    m_timestamp = x.m_timestamp;
     m_t1 = x.m_t1;
     m_t2 = x.m_t2;
     m_t3 = x.m_t3;
@@ -104,8 +104,8 @@ Humidity& Humidity::operator =(
         Humidity&& x) noexcept
 {
 
+    m_index = x.m_index;
     m_humidity = x.m_humidity;
-    m_timestamp = std::move(x.m_timestamp);
     m_t1 = x.m_t1;
     m_t2 = x.m_t2;
     m_t3 = x.m_t3;
@@ -118,7 +118,7 @@ bool Humidity::operator ==(
         const Humidity& x) const
 {
 
-    return (m_humidity == x.m_humidity && m_timestamp == x.m_timestamp && m_t1 == x.m_t1 && m_t2 == x.m_t2 && m_t3 == x.m_t3 && m_frequency == x.m_frequency);
+    return (m_index == x.m_index && m_humidity == x.m_humidity && m_t1 == x.m_t1 && m_t2 == x.m_t2 && m_t3 == x.m_t3 && m_frequency == x.m_frequency);
 }
 
 bool Humidity::operator !=(
@@ -145,7 +145,8 @@ size_t Humidity::getCdrSerializedSize(
     current_alignment += 4 + eprosima::fastcdr::Cdr::alignment(current_alignment, 4);
 
 
-    current_alignment += 4 + eprosima::fastcdr::Cdr::alignment(current_alignment, 4) + data.timestamp().size() + 1;
+    current_alignment += 4 + eprosima::fastcdr::Cdr::alignment(current_alignment, 4);
+
 
     current_alignment += 8 + eprosima::fastcdr::Cdr::alignment(current_alignment, 8);
 
@@ -167,8 +168,8 @@ void Humidity::serialize(
         eprosima::fastcdr::Cdr& scdr) const
 {
 
+    scdr << m_index;
     scdr << m_humidity;
-    scdr << m_timestamp.c_str();
     scdr << m_t1;
     scdr << m_t2;
     scdr << m_t3;
@@ -180,12 +181,40 @@ void Humidity::deserialize(
         eprosima::fastcdr::Cdr& dcdr)
 {
 
+    dcdr >> m_index;
     dcdr >> m_humidity;
-    dcdr >> m_timestamp;
     dcdr >> m_t1;
     dcdr >> m_t2;
     dcdr >> m_t3;
     dcdr >> m_frequency;
+}
+
+/*!
+ * @brief This function sets a value in member index
+ * @param _index New value for member index
+ */
+void Humidity::index(
+        uint32_t _index)
+{
+    m_index = _index;
+}
+
+/*!
+ * @brief This function returns the value of member index
+ * @return Value of member index
+ */
+uint32_t Humidity::index() const
+{
+    return m_index;
+}
+
+/*!
+ * @brief This function returns a reference to member index
+ * @return Reference to member index
+ */
+uint32_t& Humidity::index()
+{
+    return m_index;
 }
 
 /*!
@@ -216,43 +245,6 @@ uint32_t& Humidity::humidity()
     return m_humidity;
 }
 
-/*!
- * @brief This function copies the value in member timestamp
- * @param _timestamp New value to be copied in member timestamp
- */
-void Humidity::timestamp(
-        const std::string& _timestamp)
-{
-    m_timestamp = _timestamp;
-}
-
-/*!
- * @brief This function moves the value in member timestamp
- * @param _timestamp New value to be moved in member timestamp
- */
-void Humidity::timestamp(
-        std::string&& _timestamp)
-{
-    m_timestamp = std::move(_timestamp);
-}
-
-/*!
- * @brief This function returns a constant reference to member timestamp
- * @return Constant reference to member timestamp
- */
-const std::string& Humidity::timestamp() const
-{
-    return m_timestamp;
-}
-
-/*!
- * @brief This function returns a reference to member timestamp
- * @return Reference to member timestamp
- */
-std::string& Humidity::timestamp()
-{
-    return m_timestamp;
-}
 /*!
  * @brief This function sets a value in member t1
  * @param _t1 New value for member t1

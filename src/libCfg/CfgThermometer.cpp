@@ -33,6 +33,7 @@ CfgThermometer::CfgThermometer()
 	: CfgBase()
 	, thermometerId_(0)
 	, thermometerName_("unkn")
+	, frequency_(Frequency(10, 5, 100))
 {
 
 }
@@ -41,6 +42,7 @@ CfgThermometer::CfgThermometer(const CfgThermometer& x)
 	: CfgBase(x)
 	, thermometerId_(x.thermometerId_)
 	, thermometerName_(x.thermometerName_)
+	, frequency_(x.frequency_)
 {
 }
 
@@ -51,6 +53,7 @@ CfgThermometer& CfgThermometer::operator = (const CfgThermometer& x)
 		CfgBase::operator=(x);
 		thermometerId_ = x.thermometerId_;
 		thermometerName_ = x.thermometerName_;
+		frequency_ = x.frequency_;
 	}
 	return *this;
 }
@@ -59,6 +62,9 @@ void CfgThermometer::fromPropertyTree(const boost::property_tree::ptree& pt)
 {
 	thermometerId_ = pt.get<int>("id");
 	thermometerName_ = pt.get<std::string>("name");
+	frequency_.start = pt.get<int>("frequencyStart");
+	frequency_.step = pt.get<int>("frequencyStep");
+	frequency_.end = pt.get<int>("frequencyEnd");
 }
 
 boost::property_tree::ptree CfgThermometer::toPropertyTree()
@@ -67,6 +73,9 @@ boost::property_tree::ptree CfgThermometer::toPropertyTree()
 
 	pt.put("thermometerId", thermometerId_);
 	pt.put("thermometerName", thermometerName_);
+	pt.put("frequencyStart", frequency_.start);
+	pt.put("frequencyStep", frequency_.step);
+	pt.put("frequencyEnd", frequency_.end);
 	return pt;
 }
 

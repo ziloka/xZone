@@ -3,7 +3,6 @@
 struct Image
 {
 	sequence<octet> image;
-	string timestamp;
 	unsigned long frame_number;
 	unsigned long height;
 	unsigned long width;

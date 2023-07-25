@@ -2,8 +2,8 @@
 
 struct Temperature
 {
+	unsigned long index;
 	long temperature;
-	string timestamp;
 
 	unsigned long long t1;
 	unsigned long long t2;

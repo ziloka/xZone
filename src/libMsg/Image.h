@@ -149,31 +149,6 @@ public:
      */
     eProsima_user_DllExport std::vector<uint8_t>& image();
     /*!
-     * @brief This function copies the value in member timestamp
-     * @param _timestamp New value to be copied in member timestamp
-     */
-    eProsima_user_DllExport void timestamp(
-            const std::string& _timestamp);
-
-    /*!
-     * @brief This function moves the value in member timestamp
-     * @param _timestamp New value to be moved in member timestamp
-     */
-    eProsima_user_DllExport void timestamp(
-            std::string&& _timestamp);
-
-    /*!
-     * @brief This function returns a constant reference to member timestamp
-     * @return Constant reference to member timestamp
-     */
-    eProsima_user_DllExport const std::string& timestamp() const;
-
-    /*!
-     * @brief This function returns a reference to member timestamp
-     * @return Reference to member timestamp
-     */
-    eProsima_user_DllExport std::string& timestamp();
-    /*!
      * @brief This function sets a value in member frame_number
      * @param _frame_number New value for member frame_number
      */
@@ -367,7 +342,6 @@ public:
 private:
 
     std::vector<uint8_t> m_image;
-    std::string m_timestamp;
     uint32_t m_frame_number;
     uint32_t m_height;
     uint32_t m_width;

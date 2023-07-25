@@ -133,7 +133,7 @@ private:
 
     static constexpr bool is_plain_impl()
     {
-        return 36ULL == (detail::UpdateHygrometer_offset_of<UpdateHygrometer, detail::UpdateHygrometer_f>() + sizeof(int32_t));
+        return 28ULL == (detail::UpdateHygrometer_offset_of<UpdateHygrometer, detail::UpdateHygrometer_f>() + sizeof(int32_t));
 
     }};
 

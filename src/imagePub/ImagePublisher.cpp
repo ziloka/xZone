@@ -233,7 +233,7 @@ bool ImagePublisher::publish( bool waitForListener, uint32_t frequency)
     {
         // https://learnopencv.com/read-write-and-display-a-video-using-opencv-cpp-python/
 
-        image_.t1(TS_SINCE_EPOCH_US);
+        image_.t1(APP_TIME_CURRENT_US);
 
         cv::Mat frame;
         camera_ >> frame;
@@ -248,7 +248,7 @@ bool ImagePublisher::publish( bool waitForListener, uint32_t frequency)
         image_.height(frame.rows);
         image_.frequency(frequency);
 
-        image_.t2(TS_SINCE_EPOCH_US);
+        image_.t2(APP_TIME_CURRENT_US);
 
         writer_->write(&image_);
         return true;

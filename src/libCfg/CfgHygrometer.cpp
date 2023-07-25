@@ -33,6 +33,7 @@ CfgHygrometer::CfgHygrometer()
 	: CfgBase()
 	, hygrometerId_(0)
 	, hygrometerName_("unkn")
+	, frequency_(Frequency(10, 5, 100))
 {
 
 }
@@ -41,6 +42,7 @@ CfgHygrometer::CfgHygrometer(const CfgHygrometer& x)
 	: CfgBase(x)
 	, hygrometerId_(x.hygrometerId_)
 	, hygrometerName_(x.hygrometerName_)
+	, frequency_(x.frequency_)
 {
 }
 
@@ -51,6 +53,7 @@ CfgHygrometer& CfgHygrometer::operator = (const CfgHygrometer& x)
 		CfgBase::operator=(x);
 		hygrometerId_ = x.hygrometerId_;
 		hygrometerName_ = x.hygrometerName_;
+		frequency_ = x.frequency_;
 	}
 	return *this;
 }
@@ -59,6 +62,9 @@ void CfgHygrometer::fromPropertyTree(const boost::property_tree::ptree& pt)
 {
 	hygrometerId_ = pt.get<int>("id");
 	hygrometerName_ = pt.get<std::string>("name");
+	frequency_.start = pt.get<int>("frequencyStart");
+	frequency_.step = pt.get<int>("frequencyStep");
+	frequency_.end = pt.get<int>("frequencyEnd");
 }
 
 boost::property_tree::ptree CfgHygrometer::toPropertyTree()
@@ -67,6 +73,9 @@ boost::property_tree::ptree CfgHygrometer::toPropertyTree()
 
 	pt.put("id", hygrometerId_);
 	pt.put("name", hygrometerName_);
+	pt.put("frequencyStart", frequency_.start);
+	pt.put("frequencyStep", frequency_.step);
+	pt.put("frequencyEnd", frequency_.end);
 	return pt;
 }
 

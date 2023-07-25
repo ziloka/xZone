@@ -124,25 +124,6 @@ public:
             const UpdateHygrometer& x) const;
 
     /*!
-     * @brief This function sets a value in member mps
-     * @param _mps New value for member mps
-     */
-    eProsima_user_DllExport void mps(
-            int32_t _mps);
-
-    /*!
-     * @brief This function returns the value of member mps
-     * @return Value of member mps
-     */
-    eProsima_user_DllExport int32_t mps() const;
-
-    /*!
-     * @brief This function returns a reference to member mps
-     * @return Reference to member mps
-     */
-    eProsima_user_DllExport int32_t& mps();
-
-    /*!
      * @brief This function sets a value in member t1
      * @param _t1 New value for member t1
      */
@@ -278,7 +259,6 @@ public:
 
 private:
 
-    int32_t m_mps;
     uint64_t m_t1;
     uint64_t m_t2;
     uint64_t m_t3;

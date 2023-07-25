@@ -133,7 +133,7 @@ private:
 
     static constexpr bool is_plain_impl()
     {
-        return 36ULL == (detail::UpdateThermometer_offset_of<UpdateThermometer, detail::UpdateThermometer_f>() + sizeof(int32_t));
+        return 28ULL == (detail::UpdateThermometer_offset_of<UpdateThermometer, detail::UpdateThermometer_f>() + sizeof(int32_t));
 
     }};
 

@@ -56,7 +56,7 @@ bool HumidityPublisher::init(bool use_env)
     //image_.frame_number(0);
 
     DomainParticipantQos pqos = PARTICIPANT_QOS_DEFAULT;
-    pqos.name("ImagePublisher");
+    pqos.name("HumidityPublisher");
     auto factory = DomainParticipantFactory::get_instance();
 
     if (use_env)
@@ -174,33 +174,28 @@ void HumidityPublisher::runThread(
     uint32_t samples,
     uint32_t sleep)
 {
-    if (samples == 0)
-    {
-        while (!stop_)
-        {
-            if (publish(false))
-            {
-    /*            std::cout << " with index: " << image_.frame_number()
-                    << " SENT" << std::endl;*/
+    auto [start, step, end] = cfgHygrometerPtr_->frequency_;
+
+    for (uint32_t nSamples = start; nSamples < end; nSamples += step) {
+        auto start = std::chrono::high_resolution_clock::now();
+        std::cout << "sending " << nSamples << " samples" << std::endl;
+        for (uint32_t i = 0; i < nSamples; i++) {
+            if (publish(false, nSamples)) {
+                //std::cout << " with index: " << image_.frame_number()
+                //    << " SENT" << std::endl;
             }
-            std::this_thread::sleep_for(std::chrono::milliseconds(sleep));
+        }
+
+        // sleep until a second has passed
+        std::chrono::duration<double> elapsed = std::chrono::high_resolution_clock::now() - start;
+        // elapsed.count() is the amount of seconds that have elapsed
+        if (elapsed.count() < 1) {
+            std::cout << "sleeping for" << elapsed.count() << std::endl;
+            std::this_thread::sleep_for(std::chrono::seconds((uint32_t)(1 - elapsed.count())));
+            std::cout << "finished sleeping" << std::endl;
         }
     }
-    else
-    {
-        for (uint32_t i = 0; i < samples; ++i)
-        {
-            if (!publish())
-            {
-                --i;
-            }
-            else
-            {
-                //APP_LOG("index: %u Sent", image_.frame_number());
-            }
-            std::this_thread::sleep_for(std::chrono::milliseconds(sleep));
-        }
-    }
+    std::cout << "finished sending samples" << std::endl;
 }
 
 std::thread HumidityPublisher::run(uint32_t samples, uint32_t sleep)
@@ -221,25 +216,17 @@ std::thread HumidityPublisher::run(uint32_t samples, uint32_t sleep)
     return thread;
 }
 
-bool HumidityPublisher::publish(bool waitForListener)
+bool HumidityPublisher::publish(bool waitForListener, uint32_t frequency)
 {
     if (listener_.firstConnected_ || !waitForListener || listener_.matched_ > 0)
     {
-        humidity_.t1(TS_SINCE_EPOCH_US);
+        humidity_.t1(APP_TIME_CURRENT_US);
 
-        //cv::Mat frame;
-        //camera_ >> frame;
-        //if (frame.empty()) {
-        //    std::cout << "empty frame" << std::endl;
-        //    return false;
-        //}
+        humidity_.humidity(5);
 
-        //image_.frame_number(image_.frame_number() + 1);
-        //image_.image(app::matToVecUchar(frame));
-        //image_.width(frame.cols);
-        //image_.height(frame.rows);
+        humidity_.t2(APP_TIME_CURRENT_US);
 
-        humidity_.t2(TS_SINCE_EPOCH_US);
+        writer_->write(&humidity_);
         return true;
     }
     return false;

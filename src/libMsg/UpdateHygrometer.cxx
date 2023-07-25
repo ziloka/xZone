@@ -34,13 +34,11 @@ using namespace eprosima::fastcdr::exception;
 
 #include <utility>
 
-#define UpdateHygrometer_max_cdr_typesize 36ULL;
+#define UpdateHygrometer_max_cdr_typesize 28ULL;
 #define UpdateHygrometer_max_key_cdr_typesize 0ULL;
 
 UpdateHygrometer::UpdateHygrometer()
 {
-    // long m_mps
-    m_mps = 0;
     // unsigned long long m_t1
     m_t1 = 0;
     // unsigned long long m_t2
@@ -58,13 +56,11 @@ UpdateHygrometer::~UpdateHygrometer()
 
 
 
-
 }
 
 UpdateHygrometer::UpdateHygrometer(
         const UpdateHygrometer& x)
 {
-    m_mps = x.m_mps;
     m_t1 = x.m_t1;
     m_t2 = x.m_t2;
     m_t3 = x.m_t3;
@@ -74,7 +70,6 @@ UpdateHygrometer::UpdateHygrometer(
 UpdateHygrometer::UpdateHygrometer(
         UpdateHygrometer&& x) noexcept 
 {
-    m_mps = x.m_mps;
     m_t1 = x.m_t1;
     m_t2 = x.m_t2;
     m_t3 = x.m_t3;
@@ -85,7 +80,6 @@ UpdateHygrometer& UpdateHygrometer::operator =(
         const UpdateHygrometer& x)
 {
 
-    m_mps = x.m_mps;
     m_t1 = x.m_t1;
     m_t2 = x.m_t2;
     m_t3 = x.m_t3;
@@ -98,7 +92,6 @@ UpdateHygrometer& UpdateHygrometer::operator =(
         UpdateHygrometer&& x) noexcept
 {
 
-    m_mps = x.m_mps;
     m_t1 = x.m_t1;
     m_t2 = x.m_t2;
     m_t3 = x.m_t3;
@@ -111,7 +104,7 @@ bool UpdateHygrometer::operator ==(
         const UpdateHygrometer& x) const
 {
 
-    return (m_mps == x.m_mps && m_t1 == x.m_t1 && m_t2 == x.m_t2 && m_t3 == x.m_t3 && m_frequency == x.m_frequency);
+    return (m_t1 == x.m_t1 && m_t2 == x.m_t2 && m_t3 == x.m_t3 && m_frequency == x.m_frequency);
 }
 
 bool UpdateHygrometer::operator !=(
@@ -135,9 +128,6 @@ size_t UpdateHygrometer::getCdrSerializedSize(
     size_t initial_alignment = current_alignment;
 
 
-    current_alignment += 4 + eprosima::fastcdr::Cdr::alignment(current_alignment, 4);
-
-
     current_alignment += 8 + eprosima::fastcdr::Cdr::alignment(current_alignment, 8);
 
 
@@ -158,7 +148,6 @@ void UpdateHygrometer::serialize(
         eprosima::fastcdr::Cdr& scdr) const
 {
 
-    scdr << m_mps;
     scdr << m_t1;
     scdr << m_t2;
     scdr << m_t3;
@@ -170,39 +159,10 @@ void UpdateHygrometer::deserialize(
         eprosima::fastcdr::Cdr& dcdr)
 {
 
-    dcdr >> m_mps;
     dcdr >> m_t1;
     dcdr >> m_t2;
     dcdr >> m_t3;
     dcdr >> m_frequency;
-}
-
-/*!
- * @brief This function sets a value in member mps
- * @param _mps New value for member mps
- */
-void UpdateHygrometer::mps(
-        int32_t _mps)
-{
-    m_mps = _mps;
-}
-
-/*!
- * @brief This function returns the value of member mps
- * @return Value of member mps
- */
-int32_t UpdateHygrometer::mps() const
-{
-    return m_mps;
-}
-
-/*!
- * @brief This function returns a reference to member mps
- * @return Reference to member mps
- */
-int32_t& UpdateHygrometer::mps()
-{
-    return m_mps;
 }
 
 /*!

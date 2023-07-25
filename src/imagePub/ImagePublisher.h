@@ -42,7 +42,8 @@ public:
 
     //!Publish a sample
     bool publish(
-            bool waitForListener = true, uint32_t frequency = 0);
+            bool waitForListener = true,
+            uint32_t frequency = 0);
 
     //!Run for number samples
     std::thread run();

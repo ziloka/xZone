@@ -34,15 +34,13 @@ using namespace eprosima::fastcdr::exception;
 
 #include <utility>
 
-#define Image_max_cdr_typesize 404ULL;
+#define Image_max_cdr_typesize 148ULL;
 #define Image_max_key_cdr_typesize 0ULL;
 
 Image::Image()
 {
     // sequence<octet> m_image
 
-    // string m_timestamp
-    m_timestamp ="";
     // unsigned long m_frame_number
     m_frame_number = 0;
     // unsigned long m_height
@@ -70,14 +68,12 @@ Image::~Image()
 
 
 
-
 }
 
 Image::Image(
         const Image& x)
 {
     m_image = x.m_image;
-    m_timestamp = x.m_timestamp;
     m_frame_number = x.m_frame_number;
     m_height = x.m_height;
     m_width = x.m_width;
@@ -91,7 +87,6 @@ Image::Image(
         Image&& x) noexcept 
 {
     m_image = std::move(x.m_image);
-    m_timestamp = std::move(x.m_timestamp);
     m_frame_number = x.m_frame_number;
     m_height = x.m_height;
     m_width = x.m_width;
@@ -106,7 +101,6 @@ Image& Image::operator =(
 {
 
     m_image = x.m_image;
-    m_timestamp = x.m_timestamp;
     m_frame_number = x.m_frame_number;
     m_height = x.m_height;
     m_width = x.m_width;
@@ -123,7 +117,6 @@ Image& Image::operator =(
 {
 
     m_image = std::move(x.m_image);
-    m_timestamp = std::move(x.m_timestamp);
     m_frame_number = x.m_frame_number;
     m_height = x.m_height;
     m_width = x.m_width;
@@ -139,7 +132,7 @@ bool Image::operator ==(
         const Image& x) const
 {
 
-    return (m_image == x.m_image && m_timestamp == x.m_timestamp && m_frame_number == x.m_frame_number && m_height == x.m_height && m_width == x.m_width && m_t1 == x.m_t1 && m_t2 == x.m_t2 && m_t3 == x.m_t3 && m_frequency == x.m_frequency);
+    return (m_image == x.m_image && m_frame_number == x.m_frame_number && m_height == x.m_height && m_width == x.m_width && m_t1 == x.m_t1 && m_t2 == x.m_t2 && m_t3 == x.m_t3 && m_frequency == x.m_frequency);
 }
 
 bool Image::operator !=(
@@ -172,8 +165,6 @@ size_t Image::getCdrSerializedSize(
 
 
 
-    current_alignment += 4 + eprosima::fastcdr::Cdr::alignment(current_alignment, 4) + data.timestamp().size() + 1;
-
     current_alignment += 4 + eprosima::fastcdr::Cdr::alignment(current_alignment, 4);
 
 
@@ -204,7 +195,6 @@ void Image::serialize(
 {
 
     scdr << m_image;
-    scdr << m_timestamp.c_str();
     scdr << m_frame_number;
     scdr << m_height;
     scdr << m_width;
@@ -220,7 +210,6 @@ void Image::deserialize(
 {
 
     dcdr >> m_image;
-    dcdr >> m_timestamp;
     dcdr >> m_frame_number;
     dcdr >> m_height;
     dcdr >> m_width;
@@ -266,43 +255,6 @@ const std::vector<uint8_t>& Image::image() const
 std::vector<uint8_t>& Image::image()
 {
     return m_image;
-}
-/*!
- * @brief This function copies the value in member timestamp
- * @param _timestamp New value to be copied in member timestamp
- */
-void Image::timestamp(
-        const std::string& _timestamp)
-{
-    m_timestamp = _timestamp;
-}
-
-/*!
- * @brief This function moves the value in member timestamp
- * @param _timestamp New value to be moved in member timestamp
- */
-void Image::timestamp(
-        std::string&& _timestamp)
-{
-    m_timestamp = std::move(_timestamp);
-}
-
-/*!
- * @brief This function returns a constant reference to member timestamp
- * @return Constant reference to member timestamp
- */
-const std::string& Image::timestamp() const
-{
-    return m_timestamp;
-}
-
-/*!
- * @brief This function returns a reference to member timestamp
- * @return Reference to member timestamp
- */
-std::string& Image::timestamp()
-{
-    return m_timestamp;
 }
 /*!
  * @brief This function sets a value in member frame_number

@@ -2,8 +2,8 @@
 
 struct Humidity
 {
+	unsigned long index;
 	unsigned long humidity;
-	string timestamp;
 	
 	unsigned long long t1;
 	unsigned long long t2;

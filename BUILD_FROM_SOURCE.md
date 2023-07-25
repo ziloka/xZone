@@ -45,6 +45,7 @@ Note: *C++17 and above is required*
 		opencv lib is located in ./install/$(arch)/$(MSVC_VER)/lib
 		opencv include is located in ./install/include
 		[extra info](https://github.com/shunguang/HowTo/blob/master/build-opencv/how-to-build-cv-w-contrib-modules-4-VS.txt)
+		[Opencv-4.1.0-vc16.exe](https://sourceforge.net/projects/opencvlibrary/files/4.1.1/opencv-4.1.1-vc14_vc15.exe/download)
 
 		Shortcut:
 		```pwsh
@@ -273,6 +274,8 @@ Note: *C++17 and above is required*
 	```sh
 	sudo apt-get install libopencv-dev
 	```
+
+	Note: [Opencv 2.x vs +3.x diff](https://stackoverflow.com/questions/34867289/opencv-3-x-only-contains-one-lib-opencv-world-lib)
 
 	4. Compile the fastDDS library
 	

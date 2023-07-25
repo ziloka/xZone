@@ -18,6 +18,7 @@ namespace app {
 	public:
 		int			hygrometerId_;
 		std::string hygrometerName_;
+		Frequency frequency_;
 
 
 	};

@@ -28,7 +28,8 @@
 #include <shared_mutex>
 
 using namespace app;
-using namespace eprosima::fastdds::dds;
+// uncomment this line and you will get "reference to detail is ambiguous" error
+//using namespace eprosima::fastdds::dds;
 
 // https://softwareengineering.stackexchange.com/questions/388977/how-to-reach-the-parent-object
 

@@ -34,15 +34,15 @@ using namespace eprosima::fastcdr::exception;
 
 #include <utility>
 
-#define Temperature_max_cdr_typesize 292ULL;
+#define Temperature_max_cdr_typesize 36ULL;
 #define Temperature_max_key_cdr_typesize 0ULL;
 
 Temperature::Temperature()
 {
+    // unsigned long m_index
+    m_index = 0;
     // long m_temperature
     m_temperature = 0;
-    // string m_timestamp
-    m_timestamp ="";
     // unsigned long long m_t1
     m_t1 = 0;
     // unsigned long long m_t2
@@ -67,8 +67,8 @@ Temperature::~Temperature()
 Temperature::Temperature(
         const Temperature& x)
 {
+    m_index = x.m_index;
     m_temperature = x.m_temperature;
-    m_timestamp = x.m_timestamp;
     m_t1 = x.m_t1;
     m_t2 = x.m_t2;
     m_t3 = x.m_t3;
@@ -78,8 +78,8 @@ Temperature::Temperature(
 Temperature::Temperature(
         Temperature&& x) noexcept 
 {
+    m_index = x.m_index;
     m_temperature = x.m_temperature;
-    m_timestamp = std::move(x.m_timestamp);
     m_t1 = x.m_t1;
     m_t2 = x.m_t2;
     m_t3 = x.m_t3;
@@ -90,8 +90,8 @@ Temperature& Temperature::operator =(
         const Temperature& x)
 {
 
+    m_index = x.m_index;
     m_temperature = x.m_temperature;
-    m_timestamp = x.m_timestamp;
     m_t1 = x.m_t1;
     m_t2 = x.m_t2;
     m_t3 = x.m_t3;
@@ -104,8 +104,8 @@ Temperature& Temperature::operator =(
         Temperature&& x) noexcept
 {
 
+    m_index = x.m_index;
     m_temperature = x.m_temperature;
-    m_timestamp = std::move(x.m_timestamp);
     m_t1 = x.m_t1;
     m_t2 = x.m_t2;
     m_t3 = x.m_t3;
@@ -118,7 +118,7 @@ bool Temperature::operator ==(
         const Temperature& x) const
 {
 
-    return (m_temperature == x.m_temperature && m_timestamp == x.m_timestamp && m_t1 == x.m_t1 && m_t2 == x.m_t2 && m_t3 == x.m_t3 && m_frequency == x.m_frequency);
+    return (m_index == x.m_index && m_temperature == x.m_temperature && m_t1 == x.m_t1 && m_t2 == x.m_t2 && m_t3 == x.m_t3 && m_frequency == x.m_frequency);
 }
 
 bool Temperature::operator !=(
@@ -145,7 +145,8 @@ size_t Temperature::getCdrSerializedSize(
     current_alignment += 4 + eprosima::fastcdr::Cdr::alignment(current_alignment, 4);
 
 
-    current_alignment += 4 + eprosima::fastcdr::Cdr::alignment(current_alignment, 4) + data.timestamp().size() + 1;
+    current_alignment += 4 + eprosima::fastcdr::Cdr::alignment(current_alignment, 4);
+
 
     current_alignment += 8 + eprosima::fastcdr::Cdr::alignment(current_alignment, 8);
 
@@ -167,8 +168,8 @@ void Temperature::serialize(
         eprosima::fastcdr::Cdr& scdr) const
 {
 
+    scdr << m_index;
     scdr << m_temperature;
-    scdr << m_timestamp.c_str();
     scdr << m_t1;
     scdr << m_t2;
     scdr << m_t3;
@@ -180,12 +181,40 @@ void Temperature::deserialize(
         eprosima::fastcdr::Cdr& dcdr)
 {
 
+    dcdr >> m_index;
     dcdr >> m_temperature;
-    dcdr >> m_timestamp;
     dcdr >> m_t1;
     dcdr >> m_t2;
     dcdr >> m_t3;
     dcdr >> m_frequency;
+}
+
+/*!
+ * @brief This function sets a value in member index
+ * @param _index New value for member index
+ */
+void Temperature::index(
+        uint32_t _index)
+{
+    m_index = _index;
+}
+
+/*!
+ * @brief This function returns the value of member index
+ * @return Value of member index
+ */
+uint32_t Temperature::index() const
+{
+    return m_index;
+}
+
+/*!
+ * @brief This function returns a reference to member index
+ * @return Reference to member index
+ */
+uint32_t& Temperature::index()
+{
+    return m_index;
 }
 
 /*!
@@ -216,43 +245,6 @@ int32_t& Temperature::temperature()
     return m_temperature;
 }
 
-/*!
- * @brief This function copies the value in member timestamp
- * @param _timestamp New value to be copied in member timestamp
- */
-void Temperature::timestamp(
-        const std::string& _timestamp)
-{
-    m_timestamp = _timestamp;
-}
-
-/*!
- * @brief This function moves the value in member timestamp
- * @param _timestamp New value to be moved in member timestamp
- */
-void Temperature::timestamp(
-        std::string&& _timestamp)
-{
-    m_timestamp = std::move(_timestamp);
-}
-
-/*!
- * @brief This function returns a constant reference to member timestamp
- * @return Constant reference to member timestamp
- */
-const std::string& Temperature::timestamp() const
-{
-    return m_timestamp;
-}
-
-/*!
- * @brief This function returns a reference to member timestamp
- * @return Reference to member timestamp
- */
-std::string& Temperature::timestamp()
-{
-    return m_timestamp;
-}
 /*!
  * @brief This function sets a value in member t1
  * @param _t1 New value for member t1

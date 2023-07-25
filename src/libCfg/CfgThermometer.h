@@ -19,6 +19,7 @@ namespace app {
 	public:
 		int			thermometerId_;
 		std::string thermometerName_;
+		Frequency frequency_;
 
 
 	};
