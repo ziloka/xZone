@@ -11,7 +11,7 @@ data = pd.read_csv("../build-vs2019-x64/bin/Debug/image_pubsub_data.csv")
 # ax.plot([1, 2, 3, 4], [1, 4, 2, 3])  # Plot some data on the axes.
 fig, ax = plt.subplots()
 
-ax.set_title('Publisher / Subscriber benchmark 176 x 144')
+ax.set_title('Publisher / Subscriber benchmark image (640 x 480)')
 ax.set_xlabel('Frequency (Hz)')
 ax.set_ylabel('Latency (μs)') # microseconds, a millionth of a second
 # set axis maybe
@@ -21,7 +21,7 @@ ax.scatter(data["frequency"], data["latency"], s=50, facecolor='C0', edgecolor='
 
 plt.show()
 
-#                                  height width
-fig.savefig('pubsub_image_pubsub_data_176_144.png')
+#                         height width
+fig.savefig('pubsub_image_640_480.png')
 
 print("generated the graph")
