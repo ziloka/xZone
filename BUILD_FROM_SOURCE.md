@@ -21,8 +21,9 @@ Note: *C++17 and above is required*
 			git clone --jobs 4 --depth=1 --single-branch --branch v1.13.0 --recursive https://github.com/google/googletest
 			mkdir vs2019-install
 			cd vs2019-install
-			cmake -G "Visual Studio 16 2019" -D CMAKE_MSVC_RUNTIME_LIBRARY=MultiThreadedDebug -D CMAKE_DEBUG_POSTFIX=d -D BUILD_SHARED_LIBS=ON ..
+			cmake -G "Visual Studio 16 2019" -D CMAKE_DEBUG_POSTFIX=d -D BUILD_SHARED_LIBS=ON ..
 			cmake --build . --parallel 4 --config debug
+			cmake --build . --parallel 4 --config release
 			```
 			Notes:
 			- https://stackoverflow.com/questions/59620509/set-msvc-runtime-on-cmake-project-from-command-line
@@ -41,6 +42,7 @@ Note: *C++17 and above is required*
 		cd build
 		cmake -G "Visual Studio 16 2019" -D BUILD_PERF_TESTS=OFF -D BUILD_TESTS=OFF -D BUILD_DOCS=OFF -D WITH_CUDA=OFF -D BUILD_EXAMPLES=OFF -D INSTALL_CREATE_DISTRIB=ON -D WITH_GSTREAMER=ON -D OPENCV_EXTRA_MODULES_PATH=../opencv_contrib/modules -D BUILD_opencv_world=ON -D BUILD_SHARED_LIBS=ON ../opencv
 		cmake --build . --parallel 4 --target install --config debug
+		cmake --build . --parallel 4 --target install --config release
 		```
 		opencv lib is located in ./install/$(arch)/$(MSVC_VER)/lib
 		opencv include is located in ./install/include
@@ -89,23 +91,39 @@ Note: *C++17 and above is required*
 		 ```pwsh
 		mkdir Fast-DDS
 		cd Fast-DDS
-		git clone https://github.com/eProsima/foonathan_memory_vendor.git
+		git clone --jobs 4 --depth=1 --single-branch https://github.com/eProsima/foonathan_memory_vendor.git
 		cd foonathan_memory_vendor
 		mkdir build
 		cd build
 		# This library needs to compile shared libraries
-		cmake -G "Visual Studio 16 2019" -D CMAKE_MSVC_RUNTIME_LIBRARY=MultiThreadedDebugDLL -D CMAKE_INSTALL_PREFIX:FILEPATH=../../install -D BUILD_SHARED_LIBS=ON ..
+		cmake -G "Visual Studio 16 2019" -D CMAKE_INSTALL_PREFIX:FILEPATH=../../install -D BUILD_SHARED_LIBS=ON ..
 		cmake --build . --parallel 4 --target install --config debug
+		cmake --build . --parallel 4 --target install --config release
 		# this command is probably needed to merge it because the install prefix is incorrect somehow
 		xcopy /E ..\..\..\install\*.* ..\..\install
 		cd ../..
 
-		git clone https://github.com/eProsima/Fast-CDR.git
+		git clone --jobs 4 --depth=1 --single-branch --branch 1.0.x https://github.com/eProsima/Fast-CDR.git fast-cdr-1.0.x
+		cd fast-cdr-1.0.x
+		mkdir build
+		cd build
+		# files with no lib prefixes
+		cmake -G "Visual Studio 16 2019" -D CMAKE_INSTALL_PREFIX:FILEPATH=../../install -D BUILD_SHARED_LIBS=ON ..
+		cmake --build . --parallel 4 --target install --config debug
+		cmake --build . --parallel 4 --target install --config release
+		# Have the files starting with lib prefixes
+		cmake -G "Visual Studio 16 2019" -D CMAKE_INSTALL_PREFIX:FILEPATH=../../install -D BUILD_SHARED_LIBS=OFF ..
+		cmake --build . --parallel 4 --target install --config debug
+		cmake --build . --parallel 4 --target install --config release
+
+		# for release, the wanted dep is in the install/bin folder
+		git clone --jobs 4 --depth=1 --single-branch https://github.com/eProsima/Fast-CDR.git
 		cd Fast-CDR
 		mkdir build
 		cd build
-		cmake -G "Visual Studio 16 2019" -D CMAKE_MSVC_RUNTIME_LIBRARY=MultiThreadedDebugDLL -D CMAKE_INSTALL_PREFIX:FILEPATH=../../install -D BUILD_SHARED_LIBS=ON ..
-		cmake --build . --parallel 4 --target install --config debug
+		cmake -G "Visual Studio 16 2019" -D CMAKE_INSTALL_PREFIX:FILEPATH=../../install -D BUILD_SHARED_LIBS=ON ..
+		cmake --build . --parallel 4 --target install --config release
+
 		cd ../..
 
 		git clone --jobs 4 --depth=1 --single-branch --branch 2.9.1 --recursive https://github.com/eProsima/Fast-DDS
@@ -114,9 +132,10 @@ Note: *C++17 and above is required*
 		cd build
 		# If this command doesn't work try setting the absolute path and trying again
 		set CMAKE_PREFIX_PATH=../../install/share/foonathan_memory/cmake
-		cmake -G "Visual Studio 16 2019" -D CMAKE_MSVC_RUNTIME_LIBRARY=MultiThreadedDebugDLL -D CMAKE_INSTALL_PREFIX:FILEPATH=../../install -D BUILD_SHARED_LIBS=ON -DTHIRDPARTY=ON -D foonathan_memory_DIR=../../install/share/foonathan_memory/cmake ..
+		cmake -G "Visual Studio 16 2019" -D CMAKE_INSTALL_PREFIX:FILEPATH=../../install -D BUILD_SHARED_LIBS=ON -DTHIRDPARTY=ON -D foonathan_memory_DIR=../../install/share/foonathan_memory/cmake ..
 		# this actually doesn't make cmake have multiple jobs in this project
 		cmake --build . --parallel 4 --target install --config debug
+		cmake --build . --parallel 4 --target install --config release
 		``` 
 
 		# You will also need fast dds gen tool

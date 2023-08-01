@@ -188,11 +188,11 @@ void ImagePublisher::runThread()
         std::cout << "sending " << nSamples << " samples" << std::endl;
         for (uint32_t i = 0; i < nSamples; i++) {
             if (publish(false, nSamples)) {
-                //std::cout << " with index: " << image_.frame_number()
-                //    << " SENT" << std::endl;
+                
             }
         }
-
+        std::cout << "sent " << nSamples << " samples" << std::endl;
+                
         // sleep until a second has passed
         std::chrono::duration<double> elapsed = std::chrono::high_resolution_clock::now() - start;
         // elapsed.count() is the amount of seconds that have elapsed

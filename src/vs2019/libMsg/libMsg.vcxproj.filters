@@ -8,7 +8,7 @@
     <Filter Include="idl">
       <UniqueIdentifier>{a068d2ba-d561-4dfb-91ab-e79e4db2121b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files">
+    <Filter Include="idl\Source Files">
       <UniqueIdentifier>{c9790cd6-d9e1-4ded-86ad-c491d68c88d7}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -41,31 +41,31 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\libMsg\HumidityPubSubTypes.h">
-      <Filter>Source Files</Filter>
+      <Filter>idl\Source Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\libMsg\ImagePubSubTypes.h">
-      <Filter>Source Files</Filter>
+      <Filter>idl\Source Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\libMsg\TemperaturePubSubTypes.h">
-      <Filter>Source Files</Filter>
+      <Filter>idl\Source Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\libMsg\UpdateCam.h">
-      <Filter>Source Files</Filter>
+      <Filter>idl\Source Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\libMsg\UpdateCamPubSubTypes.h">
-      <Filter>Source Files</Filter>
+      <Filter>idl\Source Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\libMsg\UpdateHygrometer.h">
-      <Filter>Source Files</Filter>
+      <Filter>idl\Source Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\libMsg\UpdateHygrometerPubSubTypes.h">
-      <Filter>Source Files</Filter>
+      <Filter>idl\Source Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\libMsg\UpdateThermometer.h">
-      <Filter>Source Files</Filter>
+      <Filter>idl\Source Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\libMsg\UpdateThermometerPubSubTypes.h">
-      <Filter>Source Files</Filter>
+      <Filter>idl\Source Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -90,40 +90,40 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\libMsg\Humidity.cxx">
-      <Filter>Source Files</Filter>
+      <Filter>idl\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\libMsg\HumidityPubSubTypes.cxx">
-      <Filter>Source Files</Filter>
+      <Filter>idl\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\libMsg\Image.cxx">
-      <Filter>Source Files</Filter>
+      <Filter>idl\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\libMsg\ImagePubSubTypes.cxx">
-      <Filter>Source Files</Filter>
+      <Filter>idl\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\libMsg\Temperature.cxx">
-      <Filter>Source Files</Filter>
+      <Filter>idl\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\libMsg\TemperaturePubSubTypes.cxx">
-      <Filter>Source Files</Filter>
+      <Filter>idl\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\libMsg\UpdateCam.cxx">
-      <Filter>Source Files</Filter>
+      <Filter>idl\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\libMsg\UpdateCamPubSubTypes.cxx">
-      <Filter>Source Files</Filter>
+      <Filter>idl\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\libMsg\UpdateHygrometer.cxx">
-      <Filter>Source Files</Filter>
+      <Filter>idl\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\libMsg\UpdateHygrometerPubSubTypes.cxx">
-      <Filter>Source Files</Filter>
+      <Filter>idl\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\libMsg\UpdateThermometer.cxx">
-      <Filter>Source Files</Filter>
+      <Filter>idl\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\libMsg\UpdateThermometerPubSubTypes.cxx">
-      <Filter>Source Files</Filter>
+      <Filter>idl\Source Files</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

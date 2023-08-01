@@ -15,21 +15,18 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\temperatureSub\mainSub.cpp">
+    <ClCompile Include="..\..\libTemperatureSub\TemperatureSubscriber.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\temperatureSub\TemperatureSubscriber.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\temperatureSub\UpdateThermometerPublisher.cpp">
+    <ClCompile Include="..\..\libTemperatureSub\UpdateThermometerPublisher.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\temperatureSub\TemperatureSubscriber.h">
+    <ClInclude Include="..\..\libTemperatureSub\TemperatureSubscriber.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\temperatureSub\UpdateThermometerPublisher.h">
+    <ClInclude Include="..\..\libTemperatureSub\UpdateThermometerPublisher.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

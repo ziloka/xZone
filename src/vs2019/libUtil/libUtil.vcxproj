@@ -142,7 +142,8 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_WINDOWS;NDEBUG;_CONSOLE;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -155,6 +156,7 @@
     <ClCompile Include="..\..\libUtil\AppBagRead.cpp" />
     <ClCompile Include="..\..\libUtil\AppBagWrite.cpp" />
     <ClCompile Include="..\..\libUtil\AppLog.cpp" />
+    <ClCompile Include="..\..\libUtil\CapImg.cpp" />
     <ClCompile Include="..\..\libUtil\CRC.cpp" />
     <ClCompile Include="..\..\libUtil\FileUtil.cpp" />
     <ClCompile Include="..\..\libUtil\ReadCfg.cpp" />
@@ -170,6 +172,7 @@
     <ClInclude Include="..\..\libUtil\AppEnums.h" />
     <ClInclude Include="..\..\libUtil\AppLog.h" />
     <ClInclude Include="..\..\libUtil\AppTicToc.h" />
+    <ClInclude Include="..\..\libUtil\CapImg.h" />
     <ClInclude Include="..\..\libUtil\CRC.h" />
     <ClInclude Include="..\..\libUtil\HealthyMonitor.h" />
     <ClInclude Include="..\..\libUtil\AppRng.h" />

@@ -42,6 +42,9 @@
     <ClCompile Include="..\..\libUtil\ReadCfg.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\libUtil\CapImg.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\libUtil\AppBagRead.h">
@@ -96,6 +99,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\libUtil\ReadCfg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\libUtil\CapImg.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
