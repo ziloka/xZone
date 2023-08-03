@@ -50,7 +50,7 @@ directories:
 	
 #the output binary file name is <$(TARGETFILE)>
 $(TARGETFILE)	:	$(OBJS)
-	$(CXX) $(LFLAGS) $(OBJS) $(LIBS) $(LIBS) -o $(TARGETFILE)
+	$(CXX) $(LFLAGS) $(OBJS) $(LIBS) -o $(TARGETFILE)
 
 
 $(ODIR_OBJ)/test_main.o	:	$(SDIR_PROJ)/test_main.cpp

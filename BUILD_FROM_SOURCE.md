@@ -254,6 +254,7 @@ Note: *C++17 and above is required*
 
 	```bash
 	# sudo apt-cache search libopencv | grep -o ^libopencv-[a-z0-9\.-]* | awk '{split($0, arr, "\n"); for(i in arr) printf arr[i] " "; "\n"}'
+	# sudo apt-get install libopencv-dnn-dev libopencv-objdetect-dev libopencv-photo-dev libopencv-stitching-dev libopencv-superres-dev libopencv-videostab-dev libopencv-viz-dev
 
 	# this is for the sfm opencv contrib module
 	# https://github.com/ceres-solver/ceres-solver/issues/669

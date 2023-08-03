@@ -33,7 +33,7 @@ directories:
 	
 #the output binary file name is <$(TARGETFILE)>
 $(TARGETFILE)	:	$(OBJS)
-	$(CXX) $(LFLAGS) $(OBJS) $(LIBS) $(LIBS) -o $(TARGETFILE)
+	$(CXX) $(LFLAGS) $(OBJS) $(LIBS) -o $(TARGETFILE)
 
 
 $(ODIR_OBJ)/mainPub.o	:	$(SDIR_PROJ)/mainPub.cpp

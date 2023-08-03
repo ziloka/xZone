@@ -8,7 +8,7 @@ include Makefile_app_header.mak
 TARGETFILE=$(ODIR_BIN)/test.out
 
 # link libs
-LIBS	:= -lMsg -lCfg -lUtil -lhumiditySub -limageSub -ltemperatureSub \
+LIBS	:= -lMsg -lCfg -lUtil -lHumiditySub -lImageSub -lTemperatureSub \
 	-lfastrtps -lfastcdr \
 	-lboost_timer -lboost_filesystem -lboost_system -lboost_date_time -lboost_regex \
 	-lboost_chrono -lboost_thread -pthread \
@@ -32,7 +32,7 @@ directories:
 	
 #the output binary file name is <$(TARGETFILE)>
 $(TARGETFILE)	:	$(OBJS)
-	$(CXX) $(LFLAGS) $(OBJS) $(LIBS) $(LIBS) -o $(TARGETFILE)
+	$(CXX) $(LFLAGS) $(OBJS) $(LIBS) -o $(TARGETFILE)
 
 
 $(ODIR_OBJ)/test_main.o	:	$(SDIR_PROJ)/test_main.cpp
