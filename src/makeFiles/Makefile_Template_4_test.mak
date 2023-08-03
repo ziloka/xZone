@@ -24,9 +24,7 @@ LIBS	:= -lRun -lEkf2 -lFdnn -lvncxx -lCap -lUtil \
 	-lcv_bridge -lfast-dnn -lfmt -limage_geometry \
 	-lboost_timer -lboost_filesystem -lboost_system -lboost_date_time -lboost_regex \
 	-lboost_chrono -lboost_thread -pthread \
-	-lopencv_stitching -lopencv_superres -lopencv_videostab \
-	-lopencv_ml -lopencv_shape -lopencv_video -lopencv_calib3d -lopencv_features2d -lopencv_xfeatures2d \
-	-lopencv_highgui -lopencv_videoio -lopencv_flann -lopencv_imgcodecs -lopencv_imgproc -lopencv_core \
+	-lopencv_highgui -lopencv_videoio -lopencv_imgcodecs -lopencv_imgproc -lopencv_core \
 	-lv4l2 \
 	-ldl -lm -lpthread -lrt 
 

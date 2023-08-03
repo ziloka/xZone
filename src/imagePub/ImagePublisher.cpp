@@ -14,6 +14,7 @@
 
 #include "ImagePublisher.h"
 #include <libUtil/FileUtil.h>
+#include "libUtil/CapImg.h"
 #include "opencv2/opencv.hpp"
 #include <fastrtps/attributes/ParticipantAttributes.h>
 #include <fastrtps/attributes/PublisherAttributes.h>
@@ -29,34 +30,37 @@
 using namespace app;
 using namespace eprosima::fastdds::dds;
 
-ImagePublisher::ImagePublisher(std::shared_ptr<std::shared_mutex> mutexPtr, CfgCamPtr cfgCamPtr)
+ImagePublisher::ImagePublisher(std::shared_ptr<std::shared_mutex> mutexPtr, CfgCamPtr cfgCamPtr, const std::string videoFileName)
     : participant_(nullptr)
     , publisher_(nullptr)
     , topic_(nullptr)
     , writer_(nullptr)
     , type_(new ImagePubSubType())
     , stop_(false)
+    , capImg_(CapImg(videoFileName))
 {
 
     cfgCamPtr_ = cfgCamPtr;
     mutexPtr_ = mutexPtr;
 
-   // https://learnopencv.com/read-write-and-display-a-video-using-opencv-cpp-python/
-   // https://learn.microsoft.com/en-us/windows/win32/directshow/selecting-a-capture-device?redirectedfrom=MSDN
-   // command to list available video and audio devices
-   // ffmpeg -list_devices true -f dshow -i dummy
-   camera_ = cv::VideoCapture(0, cv::CAP_DSHOW);
-    //// Check if camera opened successfully
-    if (!camera_.isOpened()) {
-        std::cout << "[ImagePublisher] constructor: Error opening video stream or file" << std::endl;
-    }
+    if (!capImg_.isProbeSuccess()) std::cout << "[ImagePublisher] capturing image probe was not successful" << std::endl;
 
-    // set the camera configuration
-    // https://docs.opencv.org/3.4/d4/d15/group__videoio__flags__base.html#gaeb8dd9c89c10a5c63c139bf7c4f5704d
-    // "Effective behaviour depends from device hardware, driver and API Backend."
-    camera_.set(cv::CAP_PROP_FRAME_HEIGHT, cfgCamPtr->imgSz_.w);
-    camera_.set(cv::CAP_PROP_FRAME_WIDTH, cfgCamPtr->imgSz_.h);
-    camera_.set(cv::CAP_PROP_FPS, cfgCamPtr->fps_.getFps());
+   //// https://learnopencv.com/read-write-and-display-a-video-using-opencv-cpp-python/
+   //// https://learn.microsoft.com/en-us/windows/win32/directshow/selecting-a-capture-device?redirectedfrom=MSDN
+   //// command to list available video and audio devices
+   //// ffmpeg -list_devices true -f dshow -i dummy
+   //camera_ = cv::VideoCapture(0, cv::CAP_DSHOW);
+   // //// Check if camera opened successfully
+   // if (!camera_.isOpened()) {
+   //     std::cout << "[ImagePublisher] constructor: Error opening video stream or file" << std::endl;
+   // }
+
+   // // set the camera configuration
+   // // https://docs.opencv.org/3.4/d4/d15/group__videoio__flags__base.html#gaeb8dd9c89c10a5c63c139bf7c4f5704d
+   // // "Effective behaviour depends from device hardware, driver and API Backend."
+   // camera_.set(cv::CAP_PROP_FRAME_HEIGHT, cfgCamPtr->imgSz_.w);
+   // camera_.set(cv::CAP_PROP_FRAME_WIDTH, cfgCamPtr->imgSz_.h);
+   // camera_.set(cv::CAP_PROP_FPS, cfgCamPtr->fps_.getFps());
 }
 
 bool ImagePublisher::init( bool use_env)
@@ -236,7 +240,8 @@ bool ImagePublisher::publish( bool waitForListener, uint32_t frequency)
         image_.t1(APP_TIME_CURRENT_US);
 
         cv::Mat frame;
-        camera_ >> frame;
+        //camera_ >> frame;
+        capImg_.getNextFrame(frame);
         if (frame.empty()) {
             std::cout << "empty frame" << std::endl;
             return false;

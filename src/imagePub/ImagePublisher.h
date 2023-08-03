@@ -16,6 +16,7 @@
 #define IMAGEPUBLISHER_H_
 
 #include "libUtil/Util.h"
+#include "libUtil/CapImg.h"
 #include "libMsg/ImagePubSubTypes.h"
 #include "libCfg/Cfg.h"
 
@@ -32,7 +33,7 @@ class ImagePublisher
 {
 public:
 
-    ImagePublisher(std::shared_ptr<std::shared_mutex> mutex, CfgCamPtr cfgCamPtr);
+    ImagePublisher(std::shared_ptr<std::shared_mutex> mutex, CfgCamPtr cfgCamPtr, const std::string videoFileName);
 
     virtual ~ImagePublisher();
 
@@ -55,6 +56,7 @@ private:
     std::shared_ptr<std::shared_mutex> mutexPtr_;
 
     cv::VideoCapture camera_;
+    CapImg capImg_;
 
     Image image_;
 

@@ -1,4 +1,4 @@
-#include "readCfg.h"
+#include "ReadCfg.h"
 #include "libCfg/Cfg.h"
 
 using namespace std;
