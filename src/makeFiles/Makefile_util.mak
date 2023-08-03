@@ -7,6 +7,7 @@ OBJS = \
 	$(ODIR_OBJ)/AppBagRead.o \
 	$(ODIR_OBJ)/AppBagWrite.o \
 	$(ODIR_OBJ)/AppLog.o \
+	$(ODIR_OBJ)/CapImg.o \
 	$(ODIR_OBJ)/CRC.o \
 	$(ODIR_OBJ)/CvUtilFuncs.o \
 	$(ODIR_OBJ)/FileUtil.o \
@@ -33,6 +34,9 @@ $(ODIR_OBJ)/AppBagWrite.o: $(SDIR_PROJ)/AppBagWrite.cpp $(SDIR_PROJ)/AppBagWrite
 
 $(ODIR_OBJ)/AppLog.o: $(SDIR_PROJ)/AppLog.cpp $(SDIR_PROJ)/AppLog.h
 	$(CXX) -o $(ODIR_OBJ)/AppLog.o $(CFLAGS) $(SDIR_PROJ)/AppLog.cpp
+
+$(ODIR_OBJ)/CRC.o: $(SDIR_PROJ)/CapImg.cpp $(SDIR_PROJ)/CapImg.h
+	$(CXX) -o $(ODIR_OBJ)/CapImg.o $(CFLAGS) $(SDIR_PROJ)/CapImg.cpp
 
 $(ODIR_OBJ)/CRC.o: $(SDIR_PROJ)/CRC.cpp $(SDIR_PROJ)/CRC.h
 	$(CXX) -o $(ODIR_OBJ)/CRC.o $(CFLAGS) $(SDIR_PROJ)/CRC.cpp
