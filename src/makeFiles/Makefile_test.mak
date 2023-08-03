@@ -12,6 +12,7 @@ LIBS	:= -lMsg -lCfg -lUtil -lhumiditySub -limageSub -ltemperatureSub \
 	-lfastrtps -lfastcdr \
 	-lboost_timer -lboost_filesystem -lboost_system -lboost_date_time -lboost_regex \
 	-lboost_chrono -lboost_thread -pthread \
+	-lopencv_calib3d \
 	-lopencv_highgui -lopencv_videoio -lopencv_imgcodecs -lopencv_imgproc -lopencv_core \
 	-lv4l2 \
 	-ldl -lm -lpthread -lrt 
