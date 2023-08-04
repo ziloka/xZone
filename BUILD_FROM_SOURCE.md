@@ -357,6 +357,10 @@ Troubleshooting
 	ld -l<libraryname> --verbose
 	```
 	[Source](https://stackoverflow.com/a/21647591)
+- undefined reference to something?
+	- link the library that has the definition
+	- make sure the library compiled with the file that has those definitions
+	- [Reverse order of dependencies when passed to linker](https://stackoverflow.com/a/13255594) [Explanation](https://stackoverflow.com/questions/45135/why-does-the-order-in-which-libraries-are-linked-sometimes-cause-errors-in-gcc)
 
 ### Additional References
 [set-imx8-env-AIO.txt](https://github.com/shunguang/HowTo/blob/master/set-imx8-env-AIO.txt)
