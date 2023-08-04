@@ -305,7 +305,7 @@ Note: *C++17 and above is required*
 
 	Install prebuilt dependencies:
 	```sh
-	sudo apt-get install libopencv-dev
+	sudo apt-get install libopencv-dev libboost-all-dev
 	```
 
 	Note: [Opencv 2.x vs +3.x diff](https://stackoverflow.com/questions/34867289/opencv-3-x-only-contains-one-lib-opencv-world-lib)
