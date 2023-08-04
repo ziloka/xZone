@@ -43,7 +43,6 @@ CXX = /usr/bin/g++
 #DEBUG = -g
 DEBUG = -DNDEBUG -g
 #DEBUG = -DDEBUG -g
-LIBRARY_PATH=$(XZONE_ROOT)/build/libs
 
 #include flags for building libs
 CFLAGS = -Wall -static -c $(DEBUG) -DECL_STANDALONE=1 -DqDNGDebug=1 -D__xlC__=1 -DNO_FCGI_DEFINES=1 -DqDNGUseStdInt=0 -DUNIX_ENV=1 -D__LITTLE_ENDIAN__=1 -DqMacOS=0 -DqWinOS=0 -std=gnu++17 \

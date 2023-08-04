@@ -158,8 +158,8 @@
     <ClCompile Include="..\..\libUtil\AppLog.cpp" />
     <ClCompile Include="..\..\libUtil\CapImg.cpp" />
     <ClCompile Include="..\..\libUtil\CRC.cpp" />
+    <ClCompile Include="..\..\libUtil\CvUtilFuncs.cpp" />
     <ClCompile Include="..\..\libUtil\FileUtil.cpp" />
-    <ClCompile Include="..\..\libUtil\ReadCfg.cpp" />
     <ClCompile Include="..\..\libUtil\Roi.cpp" />
     <ClCompile Include="..\..\libUtil\Uint8Stream.cpp" />
     <ClCompile Include="..\..\libUtil\UtilFuncs.cpp" />
@@ -171,15 +171,16 @@
     <ClInclude Include="..\..\libUtil\AppDefs.h" />
     <ClInclude Include="..\..\libUtil\AppEnums.h" />
     <ClInclude Include="..\..\libUtil\AppLog.h" />
+    <ClInclude Include="..\..\libUtil\AppMeanStd.h" />
     <ClInclude Include="..\..\libUtil\AppTicToc.h" />
     <ClInclude Include="..\..\libUtil\CapImg.h" />
     <ClInclude Include="..\..\libUtil\CRC.h" />
+    <ClInclude Include="..\..\libUtil\CvUtilFuncs.h" />
     <ClInclude Include="..\..\libUtil\HealthyMonitor.h" />
     <ClInclude Include="..\..\libUtil\AppRng.h" />
     <ClInclude Include="..\..\libUtil\FileUtil.h" />
     <ClInclude Include="..\..\libUtil\libUtilDefs.h" />
     <ClInclude Include="..\..\libUtil\LinSpace.h" />
-    <ClInclude Include="..\..\libUtil\ReadCfg.h" />
     <ClInclude Include="..\..\libUtil\Roi.h" />
     <ClInclude Include="..\..\libUtil\Uint8Stream.h" />
     <ClInclude Include="..\..\libUtil\util.h" />

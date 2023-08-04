@@ -36,10 +36,21 @@ Cfg::Cfg()
 
 void Cfg::readFromFile(const char *fname)
 {
-	boost::property_tree::ptree pt;
-	boost::property_tree::xml_parser::read_xml( fname, pt);
-	this->fromPropertyTree(pt.get_child("cfg"));
-	printf("xml read done!\n");
+	try {
+		boost::property_tree::ptree pt;
+		boost::property_tree::xml_parser::read_xml(fname, pt);
+		this->fromPropertyTree(pt.get_child("cfg"));
+		printf("xml read done!\n");
+	}
+	catch (const std::overflow_error& e) {
+		printf("overflow error: %s\n", e.what());
+	}
+	catch (const boost::property_tree::xml_parser::xml_parser_error& e) {
+		printf("xml parse error: %s\n", e.what());
+	}
+	catch (const boost::property_tree::ptree_bad_path& e) {
+		printf("ptree bad path: %s\n", e.what());
+	}
 }
 
 void Cfg::writeToFile(const char *fname)

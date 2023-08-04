@@ -39,10 +39,10 @@
     <ClCompile Include="..\..\libUtil\Uint8Stream.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\libUtil\ReadCfg.cpp">
+    <ClCompile Include="..\..\libUtil\CapImg.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\libUtil\CapImg.cpp">
+    <ClCompile Include="..\..\libUtil\CvUtilFuncs.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -66,9 +66,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\libUtil\libUtilDefs.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\libUtil\LinSpace.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\libUtil\UtilFuncs.h">
@@ -98,10 +95,16 @@
     <ClInclude Include="..\..\libUtil\AppEnums.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\libUtil\ReadCfg.h">
+    <ClInclude Include="..\..\libUtil\CapImg.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\libUtil\CapImg.h">
+    <ClInclude Include="..\..\libUtil\AppMeanStd.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\libUtil\CvUtilFuncs.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\libUtil\LinSpace.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -19,7 +19,6 @@
 #include "libUtil/Util.h"
 
 #include "libUtil/AppLog.h"
-#include "libUtil/ReadCfg.h"
 #include "libCfg/Cfg.h"
 
 
@@ -38,7 +37,8 @@ int main(int argc, char* argv[])
 	// visual studio debugging purposes
 	std::cout << std::filesystem::current_path() << std::endl;
 
-	CfgPtr cfg = readCfg(argv[1]);
+	CfgPtr cfg(new Cfg());
+	cfg->readFromFile(argv[1]);
 
 	std::printf("used cfg=<%s>\n", argv[1]);
 
