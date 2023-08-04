@@ -25,11 +25,12 @@ ODIR_BIN=$(ODIR_ROOT)/bin
 # include and lib paths of the platform
 PLTF_INC=/usr/include
 PLTF_LIB=/usr/lib
-BOOST_INC=/usr/include
-BOOST_LIB=/usr/lib
 
-CV_INC=/usr/local/include/opencv4
-CV_LIB=/usr/local/lib
+BOOST_INC=/usr/include
+BOOST_LIB=/usr/lib/$(arch)-linux-gnu
+
+CV_INC=/usr/include/opencv4
+CV_LIB=/usr/lib/$(arch)-linux-gnu
 
 DDS_INC=/usr/local/include
 DDS_LIB=/usr/local/lib
