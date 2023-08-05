@@ -22,7 +22,7 @@ def addLegend(df: pd.DataFrame, ax: plt.Axes, data_filepath: str, platform: str)
     ax.plot(freqs, latencies, label=platform)
 
 addLegend(pd.DataFrame(), ax, "jetson_agx_orin_dev_kit_1920_1080_image_pubsub_data.csv", "NVIDIA Jetson AGX Orin Developer Kit")
-addLegend(pd.DataFrame(), ax, "../build-vs2019-x64/bin/Debug/image_pubsub_data.csv", "Personal PC")
+addLegend(pd.DataFrame(), ax, "personal_pc_psd_UPDATED.csv", "Personal PC")
 
 ax.legend()
 

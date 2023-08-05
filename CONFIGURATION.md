@@ -17,6 +17,8 @@ Example
         <frequencyStep>5</frequencyStep> <!-- interval to step by -->
         <frequencyEnd>100</frequencyEnd> <!-- maximum hertz-->
 
+        <numSamples>1000</numSamples> <!-- each frequency takes x samples before moving to the next one -->
+
         <frmQueSz>10</frmQueSz>
         <!-- currently not used configurations -->
         <detPyrLev>1</detPyrLev>

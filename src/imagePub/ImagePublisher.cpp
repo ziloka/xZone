@@ -30,20 +30,17 @@
 using namespace app;
 using namespace eprosima::fastdds::dds;
 
-ImagePublisher::ImagePublisher(std::shared_ptr<std::shared_mutex> mutexPtr, CfgCamPtr cfgCamPtr, const std::string videoFileName)
+ImagePublisher::ImagePublisher(std::shared_ptr<std::shared_mutex> mutexPtr, CfgCamPtr cfgCamPtr)
     : participant_(nullptr)
     , publisher_(nullptr)
     , topic_(nullptr)
     , writer_(nullptr)
     , type_(new ImagePubSubType())
     , stop_(false)
-    , capImg_(CapImg(videoFileName))
 {
 
     cfgCamPtr_ = cfgCamPtr;
     mutexPtr_ = mutexPtr;
-
-    if (!capImg_.isProbeSuccess()) std::cout << "[ImagePublisher] capturing image probe was not successful" << std::endl;
 
    //// https://learnopencv.com/read-write-and-display-a-video-using-opencv-cpp-python/
    //// https://learn.microsoft.com/en-us/windows/win32/directshow/selecting-a-capture-device?redirectedfrom=MSDN
@@ -185,25 +182,25 @@ void ImagePublisher::PubListener::on_publication_matched(
 
 void ImagePublisher::runThread()
 {
+    int numSamples = cfgCamPtr_->numSamples_;
     auto [start, step, end] = cfgCamPtr_->frequency_;
-
+    
     for (uint32_t nSamples = start; nSamples < end; nSamples += step) {
         auto start = std::chrono::high_resolution_clock::now();
-        std::cout << "sending " << nSamples << " samples" << std::endl;
-        for (uint32_t i = 0; i < nSamples; i++) {
-            if (publish(false, nSamples)) {
-                
+        
+        std::cout << "now at " << nSamples << " frequency" << std::endl;
+        int currentCount = 0;
+        for (int currentCount = 0; currentCount < numSamples; currentCount += nSamples) {
+                // complete a single hz
+    
+            for (uint32_t i = 0; i < nSamples; i++) {
+                publish(false, nSamples);
             }
-        }
-        std::cout << "sent " << nSamples << " samples" << std::endl;
-                
-        // sleep until a second has passed
-        std::chrono::duration<double> elapsed = std::chrono::high_resolution_clock::now() - start;
-        // elapsed.count() is the amount of seconds that have elapsed
-        if (elapsed.count() < 1) {
-            std::cout << "sleeping for" << elapsed.count() << std::endl;
-            std::this_thread::sleep_for(std::chrono::seconds((uint32_t) (1 - elapsed.count())));
-            std::cout << "finished sleeping" << std::endl;
+
+            std::chrono::duration<double> elapsed = std::chrono::high_resolution_clock::now() - start;
+            if (elapsed.count() < 1) { // if less than a second has passed
+                std::this_thread::sleep_for(std::chrono::seconds((uint32_t)(1 - elapsed.count())));
+            }
         }
     }
     std::cout << "finished sending samples" << std::endl;
@@ -213,21 +210,9 @@ std::thread ImagePublisher::run()
 {
     stop_ = false;
     std::thread thread(&ImagePublisher::runThread, this);
-    //if (samples == 0)
-    //{
-    //    std::cout << "Publisher running. Please press enter to stop the Publisher at any time." << std::endl;
-    //    std::cin.ignore();
-    //    stop_ = true;
-    //}
-    //else
-    //{
-       auto [start, step, end] = cfgCamPtr_->frequency_;
-       // min: 10, step: 5, max: 100
-       // Array.from({length: 19}, (e, i) => 10 + (i * 5)).reduce((a, b) => a + b)
-       // sum of arithmetic sequence formula: Sn = (n/2)(a1+a2) to calculate the number of samples
-       int iterations = ((end - start) / step) + 1;
-      APP_LOG("Publisher will start at %u hertz step by %u and end at %u hertz, completing %u samples!", start, step, end, (iterations / 2) * (start + end));
-    //}
+    std::cout << "Publisher running. Please press enter to stop the Publisher at any time." << std::endl;
+    std::cin.ignore();
+    stop_ = true;
     return thread;
 }
 
@@ -239,13 +224,9 @@ bool ImagePublisher::publish( bool waitForListener, uint32_t frequency)
 
         image_.t1(APP_TIME_CURRENT_US);
 
-        cv::Mat frame;
-        //camera_ >> frame;
-        capImg_.getNextFrame(frame);
-        if (frame.empty()) {
-            std::cout << "empty frame" << std::endl;
-            return false;
-        }
+        auto [height, width] = cfgCamPtr_->imgSz_;
+
+        cv::Mat frame(height, width, CV_8UC3);
 
         image_.frame_number(image_.frame_number() + 1);
         image_.image(app::matToVecUchar(frame));

@@ -42,7 +42,6 @@ int main(int argc, char* argv[])
 
 	std::printf("used cfg=<%s>\n", argv[1]);
 
-	const std::string videoFileName("video.mp4");
 	const std::string logFilename("logPub.txt");
 	const bool showInConsole = true;
 	startLogThread(logFilename, showInConsole);
@@ -51,7 +50,7 @@ int main(int argc, char* argv[])
 
 	std::shared_ptr<std::shared_mutex> mutex;
 	std::shared_ptr<CfgCam> CfgCamPtr = std::make_shared<CfgCam>(cfg->getCam());
-	ImagePublisher mypub(mutex, CfgCamPtr, videoFileName);
+	ImagePublisher mypub(mutex, CfgCamPtr);
 	if (mypub.init(use_environment_qos))
 	{
 		std::thread subscriber(createUpdateCamSubscriber, mutex, CfgCamPtr, use_environment_qos);

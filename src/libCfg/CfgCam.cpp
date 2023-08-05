@@ -38,6 +38,7 @@ CfgCam::CfgCam()
 	, imgSz_(0, 0)
 	, fps_(0, 0)
 	, frequency_(Frequency(10, 5, 100))
+	, numSamples_(0)
 	, frmQueSz_(10)
 	, detPyrLev_(1)
 	, detMethodId_(0)
@@ -58,6 +59,7 @@ CfgCam::CfgCam( const CfgCam &x )
 , imgSz_		( x.imgSz_ )
 , fps_			( x.fps_ )
 , frequency_    ( x.frequency_ )
+, numSamples_   ( x.numSamples_ )
 , frmQueSz_		( x.frmQueSz_ )
 , detPyrLev_	( x.detPyrLev_ )
 , detMethodId_	( x.detMethodId_)
@@ -81,6 +83,7 @@ CfgCam& CfgCam::operator = (const CfgCam &x)
 		imgSz_		= x.imgSz_;
 		fps_		= x.fps_;
 		frequency_ = x.frequency_;
+		numSamples_ = x.numSamples_;
 
 		frmQueSz_	= x.frmQueSz_;
 		detPyrLev_	=  x.detPyrLev_;
@@ -109,6 +112,7 @@ void CfgCam::fromPropertyTree(const boost::property_tree::ptree &pt)
 	frequency_.start = pt.get<int>("frequencyStart");
 	frequency_.step = pt.get<int>("frequencyStep");
 	frequency_.end = pt.get<int>("frequencyEnd");
+	numSamples_ = pt.get<int>("numSamples");
 	frmQueSz_	= pt.get<int>("frmQueSz");
 	detPyrLev_	= pt.get<int>("detPyrLev");
 	detMethodId_ = pt.get<int>("detMethodId");
@@ -132,6 +136,7 @@ boost::property_tree::ptree CfgCam::toPropertyTree()
 	pt.put("frequencyStart", frequency_.start);
 	pt.put("frequencyStep", frequency_.step);
 	pt.put("frequencyEnd", frequency_.end);
+	pt.put("numSamples", numSamples_);
 
 	pt.put("frmQueSz", frmQueSz_);
 

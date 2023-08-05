@@ -33,7 +33,7 @@ class ImagePublisher
 {
 public:
 
-    ImagePublisher(std::shared_ptr<std::shared_mutex> mutex, CfgCamPtr cfgCamPtr, const std::string videoFileName);
+    ImagePublisher(std::shared_ptr<std::shared_mutex> mutex, CfgCamPtr cfgCamPtr);
 
     virtual ~ImagePublisher();
 
@@ -56,7 +56,6 @@ private:
     std::shared_ptr<std::shared_mutex> mutexPtr_;
 
     cv::VideoCapture camera_;
-    CapImg capImg_;
 
     Image image_;
 
