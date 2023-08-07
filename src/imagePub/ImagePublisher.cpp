@@ -45,18 +45,18 @@ ImagePublisher::ImagePublisher(std::shared_ptr<std::shared_mutex> mutexPtr, CfgC
    // https://learn.microsoft.com/en-us/windows/win32/directshow/selecting-a-capture-device?redirectedfrom=MSDN
    // command to list available video and audio devices
    // ffmpeg -list_devices true -f dshow -i dummy
-   camera_ = cv::VideoCapture(0, cv::CAP_DSHOW);
-    //// Check if camera opened successfully
-    if (!camera_.isOpened()) {
-        std::cout << "[ImagePublisher] constructor: Error opening video stream or file" << std::endl;
-    }
+   //camera_ = cv::VideoCapture(0, cv::CAP_DSHOW);
+   // //// Check if camera opened successfully
+   // if (!camera_.isOpened()) {
+   //     std::cout << "[ImagePublisher] constructor: Error opening video stream or file" << std::endl;
+   // }
 
-    // set the camera configuration
-    // https://docs.opencv.org/3.4/d4/d15/group__videoio__flags__base.html#gaeb8dd9c89c10a5c63c139bf7c4f5704d
-    // "Effective behaviour depends from device hardware, driver and API Backend."
-    camera_.set(cv::CAP_PROP_FRAME_HEIGHT, cfgCamPtr->imgSz_.w);
-    camera_.set(cv::CAP_PROP_FRAME_WIDTH, cfgCamPtr->imgSz_.h);
-    camera_.set(cv::CAP_PROP_FPS, cfgCamPtr->fps_.getFps());
+   // // set the camera configuration
+   // // https://docs.opencv.org/3.4/d4/d15/group__videoio__flags__base.html#gaeb8dd9c89c10a5c63c139bf7c4f5704d
+   // // "Effective behaviour depends from device hardware, driver and API Backend."
+   // camera_.set(cv::CAP_PROP_FRAME_HEIGHT, cfgCamPtr->imgSz_.w);
+   // camera_.set(cv::CAP_PROP_FRAME_WIDTH, cfgCamPtr->imgSz_.h);
+   // camera_.set(cv::CAP_PROP_FPS, cfgCamPtr->fps_.getFps());
 }
 
 bool ImagePublisher::init( bool use_env)
@@ -234,8 +234,10 @@ bool ImagePublisher::publish( bool waitForListener, uint32_t frequency)
 
         image_.t1(APP_TIME_CURRENT_US);
 
-        cv::Mat frame;
-        camera_ >> frame;
+        auto [height, width] = cfgCamPtr_->imgSz_;
+
+        cv::Mat frame(height, width, CV_8UC3);
+        //camera_ >> frame;
         if (frame.empty()) {
             std::cout << "empty frame" << std::endl;
             return false;
