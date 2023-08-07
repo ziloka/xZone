@@ -14,7 +14,6 @@
 
 #include "ImagePublisher.h"
 #include <libUtil/FileUtil.h>
-#include "libUtil/CapImg.h"
 #include "opencv2/opencv.hpp"
 #include <fastrtps/attributes/ParticipantAttributes.h>
 #include <fastrtps/attributes/PublisherAttributes.h>
@@ -42,22 +41,22 @@ ImagePublisher::ImagePublisher(std::shared_ptr<std::shared_mutex> mutexPtr, CfgC
     cfgCamPtr_ = cfgCamPtr;
     mutexPtr_ = mutexPtr;
 
-   //// https://learnopencv.com/read-write-and-display-a-video-using-opencv-cpp-python/
-   //// https://learn.microsoft.com/en-us/windows/win32/directshow/selecting-a-capture-device?redirectedfrom=MSDN
-   //// command to list available video and audio devices
-   //// ffmpeg -list_devices true -f dshow -i dummy
-   //camera_ = cv::VideoCapture(0, cv::CAP_DSHOW);
-   // //// Check if camera opened successfully
-   // if (!camera_.isOpened()) {
-   //     std::cout << "[ImagePublisher] constructor: Error opening video stream or file" << std::endl;
-   // }
+   // https://learnopencv.com/read-write-and-display-a-video-using-opencv-cpp-python/
+   // https://learn.microsoft.com/en-us/windows/win32/directshow/selecting-a-capture-device?redirectedfrom=MSDN
+   // command to list available video and audio devices
+   // ffmpeg -list_devices true -f dshow -i dummy
+   camera_ = cv::VideoCapture(0, cv::CAP_DSHOW);
+    //// Check if camera opened successfully
+    if (!camera_.isOpened()) {
+        std::cout << "[ImagePublisher] constructor: Error opening video stream or file" << std::endl;
+    }
 
-   // // set the camera configuration
-   // // https://docs.opencv.org/3.4/d4/d15/group__videoio__flags__base.html#gaeb8dd9c89c10a5c63c139bf7c4f5704d
-   // // "Effective behaviour depends from device hardware, driver and API Backend."
-   // camera_.set(cv::CAP_PROP_FRAME_HEIGHT, cfgCamPtr->imgSz_.w);
-   // camera_.set(cv::CAP_PROP_FRAME_WIDTH, cfgCamPtr->imgSz_.h);
-   // camera_.set(cv::CAP_PROP_FPS, cfgCamPtr->fps_.getFps());
+    // set the camera configuration
+    // https://docs.opencv.org/3.4/d4/d15/group__videoio__flags__base.html#gaeb8dd9c89c10a5c63c139bf7c4f5704d
+    // "Effective behaviour depends from device hardware, driver and API Backend."
+    camera_.set(cv::CAP_PROP_FRAME_HEIGHT, cfgCamPtr->imgSz_.w);
+    camera_.set(cv::CAP_PROP_FRAME_WIDTH, cfgCamPtr->imgSz_.h);
+    camera_.set(cv::CAP_PROP_FPS, cfgCamPtr->fps_.getFps());
 }
 
 bool ImagePublisher::init( bool use_env)
@@ -182,26 +181,25 @@ void ImagePublisher::PubListener::on_publication_matched(
 
 void ImagePublisher::runThread()
 {
-    int numSamples = cfgCamPtr_->numSamples_;
     auto [start, step, end] = cfgCamPtr_->frequency_;
-    
-    for (uint32_t nSamples = start; nSamples < end; nSamples += step) {
-        auto start = std::chrono::high_resolution_clock::now();
-        
-        std::cout << "now at " << nSamples << " frequency" << std::endl;
-        int currentCount = 0;
-        for (int currentCount = 0; currentCount < numSamples; currentCount += nSamples) {
-                // complete a single hz
-    
-            for (uint32_t i = 0; i < nSamples; i++) {
-                publish(false, nSamples);
-            }
+    int numSamples = cfgCamPtr_->numSamples_;
 
-            std::chrono::duration<double> elapsed = std::chrono::high_resolution_clock::now() - start;
-            if (elapsed.count() < 1) { // if less than a second has passed
-                std::this_thread::sleep_for(std::chrono::seconds((uint32_t)(1 - elapsed.count())));
+    for (uint32_t nSamples = start; nSamples < end; nSamples += step) {
+        // there are 1,000,000,000 nanoseconds in a second
+        auto nanoseconds_per_msg = std::chrono::nanoseconds(1000000000 / nSamples);
+
+        std::cout << "sending " << nSamples << " samples" << std::endl;
+        int cnt = 0;
+        for (int cnt = 0; cnt < numSamples; cnt += nSamples) {
+            for (uint32_t i = 0; i < nSamples; i++) {
+                if (publish(false, nSamples)) {
+
+                }
+                std::this_thread::sleep_for(nanoseconds_per_msg);
             }
         }
+        std::cout << "sent " << nSamples << " samples" << std::endl;
+                
     }
     std::cout << "finished sending samples" << std::endl;
 }
@@ -210,9 +208,21 @@ std::thread ImagePublisher::run()
 {
     stop_ = false;
     std::thread thread(&ImagePublisher::runThread, this);
-    std::cout << "Publisher running. Please press enter to stop the Publisher at any time." << std::endl;
-    std::cin.ignore();
-    stop_ = true;
+    //if (samples == 0)
+    //{
+    //    std::cout << "Publisher running. Please press enter to stop the Publisher at any time." << std::endl;
+    //    std::cin.ignore();
+    //    stop_ = true;
+    //}
+    //else
+    //{
+       auto [start, step, end] = cfgCamPtr_->frequency_;
+       // min: 10, step: 5, max: 100
+       // Array.from({length: 19}, (e, i) => 10 + (i * 5)).reduce((a, b) => a + b)
+       // sum of arithmetic sequence formula: Sn = (n/2)(a1+a2) to calculate the number of samples
+       int iterations = ((end - start) / step) + 1;
+      APP_LOG("Publisher will start at %u hertz step by %u and end at %u hertz, completing %u samples!", start, step, end, (iterations / 2) * (start + end));
+    //}
     return thread;
 }
 
@@ -224,9 +234,12 @@ bool ImagePublisher::publish( bool waitForListener, uint32_t frequency)
 
         image_.t1(APP_TIME_CURRENT_US);
 
-        auto [height, width] = cfgCamPtr_->imgSz_;
-
-        cv::Mat frame(height, width, CV_8UC3);
+        cv::Mat frame;
+        camera_ >> frame;
+        if (frame.empty()) {
+            std::cout << "empty frame" << std::endl;
+            return false;
+        }
 
         image_.frame_number(image_.frame_number() + 1);
         image_.image(app::matToVecUchar(frame));
