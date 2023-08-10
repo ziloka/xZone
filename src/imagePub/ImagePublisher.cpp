@@ -181,27 +181,28 @@ void ImagePublisher::PubListener::on_publication_matched(
 
 void ImagePublisher::runThread()
 {
-    auto [start, step, end] = cfgCamPtr_->frequency_;
-    int numSamples = cfgCamPtr_->numSamples_;
+	const int numSamples = cfgCamPtr_->numSamples_;
+  auto nanoseconds_per_msg = std::chrono::nanoseconds(1000000000 / nFreqHz);
 
-    for (uint32_t nSamples = start; nSamples < end; nSamples += step) {
-        // there are 1,000,000,000 nanoseconds in a second
-        auto nanoseconds_per_msg = std::chrono::nanoseconds(1000000000 / nSamples);
+	// there are 1,000,000,000 nanoseconds in a second
 
-        std::cout << "sending " << nSamples << " samples" << std::endl;
-        int cnt = 0;
-        for (int cnt = 0; cnt < numSamples; cnt += nSamples) {
-            for (uint32_t i = 0; i < nSamples; i++) {
-                if (publish(false, nSamples)) {
+	std::cout << "sending " << nSamples << " samples" << std::endl;
+	for (uint32_t i = 0; i < nSamples; i++) {
+    uint64_t tBeg = APP_TIME_CURRENT_US;
+		acqImgMsg();
+		preparImgMsg();
+		if (!publish(false, nSamples)) {
+			std::cout << "sent " << nSamples << " samples" << std::endl;
+		}
 
-                }
-                std::this_thread::sleep_for(nanoseconds_per_msg);
-            }
-        }
-        std::cout << "sent " << nSamples << " samples" << std::endl;
-                
+    uint64_t tEnd = APP_TIME_CURRENT_US;
+    uint64_t dt = tEnd - tBeg;
+    if ( dt < nanoseconds_per_msg) {
+      std::this_thread::sleep_for( nanoseconds_per_msg - dt );
     }
-    std::cout << "finished sending samples" << std::endl;
+	}
+	std::cout << "sent " << nSamples << " samples" << std::endl;
+
 }
 
 std::thread ImagePublisher::run()
@@ -226,31 +227,26 @@ std::thread ImagePublisher::run()
     return thread;
 }
 
-bool ImagePublisher::publish( bool waitForListener, uint32_t frequency)
+bool ImagePublisher::acqImgMsg()
+{
+  // https://learnopencv.com/read-write-and-display-a-video-using-opencv-cpp-python/
+//cv::Mat frame(height, width, CV_8UC3);
+  image_.t1 = APP_TIME_CURRENT_US;
+}
+
+bool ImagePublisher::preparImgMsg( const unit64_t frameNum )
+{
+  image_.frame_number(frameNum);
+  image_.image(app::matToVecUchar(frame));
+  image_.width(frame.cols);
+  image_.height(frame.rows);
+  image_.frequency(frequency);
+}
+bool ImagePublisher::publish(bool waitForListener, uint32_t frequency)
 {
     if (listener_.firstConnected_ || !waitForListener || listener_.matched_ > 0)
     {
-        // https://learnopencv.com/read-write-and-display-a-video-using-opencv-cpp-python/
-
-        image_.t1(APP_TIME_CURRENT_US);
-
-        auto [height, width] = cfgCamPtr_->imgSz_;
-
-        cv::Mat frame(height, width, CV_8UC3);
-        //camera_ >> frame;
-        if (frame.empty()) {
-            std::cout << "empty frame" << std::endl;
-            return false;
-        }
-
-        image_.frame_number(image_.frame_number() + 1);
-        image_.image(app::matToVecUchar(frame));
-        image_.width(frame.cols);
-        image_.height(frame.rows);
-        image_.frequency(frequency);
-
         image_.t2(APP_TIME_CURRENT_US);
-
         writer_->write(&image_);
         return true;
     }

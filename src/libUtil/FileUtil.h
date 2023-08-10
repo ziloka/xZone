@@ -72,8 +72,9 @@ namespace app {
 	bool  isVideoFile(const std::string& filePath);
 	bool  isImgeFile(const std::string& filePath);
 	uint64_t  getAvailableDiskSpaceInByte(const std::string& folderPath);
-	std::vector<uchar> matToVecUchar(cv::Mat image);
-	cv::Mat vecUcharToMat(std::vector<uchar> bytes, int width, int height);
+	
+	std::vector<uchar> matToVecUchar(const cv::Mat &image);
+	cv::Mat vecUcharToMat(const std::vector<uchar> &bytes, int width, int height);
 
 }
 

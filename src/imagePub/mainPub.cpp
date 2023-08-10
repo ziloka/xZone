@@ -62,3 +62,12 @@ int main(int argc, char* argv[])
 	endLogThread();
 	return 0;
 }
+
+/*
+{
+		auto [start, step, end] = cfgCamPtr_->frequency_;
+		for (uint32_t iFreq = start; nSamples < end; nSamples += step) {
+		}
+}
+
+*/

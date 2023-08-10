@@ -21,7 +21,7 @@
 #include <fastdds/dds/subscriber/DataReaderListener.hpp>
 #include <fastrtps/subscriber/SampleInfo.h>
 #include <fastdds/dds/core/status/SubscriptionMatchedStatus.hpp>
-#include "libUtil/Util.h"
+#include "libUtil/util.h"
 class ImageSubscriber
 {
 public:
@@ -42,6 +42,8 @@ public:
             uint32_t number);
 
 private:
+
+    AppMeanStd latencyStat;
 
     eprosima::fastdds::dds::DomainParticipant* participant_;
 
