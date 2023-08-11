@@ -5,6 +5,4 @@ struct UpdateThermometer
 	unsigned long long t1;
 	unsigned long long t2;
 	unsigned long long t3;
-
-	long frequency;
 };

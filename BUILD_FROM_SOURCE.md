@@ -343,7 +343,9 @@ Note: *C++17 and above is required*
 
 4. ./run_all_wo_cleanAll.sh
 
-5. (you may (probably will) need to to edit Makefile_app_header.mak if there is any errors)	  
+5. Add the librares to the bin directory 
+
+6. (you may (probably will) need to to edit Makefile_app_header.mak if there is any errors)	  
 
 Troubleshooting
 ---------------

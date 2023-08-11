@@ -41,6 +41,12 @@ public:
     bool init(
             bool use_env);
 
+    // get frame
+    void acqImgMsg();
+
+    // prepare metadata about image
+    void preparImgMsg(const uint32_t frameNum);
+
     //!Publish a sample
     bool publish(
             bool waitForListener = true,
@@ -50,6 +56,8 @@ public:
     std::thread run();
 
 private:
+
+    cv::Mat frame_;
 
     CfgCamPtr cfgCamPtr_;
 

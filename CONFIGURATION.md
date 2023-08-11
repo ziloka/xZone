@@ -7,8 +7,8 @@ Example
         <name>Main Camera</name>
         <rtspUrl></rtspUrl> <!-- Real time streaming protocol URL -->
         <valid>1</valid> <!-- 0 false, 1 true-->
-        <imgW>960</imgW> <!-- Image Width -->
-        <imgH>630</imgH> <!-- Image Height -->
+        <imgW>1920</imgW> <!-- Image Width -->
+        <imgH>1080</imgH> <!-- Image Height -->
         <fpsNum>30</fpsNum> <!-- frames per second numerator -->
         <fpsDen>1</fpsDen> <!-- frames per second denominator -->
 

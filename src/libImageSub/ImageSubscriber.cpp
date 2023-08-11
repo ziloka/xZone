@@ -179,9 +179,9 @@ void ImageSubscriber::SubListener::on_data_available(  DataReader* reader)
             // write data to data.csv file 
             // frame number, frequency, latency
 
-            image_.t3 = APP_TIME_CURRENT_US;
-            if (image_.frame_number > 100) {
-              latencyStat.addSample(image_.t3 - image_.t2);
+            image_.t3(APP_TIME_CURRENT_US);
+            if (image_.frame_number() > 100) {
+                latencyStat_.addSample(image_.t3() - image_.t2());
             }
 
             file_ << image_.frame_number() << "," << image_.frequency() << "," << APP_TIME_CURRENT_US - image_.t2() << std::endl;
