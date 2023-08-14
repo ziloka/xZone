@@ -68,7 +68,6 @@ namespace app {
 	bool  isVideoFile(const std::string& filePath);
 	bool  isImgeFile(const std::string& filePath);
 	uint64_t  getAvailableDiskSpaceInByte(const std::string& folderPath);
-
 }
 
 #endif

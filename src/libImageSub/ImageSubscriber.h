@@ -22,8 +22,8 @@
 #include <fastrtps/subscriber/SampleInfo.h>
 #include <fastdds/dds/core/status/SubscriptionMatchedStatus.hpp>
 #include "libUtil/util.h"
-class ImageSubscriber
-{
+
+class ImageSubscriber {
 public:
 
     ImageSubscriber();
@@ -42,8 +42,6 @@ public:
             uint32_t number);
 
 private:
-
-    AppMeanStd latencyStat;
 
     eprosima::fastdds::dds::DomainParticipant* participant_;
 
@@ -74,11 +72,11 @@ private:
         }
 
         void on_data_available(
-                eprosima::fastdds::dds::DataReader* reader) override;
+            eprosima::fastdds::dds::DataReader* reader) override;
 
         void on_subscription_matched(
-                eprosima::fastdds::dds::DataReader* reader,
-                const eprosima::fastdds::dds::SubscriptionMatchedStatus& info) override;
+            eprosima::fastdds::dds::DataReader* reader,
+            const eprosima::fastdds::dds::SubscriptionMatchedStatus& info) override;
 
         Image image_;
 
@@ -87,8 +85,9 @@ private:
         uint32_t samples_;
 
         std::ofstream file_;
-    }
-    listener_;
+
+        app::AppMeanStd latencyStat_;
+    } listener_;
 };
 
 void createImageSubscriber(bool use_environment_qos);

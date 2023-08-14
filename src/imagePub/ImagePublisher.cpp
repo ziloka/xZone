@@ -41,6 +41,11 @@ ImagePublisher::ImagePublisher(std::shared_ptr<std::shared_mutex> mutexPtr, CfgC
     cfgCamPtr_ = cfgCamPtr;
     mutexPtr_ = mutexPtr;
 
+    int height = cfgCamPtr->imgSz_.h;
+    int width = cfgCamPtr->imgSz_.w;
+
+    frame_ = cv::Mat(height, width, CV_8UC3);
+
    // https://learnopencv.com/read-write-and-display-a-video-using-opencv-cpp-python/
    // https://learn.microsoft.com/en-us/windows/win32/directshow/selecting-a-capture-device?redirectedfrom=MSDN
    // command to list available video and audio devices
@@ -181,27 +186,28 @@ void ImagePublisher::PubListener::on_publication_matched(
 
 void ImagePublisher::runThread()
 {
-	const int numSamples = cfgCamPtr_->numSamples_;
-  auto nanoseconds_per_msg = std::chrono::nanoseconds(1000000000 / nFreqHz);
+    const int numSamples = cfgCamPtr_->numSamples_;
+    const int nFreqHz = cfgCamPtr_->nFreqHz_;
+    const int nanoseconds_per_msg = 1000000000 / nFreqHz;
 
 	// there are 1,000,000,000 nanoseconds in a second
 
-	std::cout << "sending " << nSamples << " samples" << std::endl;
-	for (uint32_t i = 0; i < nSamples; i++) {
-    uint64_t tBeg = APP_TIME_CURRENT_US;
+	std::cout << "sending " << numSamples << " samples" << std::endl;
+	for (uint32_t i = 0; i < numSamples; i++) {
+        uint64_t tBeg = APP_TIME_CURRENT_US;
 		acqImgMsg();
-		preparImgMsg();
-		if (!publish(false, nSamples)) {
-			std::cout << "sent " << nSamples << " samples" << std::endl;
+		preparImgMsg(i);
+		if (!publish(false, numSamples)) {
+			std::cout << "unable to send sample #" << i << std::endl;
 		}
 
-    uint64_t tEnd = APP_TIME_CURRENT_US;
-    uint64_t dt = tEnd - tBeg;
-    if ( dt < nanoseconds_per_msg) {
-      std::this_thread::sleep_for( nanoseconds_per_msg - dt );
-    }
+        uint64_t tEnd = APP_TIME_CURRENT_US;
+        uint64_t dt = tEnd - tBeg;
+        if ( dt < nanoseconds_per_msg) {
+            std::this_thread::sleep_for(std::chrono::nanoseconds(nanoseconds_per_msg - dt));
+        }
 	}
-	std::cout << "sent " << nSamples << " samples" << std::endl;
+	std::cout << "sent " << numSamples << " samples" << std::endl;
 
 }
 
@@ -209,38 +215,21 @@ std::thread ImagePublisher::run()
 {
     stop_ = false;
     std::thread thread(&ImagePublisher::runThread, this);
-    //if (samples == 0)
-    //{
-    //    std::cout << "Publisher running. Please press enter to stop the Publisher at any time." << std::endl;
-    //    std::cin.ignore();
-    //    stop_ = true;
-    //}
-    //else
-    //{
-       auto [start, step, end] = cfgCamPtr_->frequency_;
-       // min: 10, step: 5, max: 100
-       // Array.from({length: 19}, (e, i) => 10 + (i * 5)).reduce((a, b) => a + b)
-       // sum of arithmetic sequence formula: Sn = (n/2)(a1+a2) to calculate the number of samples
-       int iterations = ((end - start) / step) + 1;
-      APP_LOG("Publisher will start at %u hertz step by %u and end at %u hertz, completing %u samples!", start, step, end, (iterations / 2) * (start + end));
-    //}
     return thread;
 }
 
-bool ImagePublisher::acqImgMsg()
+void ImagePublisher::acqImgMsg()
 {
   // https://learnopencv.com/read-write-and-display-a-video-using-opencv-cpp-python/
-//cv::Mat frame(height, width, CV_8UC3);
-  image_.t1 = APP_TIME_CURRENT_US;
+  image_.t1(APP_TIME_CURRENT_US);
 }
 
-bool ImagePublisher::preparImgMsg( const unit64_t frameNum )
+void ImagePublisher::preparImgMsg( const uint32_t frameNum )
 {
   image_.frame_number(frameNum);
-  image_.image(app::matToVecUchar(frame));
-  image_.width(frame.cols);
-  image_.height(frame.rows);
-  image_.frequency(frequency);
+  image_.image(app::matToVecUchar(frame_));
+  image_.width(frame_.cols);
+  image_.height(frame_.rows);
 }
 bool ImagePublisher::publish(bool waitForListener, uint32_t frequency)
 {
