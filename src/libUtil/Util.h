@@ -8,6 +8,7 @@
 #include "libUtil/AppCpuTimeProf.h"
 #include "libUtil/AppTicToc.h"
 #include "libUtil/FileUtil.h"
+#include "libUtil/CvUtilFuncs.h"
 #include "libUtil/UtilFuncs.h"
 #include "libUtil/Uint8Stream.h"
 #endif

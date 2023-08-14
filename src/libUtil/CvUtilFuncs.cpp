@@ -533,3 +533,39 @@ bool app::isSameMat(const Mat &x, const Mat &y)
 #endif
 
 }
+    
+bool app::matToVec(const cv::Mat &I, std::vector<uchar> &vec)
+{
+	const int type = I.type();
+    const int ch = I.channels();
+	const size_t nBytes = I.cols * I. rows * CV_ELEM_SIZE(type);
+
+	//printf("w=%d,h=%d,ch=%d,nBytes=%d, I: total()=%d, elemSize()=%d, I.isContinuous()=%d\n", I.cols,  I.rows, ch, nBytes, I.total(), I.elemSize(), I.isContinuous());
+	vec.resize( nBytes );
+	unsigned char* des = vec.data();
+	if ( I.isContinuous() ){
+        memcpy(des, I.data, nBytes);
+	}
+	else{
+        size_t rowsz = CV_ELEM_SIZE(type) * I.cols;
+        for (int r = 0; r < I.rows; ++r, des+=rowsz){
+            memcpy(des, I.ptr<uchar>(r), rowsz);
+        }
+	}
+	return true;
+}
+
+//todo:
+cv::Mat app::vecToMatHardCopy( const std::vector<uchar> &vec, const int width, const int height)
+{
+	void* _compressed = (void*)(vec.data());
+	cv::Mat I = cv::Mat(height, width, CV_8UC3, _compressed).clone(); //hard copy
+	return I;
+}
+
+cv::Mat app::vecToMatSoftCopy( const std::vector<uchar> &vec, const int width, const int height)
+{
+	void* _compressed = (void*)(vec.data());
+	cv::Mat I = cv::Mat(height, width, CV_8UC3, _compressed); // just a wrapper
+	return I;
+}

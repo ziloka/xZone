@@ -3,10 +3,9 @@
 
 #include "AppDefs.h"
 
-#define app_smp_t int64_t
-//todo: use template
 namespace app
 {
+   	template<class T>
     class AppMeanStd
     {
     public:
@@ -29,27 +28,27 @@ namespace app
             }
 
             size_t n = v.size();
-            double s = 0;
-            double sq = 0;
-            for( const app_smp_t e : v){
-                s += (double)e;
-                sq += (double)e * (double)e;
+            T s = 0;
+            T sq = 0;
+            for( const T e : v){
+                s += e;
+                sq += e * e;
             }
             mu = s/n;
             std = sqrt(sq / n - mu * mu);  // sqrt(variance)
             return n;
         }
 
-        void addSample(const app_smp_t x)
+        void addSample(const T x)
         {
             v.push_back(x);
         }
 
     public:
         std::string unit{""};
-        std::vector<app_smp_t> v{};
-        double mu{0};
-        double std{0};
+        std::vector<T> v{};
+        T mu{0};
+        T std{0};
     };
 }
 

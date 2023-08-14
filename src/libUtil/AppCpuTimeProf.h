@@ -43,7 +43,7 @@ namespace app
             return nSmps;
         }
 
-        void addSamples(const app_smp_t dt_wall, const app_smp_t dt_ucpu, const app_smp_t dt_scpu)
+        void addSamples(const int64_t dt_wall, const int64_t dt_ucpu, const int64_t dt_scpu)
         {
             cnt++;
             wall.addSample(dt_wall);
@@ -61,9 +61,9 @@ namespace app
     private:
         size_t thdCntToPrintOut{100};
         size_t cnt{0};
-        AppMeanStd wall;
-        AppMeanStd ucpu;
-        AppMeanStd scpu;
+        AppMeanStd<int64_t> wall;
+        AppMeanStd<int64_t> ucpu;
+        AppMeanStd<int64_t> scpu;
     };
 }
 
