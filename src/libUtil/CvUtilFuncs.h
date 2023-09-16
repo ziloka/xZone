@@ -83,6 +83,11 @@ namespace app {
 	void  drawPlus(cv::Mat &img, const cv::Point2f &pt, const uint32_t len, const cv::Scalar& color, int thickness, int lineType, int shift);
 	void  drawPlus(cv::Mat &img, const cv::Point &pt, const uint32_t len, const cv::Scalar& color, int thickness, int lineType, int shift);
 	void  wrtieStrings(cv::Mat& img, const std::vector<std::string>& vStrs, cv::Point &org, int fontFace, double fontScale, cv::Scalar color, int thickness, int lineType);
+
+	bool matToVec(const cv::Mat &image, std::vector<uchar> &vec);
+	cv::Mat vecToMatHardCopy( const std::vector<uchar> &vec, const int width, const int height);
+	cv::Mat vecToMatSoftCopy( const std::vector<uchar> &vec, const int width, const int height);
+
 }
 
 #endif

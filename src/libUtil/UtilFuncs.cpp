@@ -100,17 +100,17 @@ std::string app::num_to_string(const uint64_t x, const std::string &msg)
 	return msg + convert.str();
 }
 
-string app::num_to_string( const float x, const std::string &msg )
+string app::num_to_string( const float x, const std::string &msg, const int precision )
 {
 	ostringstream convert;
-	convert << x;
+	convert <<  std::fixed << std::setprecision(precision) <<  x;
 	return msg+convert.str();	
 }
 
-string app::num_to_string( const double x, const std::string &msg )
+string app::num_to_string( const double x, const std::string &msg, const int precision )
 {
 	ostringstream convert;
-	convert << x;
+	convert << std::fixed << std::setprecision(precision) << x;
 	return msg+convert.str();	
 }
 

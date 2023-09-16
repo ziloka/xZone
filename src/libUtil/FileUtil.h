@@ -33,10 +33,6 @@
 #include <cctype>
 #include "AppDefs.h"
 
-// for converting Mat to image and back
-#include "opencv2/opencv.hpp"
-#include <cstddef>
-
 #ifdef _WIN32
 #include <io.h>				// For access().
 #include <direct.h>
@@ -72,10 +68,6 @@ namespace app {
 	bool  isVideoFile(const std::string& filePath);
 	bool  isImgeFile(const std::string& filePath);
 	uint64_t  getAvailableDiskSpaceInByte(const std::string& folderPath);
-	
-	std::vector<uchar> matToVecUchar(const cv::Mat &image);
-	cv::Mat vecUcharToMat(std::vector<uchar> &bytes, int width, int height);
-
 }
 
 #endif

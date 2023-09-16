@@ -29,6 +29,16 @@
 #define __UTIL_FUNCS_H__
 #include "AppDefs.h"
 namespace app {
+	template<class T>
+	std::string num_to_string_format_w_commas(const T value, const std::string &msg="")
+	{
+    	std::stringstream ss;
+    	ss.imbue(std::locale(""));
+    	ss << std::fixed << value;
+    	return msg + ss.str();
+	}
+
+
 	std::string  num_to_string( const bool x ,const std::string &msg="");
 	std::string  num_to_string(const uint8_t x,const std::string &msg = "");
 
@@ -42,8 +52,8 @@ namespace app {
 	std::string  num_to_string(const uint32_t x, const std::string &msg = "");
 	std::string  num_to_string(const uint64_t x, const std::string &msg = "");
 
-	std::string  num_to_string( const float x,	const std::string &msg="" );
-	std::string  num_to_string(const double x, const std::string &msg = "");
+	std::string  num_to_string( const float x,	const std::string &msg="", const int precision=6 );
+	std::string  num_to_string(const double x, const std::string &msg = "", const int precision=6);
 
 	std::string  vec_to_string( const std::vector<std::string> &v, const std::string &msg="" );
 
