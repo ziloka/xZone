@@ -47,6 +47,8 @@
 #include <iostream>
 #include <filesystem>
 
+#include "opencv2/opencv.hpp"
+
 namespace app {
 	uint32_t  getFileNameList(const std::string& dirName, const std::string& ext, std::vector<std::string>& vFileNames);
 	void  getExtName(const std::string& fileName, std::string& ext);
@@ -68,6 +70,10 @@ namespace app {
 	bool  isVideoFile(const std::string& filePath);
 	bool  isImgeFile(const std::string& filePath);
 	uint64_t  getAvailableDiskSpaceInByte(const std::string& folderPath);
+
+	std::vector<uchar> matToVecUchar(const cv::Mat& mat);
+	cv::Mat vecUcharToMat(std::vector<uchar>& vec, int width, int height);
+
 }
 
 #endif

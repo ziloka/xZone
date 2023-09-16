@@ -86,7 +86,7 @@ private:
 
         std::ofstream file_;
 
-        app::AppMeanStd latencyStat_;
+        app::AppMeanStd<uint32_t> latencyStat_;
     } listener_;
 };
 

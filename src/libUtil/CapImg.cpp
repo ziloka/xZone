@@ -93,4 +93,6 @@ bool CapImg::rewind()
       m_cvCap->set(cv::CAP_PROP_POS_FRAMES, 0);
     }
     m_nextFrmIdx = 0;
+    // how to check if not successful
+    return true; 
 }

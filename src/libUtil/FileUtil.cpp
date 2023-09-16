@@ -271,3 +271,32 @@ uint64_t app::getAvailableDiskSpaceInByte(const std::string& folderPath)
 	return 0;
 #endif
 }
+
+// https://stackoverflow.com/questions/26681713/convert-mat-to-array-vector-in-opencv
+// todo
+// problem: vec is copied back and forth
+// vec is only allocated to pointer with data.. ?
+std::vector<uchar> app::matToVecUchar(const cv::Mat &mat)
+{
+	int COLOR_COMPONENTS = mat.channels();
+	int _width = mat.cols;
+	int _height = mat.rows;
+
+	std::vector<uchar> vec;
+	
+	size_t size_of_buffer = (size_t) _width * (size_t) _height * (size_t) COLOR_COMPONENTS;
+	unsigned char* buffer = mat.data;
+
+	vec.assign(buffer, buffer + size_of_buffer);
+	return vec;
+}
+
+// vec param is suppose to be const..
+cv::Mat app::vecUcharToMat(std::vector<uchar> &vec, int width, int height)
+{
+	uchar* _compressed = reinterpret_cast<uchar*>(vec.data());
+	// matrix constructors do not allocate data
+	// only initalizes matrix header with pointer that points to data
+	cv::Mat image = cv::Mat(height, width, CV_8UC3, _compressed);
+	return image;
+}
