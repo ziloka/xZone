@@ -41,6 +41,10 @@ namespace app {
 		void writeToFile(const char *fname);
 		std::string toString();
 
+		int getTransport() {
+			return m_transport;
+		}
+
 		CfgLog getLog() {
 			CfgLog ret; 
 			{
@@ -88,6 +92,7 @@ namespace app {
 		void fromPropertyTree(const boost::property_tree::ptree &pt);
 
 	protected:
+		int                 m_transport;
 		CfgCamPtr					m_cam;
 		CfgHygrometerPtr			m_hygrometer;
 		CfgThermometerPtr			m_thermometer;

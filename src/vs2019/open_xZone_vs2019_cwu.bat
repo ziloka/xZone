@@ -2,7 +2,7 @@
 
 REM define environment variables, do not change the variable name, just it's value!
 set GTEST_INC=C:\pkg\googletest\googletest\include\gtest
-set GTEST_LIB=C:\pkg\googletest\vs2019-install\lib\Debug
+set GTEST_LIB=C:\pkg\googletest\vs2019-install\lib\Release
 
 set CV_INC=C:\pkg\opencv\build\install\include
 set CV_LIB=C:\pkg\opencv\build\install\x64\vc16\lib

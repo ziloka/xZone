@@ -72,7 +72,7 @@ class UpdateCamSubscriber
 {
 public:
 
-    UpdateCamSubscriber(std::shared_ptr<std::shared_mutex> mutexPtr, CfgCamPtr cfgCamPtr);
+    UpdateCamSubscriber(std::shared_ptr<std::shared_mutex> mutexPtr, CfgPtr cfgPtr);
 
     virtual ~UpdateCamSubscriber();
 
@@ -87,7 +87,8 @@ public:
     void run(
         uint32_t number);
 
-    CfgCamPtr cfgCamPtr_;
+    std::string tranport_;
+    CfgCamPtr   cfgCamPtr_;
 
 private:
 
@@ -104,6 +105,6 @@ private:
     SubListener listener_;
 };
 
-void createUpdateCamSubscriber(std::shared_ptr<std::shared_mutex> mutex, std::shared_ptr<CfgCam> CfgCamPtr, bool use_environment_qos);
+void createUpdateCamSubscriber(std::shared_ptr<std::shared_mutex> mutex, CfgPtr cfgPtr, bool use_environment_qos);
 
 #endif /* UPDATECAMSUBSCRIBER_H_ */

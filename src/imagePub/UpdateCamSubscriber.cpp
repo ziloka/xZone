@@ -26,7 +26,7 @@
 using namespace eprosima::fastdds::dds;
 using namespace app;
 
-UpdateCamSubscriber::UpdateCamSubscriber(std::shared_ptr<std::shared_mutex> mutexPtr, CfgCamPtr cfgCamPtr)
+UpdateCamSubscriber::UpdateCamSubscriber(std::shared_ptr<std::shared_mutex> mutexPtr, CfgPtr cfgPtr)
     : participant_(nullptr)
     , subscriber_(nullptr)
     , topic_(nullptr)
@@ -34,7 +34,8 @@ UpdateCamSubscriber::UpdateCamSubscriber(std::shared_ptr<std::shared_mutex> mute
     , type_(new UpdateCamPubSubType())
     , listener_(mutexPtr, *this)
 {
-    cfgCamPtr_ = cfgCamPtr;
+    tranport_ = cfgPtr->getTransport();
+    cfgCamPtr_ = std::make_shared<CfgCam>(cfgPtr->getCam());
 }
 
 bool UpdateCamSubscriber::init(
@@ -196,8 +197,8 @@ void UpdateCamSubscriber::run(uint32_t number)
     }
 }
 
-void createUpdateCamSubscriber(std::shared_ptr<std::shared_mutex> mutex, std::shared_ptr<CfgCam> CfgCamPtr, bool use_environment_qos) {
-    UpdateCamSubscriber mysub(mutex, CfgCamPtr);
+void createUpdateCamSubscriber(std::shared_ptr<std::shared_mutex> mutex, CfgPtr cfgPtr, bool use_environment_qos) {
+    UpdateCamSubscriber mysub(mutex, cfgPtr);
     mysub.init(use_environment_qos);
     mysub.run();
 }

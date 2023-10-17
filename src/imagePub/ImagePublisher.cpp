@@ -22,6 +22,9 @@
 #include <fastdds/dds/publisher/qos/PublisherQos.hpp>
 #include <fastdds/dds/publisher/DataWriter.hpp>
 #include <fastdds/dds/publisher/qos/DataWriterQos.hpp>
+#include <fastdds/rtps/transport/UDPv4TransportDescriptor.h>
+#include <fastdds/rtps/transport/TCPv4TransportDescriptor.h>
+#include <fastdds/rtps/transport/shared_mem/SharedMemTransportDescriptor.h>
 
 #include <thread>
 #include <iostream>
@@ -29,7 +32,7 @@
 using namespace app;
 using namespace eprosima::fastdds::dds;
 
-ImagePublisher::ImagePublisher(std::shared_ptr<std::shared_mutex> mutexPtr, CfgCamPtr cfgCamPtr)
+ImagePublisher::ImagePublisher(std::shared_ptr<std::shared_mutex> mutexPtr, CfgPtr cfgPtr)
     : participant_(nullptr)
     , publisher_(nullptr)
     , topic_(nullptr)
@@ -38,11 +41,11 @@ ImagePublisher::ImagePublisher(std::shared_ptr<std::shared_mutex> mutexPtr, CfgC
     , stop_(false)
 {
 
-    cfgCamPtr_ = cfgCamPtr;
+    cfgCam_ = cfgPtr->getCam();
     mutexPtr_ = mutexPtr;
 
-    int height = cfgCamPtr->imgSz_.h;
-    int width = cfgCamPtr->imgSz_.w;
+    int height = cfgCam_.imgSz_.h;
+    int width = cfgCam_.imgSz_.w;
 
     frame_ = cv::Mat(height, width, CV_8UC3);
 
@@ -64,7 +67,7 @@ ImagePublisher::ImagePublisher(std::shared_ptr<std::shared_mutex> mutexPtr, CfgC
    // camera_.set(cv::CAP_PROP_FPS, cfgCamPtr->fps_.getFps());
 }
 
-bool ImagePublisher::init( bool use_env)
+bool ImagePublisher::init(CfgPtr cfg, bool use_env)
 {
 
     image_.frame_number(0);
@@ -77,6 +80,42 @@ bool ImagePublisher::init( bool use_env)
     {
         factory->load_profiles();
         factory->get_default_participant_qos(pqos);
+    }
+
+    // https://fast-dds.docs.eprosima.com/en/latest/fastdds/transport/transport.html
+    switch (cfg.get()->getTransport()) {
+    case 1: {
+        std::cout << "Using TCP as transport" << std::endl;
+        auto tcp_transport = std::make_shared<eprosima::fastdds::rtps::TCPv4TransportDescriptor>();
+        tcp_transport->add_listener_port(5100);
+        tcp_transport->set_WAN_address("127.0.0.1");
+
+        // Link the Transport Layer to the Participant.
+        pqos.transport().user_transports.push_back(tcp_transport);
+        break;
+    }
+    case 2: {
+        std::cout << "Using UDP as transport" << std::endl;
+        std::shared_ptr<eprosima::fastdds::rtps::UDPv4TransportDescriptor> udp_transport = std::make_shared<eprosima::fastdds::rtps::UDPv4TransportDescriptor>();
+        udp_transport->sendBufferSize = 9216;
+        udp_transport->receiveBufferSize = 9216;
+        udp_transport->non_blocking_send = true;
+
+        pqos.transport().user_transports.push_back(udp_transport);
+        pqos.transport().use_builtin_transports = false;
+        break;
+    }
+    case 3: {
+        std::cout << "Using Shared memory as transport" << std::endl;
+        std::shared_ptr<eprosima::fastdds::rtps::SharedMemTransportDescriptor> shm_transport = std::make_shared<eprosima::fastdds::rtps::SharedMemTransportDescriptor>();
+
+        // Link the Transport Layer to the Participant.
+        pqos.transport().user_transports.push_back(shm_transport);
+        break;
+    }
+    default: {
+        std::cout << "USING DEFAULT BEHAVIOR" << std::endl;
+    }
     }
 
     participant_ = factory->create_participant(0, pqos);
@@ -186,8 +225,8 @@ void ImagePublisher::PubListener::on_publication_matched(
 
 void ImagePublisher::runThread()
 {
-    const int numSamples = cfgCamPtr_->numSamples_;
-    const int nFreqHz = cfgCamPtr_->nFreqHz_;
+    const int numSamples = cfgCam_.numSamples_;
+    const int nFreqHz = cfgCam_.nFreqHz_;
     const int nanoseconds_per_msg = 1000000000 / nFreqHz;
 
 	// there are 1,000,000,000 nanoseconds in a second

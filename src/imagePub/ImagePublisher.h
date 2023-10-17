@@ -33,12 +33,13 @@ class ImagePublisher
 {
 public:
 
-    ImagePublisher(std::shared_ptr<std::shared_mutex> mutex, CfgCamPtr cfgCamPtr);
+    ImagePublisher(std::shared_ptr<std::shared_mutex> mutex, CfgPtr cfgPtr);
 
     virtual ~ImagePublisher();
 
     //!Initialize
     bool init(
+            CfgPtr cfg,
             bool use_env);
 
     // get frame
@@ -59,7 +60,7 @@ private:
 
     cv::Mat frame_;
 
-    CfgCamPtr cfgCamPtr_;
+    CfgCam cfgCam_;
 
     std::shared_ptr<std::shared_mutex> mutexPtr_;
 

@@ -72,9 +72,13 @@ std::string Cfg::toString()
 
 void Cfg::fromPropertyTree(const boost::property_tree::ptree &pt0)
 {
+	// set fastDDS transport
+	const int transport = pt0.get<int>("transport");
+	m_transport = transport;
+
 	// set camera
 	const boost::property_tree::ptree camPT = pt0.get_child("cam");
-	CfgCamPtr cam( new CfgCam() );
+	CfgCamPtr cam(new CfgCam());
 	cam->fromPropertyTree(camPT);
 	m_cam = cam;
 

@@ -7,8 +7,7 @@ struct Image
 	unsigned long height;
 	unsigned long width;
 
-	//todo
-	unsigned long long t1;
-	unsigned long long t2;
-	unsigned long long t3;
+	unsigned long long subscriber_initalize_time;
+	unsigned long long subscriber_send_time;
+	unsigned long long publisher_recieve_time;
 };

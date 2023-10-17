@@ -34,9 +34,6 @@ int main(int argc, char* argv[])
 		return 0;
 	}
 
-	// visual studio debugging purposes
-	std::cout << std::filesystem::current_path() << std::endl;
-
 	CfgPtr cfg(new Cfg());
 	cfg->readFromFile(argv[1]);
 
@@ -49,11 +46,10 @@ int main(int argc, char* argv[])
 	bool use_environment_qos = false;
 
 	std::shared_ptr<std::shared_mutex> mutex;
-	std::shared_ptr<CfgCam> CfgCamPtr = std::make_shared<CfgCam>(cfg->getCam());
-	ImagePublisher mypub(mutex, CfgCamPtr);
-	if (mypub.init(use_environment_qos))
+	ImagePublisher mypub(mutex, cfg);
+	if (mypub.init(cfg, use_environment_qos))
 	{
-		std::thread subscriber(createUpdateCamSubscriber, mutex, CfgCamPtr, use_environment_qos);
+		std::thread subscriber(createUpdateCamSubscriber, mutex, cfg, use_environment_qos);
 		std::thread publisher = mypub.run();
 		publisher.join();
 		subscriber.join();

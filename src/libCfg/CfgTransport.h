@@ -1,29 +1,28 @@
+#pragma once
 #ifndef __CFG_Hygrometer_H__
 #define __CFG_Hygrometer_H__
 
 #include "CfgBase.h"
-
 namespace app {
-	class  CFG_EXPORT CfgHygrometer : public CfgBase {
+	class  CFG_EXPORT CfgTransport : public CfgBase {
 	public:
-		CfgHygrometer();
-		CfgHygrometer(const CfgHygrometer& x);
-		CfgHygrometer& operator = (const CfgHygrometer& x);
-		virtual ~CfgHygrometer() {};
+		CfgTransport();
+		CfgTransport(const CfgTransport& x);
+		CfgTransport& operator = (const CfgTransport& x);
+		virtual ~CfgTransport() {};
 
 		virtual boost::property_tree::ptree toPropertyTree();
 		virtual void fromPropertyTree(const boost::property_tree::ptree& pt);
 		virtual std::string toString();
 
-		//uint32_t	getIp() const;
 	public:
 		int			hygrometerId_;
 		std::string hygrometerName_;
-		Frequency frequency_;
+		Frequency   frequency_;
 
 
 	};
-	typedef std::shared_ptr<CfgHygrometer>		CfgHygrometerPtr;
+	typedef std::shared_ptr<CfgTransport>		CfgTransportPtr;
 }
 
 #endif
