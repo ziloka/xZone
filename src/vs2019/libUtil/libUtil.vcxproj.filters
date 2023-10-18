@@ -77,7 +77,7 @@
     <ClInclude Include="..\..\libUtil\HealthyMonitor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\libUtil\util.h">
+    <ClInclude Include="..\..\libUtil\Util.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\libUtil\AppTicToc.h">

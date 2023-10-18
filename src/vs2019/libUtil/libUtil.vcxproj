@@ -183,7 +183,7 @@
     <ClInclude Include="..\..\libUtil\LinSpace.h" />
     <ClInclude Include="..\..\libUtil\Roi.h" />
     <ClInclude Include="..\..\libUtil\Uint8Stream.h" />
-    <ClInclude Include="..\..\libUtil\util.h" />
+    <ClInclude Include="..\..\libUtil\Util.h" />
     <ClInclude Include="..\..\libUtil\UtilFuncs.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

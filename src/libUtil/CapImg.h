@@ -1,7 +1,7 @@
 #ifndef _CAP_IMG_H_
 #define _CAP_IMG_H_
 
-#include "libUtil/util.h"
+#include "libUtil/Util.h"
 namespace app
 {
     class CapImg
