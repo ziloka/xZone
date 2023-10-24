@@ -97,8 +97,8 @@ bool ImagePublisher::init(CfgPtr cfg, bool use_env)
     case 2: {
         std::cout << "Using UDP as transport" << std::endl;
         std::shared_ptr<eprosima::fastdds::rtps::UDPv4TransportDescriptor> udp_transport = std::make_shared<eprosima::fastdds::rtps::UDPv4TransportDescriptor>();
-        udp_transport->sendBufferSize = 9216;
-        udp_transport->receiveBufferSize = 9216;
+        // udp_transport->sendBufferSize = 9216;
+        // udp_transport->receiveBufferSize = 9216;
         udp_transport->non_blocking_send = true;
 
         pqos.transport().user_transports.push_back(udp_transport);

@@ -1,6 +1,8 @@
 <cfg>
     <!-- 1 (tcp), 2 (udp), 3 (shared memory), any other number will set it with default behavior-->
-    <>
+    <transport>
+    2
+    </transport>
     <cam>
         <id>0</id>
         <name>Main Camera</name>
@@ -11,9 +13,8 @@
         <fpsNum>30</fpsNum> <!-- frames per second numerator -->
         <fpsDen>1</fpsDen> <!-- frames per second denominator -->
 
-        <frequencyStart>10</frequencyStart> <!-- minimum hertz -->
-        <frequencyStep>5</frequencyStep> <!-- interval to step by -->
-        <frequencyEnd>100</frequencyEnd> <!-- maximum hertz-->
+        <nFreqHz>100</nFreqHz> <!-- minimum hertz -->
+        <numSamples>10000</numSamples> <!-- maximum hertz-->
         
         <frmQueSz>10</frmQueSz>
         <!-- currently not used configurations -->
