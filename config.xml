@@ -1,19 +1,18 @@
 <cfg>
     <!-- 1 (tcp), 2 (udp), 3 (shared memory), any other number will set it with default behavior-->
-    <>
+    <transport>1</transport>
     <cam>
         <id>0</id>
         <name>Main Camera</name>
         <rtspUrl></rtspUrl> <!-- Real time streaming protocol URL -->
         <valid>1</valid> <!-- 0 false, 1 true-->
-        <imgW>980</imgW> <!-- Image Width -->
+        <imgW>1920</imgW> <!-- Image Width -->
         <imgH>1080</imgH> <!-- Image Height -->
         <fpsNum>30</fpsNum> <!-- frames per second numerator -->
         <fpsDen>1</fpsDen> <!-- frames per second denominator -->
 
-        <frequencyStart>10</frequencyStart> <!-- minimum hertz -->
-        <frequencyStep>5</frequencyStep> <!-- interval to step by -->
-        <frequencyEnd>100</frequencyEnd> <!-- maximum hertz-->
+        <nFreqHz>100</nFreqHz>
+        <numSamples>10000</numSamples> 
         
         <frmQueSz>10</frmQueSz>
         <!-- currently not used configurations -->

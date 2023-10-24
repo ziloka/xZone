@@ -76,7 +76,7 @@ Note: *C++17 and above is required*
 
 	4. Installing the fast dds library
 
-		1. run executable
+		1. run [executable](https://www.eprosima.com/index.php/component/ars/repository/eprosima-fast-dds/eprosima-fast-dds-2-9-1/eprosima_fast-dds-2-9-1-windows-exe?format=raw)
 
 		include and lib will be located at C:\Program Files\eProsima\fastrtps 2.9.1\ (default installed location)
 
@@ -332,7 +332,8 @@ Note: *C++17 and above is required*
 		# cd fastDDS
 		# wget -O eProsima_Fast-DDS-v2.9.1-Linux.tgz https://www.eprosima.com/index.php/component/ars/repository/eprosima-fast-dds/eprosima-fast-dds-2-9-1/eprosima_fast-dds-v2-9-1-linux-tgz?format=raw
 		# tar xzf eProsima_Fast-DDS-v2.9.1-Linux.tgz
-		# sudo ./install.sh
+		# sudo apt-get install git build-essential cmake libssl-dev libasio-dev libtinyxml2-dev openjdk-11-jre-headless python3
+		# sudo ./install.sh --no-install-dependencies --no-security
 		```
 
 		4. The library is now located at /usr/local/lib
@@ -343,7 +344,10 @@ Note: *C++17 and above is required*
 
 4. ./run_all_wo_cleanAll.sh
 
-5. Add the librares to the bin directory 
+5. Do one of them 
+	- Add the libraries to the bin directory 
+	- add `include /usr/local/lib` to /etc/ld.so.conf on a new line
+[Sources](https://stackoverflow.com/questions/4754633/linux-program-cant-find-shared-library-at-run-time)
 
 6. (you may (probably will) need to to edit Makefile_app_header.mak if there is any errors)	  
 
