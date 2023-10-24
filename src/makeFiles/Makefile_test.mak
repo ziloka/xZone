@@ -33,8 +33,8 @@ directories:
 	mkdir -p $(ODIR_BIN)
 
 dependencies:
-	ln -s $(DDS_LIB)/libfastrtps.so.2.9.1 $(ODIR_BIN)/libfastrtps.so.2.9
-	ln -s $(DDS_LIB)/libfastcdr.so.1.0.26 $(ODIR_BIN)/libfastcdr.so.1
+	ln -sn $(DDS_LIB)/libfastrtps.so.2.9.1 $(ODIR_BIN)/libfastrtps.so.2.9
+	ln -sn $(DDS_LIB)/libfastcdr.so.1.0.26 $(ODIR_BIN)/libfastcdr.so.1
 
 #the output binary file name is <$(TARGETFILE)>
 $(TARGETFILE)	:	$(OBJS)
