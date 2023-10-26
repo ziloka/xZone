@@ -150,8 +150,10 @@ Note: *C++17 and above is required*
 		``` 
 
 		# You will also need fast dds gen tool
+		- Requirements 
+			- Java JDK
 		```
-		git clone --recursive https://github.com/eProsima/Fast-DDS-Gen.git
+		git clone --recursive --depth=1 https://github.com/eProsima/Fast-DDS-Gen.git
 		cd Fast-DDS-Gen
 		gradlew.bat assemble
 		```
