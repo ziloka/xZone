@@ -164,7 +164,7 @@ void TemperatureSubscriber::SubListener::on_data_available(DataReader* reader)
 
             // write data to data.csv file 
             // frame number, frequency, latency
-            file_ << temperature_.index() << "," << temperature_.frequency() << "," << APP_TIME_CURRENT_US - temperature_.t2() << std::endl;
+            file_ << temperature_.index() << "," << APP_TIME_CURRENT_US - temperature_.publisher_send_time() << std::endl;
         }
     }
 }

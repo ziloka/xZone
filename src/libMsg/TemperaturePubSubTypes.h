@@ -51,12 +51,12 @@ namespace detail {
 
     struct Temperature_f
     {
-        typedef int32_t Temperature::* type;
+        typedef uint64_t Temperature::* type;
         friend constexpr type get(
                 Temperature_f);
     };
 
-    template struct Temperature_rob<Temperature_f, &Temperature::m_frequency>;
+    template struct Temperature_rob<Temperature_f, &Temperature::m_subscriber_recieve_time>;
 
     template <typename T, typename Tag>
     inline size_t constexpr Temperature_offset_of() {
@@ -133,7 +133,7 @@ private:
 
     static constexpr bool is_plain_impl()
     {
-        return 36ULL == (detail::Temperature_offset_of<Temperature, detail::Temperature_f>() + sizeof(int32_t));
+        return 32ULL == (detail::Temperature_offset_of<Temperature, detail::Temperature_f>() + sizeof(uint64_t));
 
     }};
 

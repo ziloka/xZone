@@ -34,19 +34,17 @@ using namespace eprosima::fastcdr::exception;
 
 #include <utility>
 
-#define UpdateThermometer_max_cdr_typesize 28ULL;
+#define UpdateThermometer_max_cdr_typesize 24ULL;
 #define UpdateThermometer_max_key_cdr_typesize 0ULL;
 
 UpdateThermometer::UpdateThermometer()
 {
-    // unsigned long long m_t1
-    m_t1 = 0;
-    // unsigned long long m_t2
-    m_t2 = 0;
-    // unsigned long long m_t3
-    m_t3 = 0;
-    // long m_frequency
-    m_frequency = 0;
+    // unsigned long long m_subscriber_initalize_time
+    m_subscriber_initalize_time = 0;
+    // unsigned long long m_publisher_send_time
+    m_publisher_send_time = 0;
+    // unsigned long long m_subscriber_recieve_time
+    m_subscriber_recieve_time = 0;
 
 }
 
@@ -55,35 +53,31 @@ UpdateThermometer::~UpdateThermometer()
 
 
 
-
 }
 
 UpdateThermometer::UpdateThermometer(
         const UpdateThermometer& x)
 {
-    m_t1 = x.m_t1;
-    m_t2 = x.m_t2;
-    m_t3 = x.m_t3;
-    m_frequency = x.m_frequency;
+    m_subscriber_initalize_time = x.m_subscriber_initalize_time;
+    m_publisher_send_time = x.m_publisher_send_time;
+    m_subscriber_recieve_time = x.m_subscriber_recieve_time;
 }
 
 UpdateThermometer::UpdateThermometer(
         UpdateThermometer&& x) noexcept 
 {
-    m_t1 = x.m_t1;
-    m_t2 = x.m_t2;
-    m_t3 = x.m_t3;
-    m_frequency = x.m_frequency;
+    m_subscriber_initalize_time = x.m_subscriber_initalize_time;
+    m_publisher_send_time = x.m_publisher_send_time;
+    m_subscriber_recieve_time = x.m_subscriber_recieve_time;
 }
 
 UpdateThermometer& UpdateThermometer::operator =(
         const UpdateThermometer& x)
 {
 
-    m_t1 = x.m_t1;
-    m_t2 = x.m_t2;
-    m_t3 = x.m_t3;
-    m_frequency = x.m_frequency;
+    m_subscriber_initalize_time = x.m_subscriber_initalize_time;
+    m_publisher_send_time = x.m_publisher_send_time;
+    m_subscriber_recieve_time = x.m_subscriber_recieve_time;
 
     return *this;
 }
@@ -92,10 +86,9 @@ UpdateThermometer& UpdateThermometer::operator =(
         UpdateThermometer&& x) noexcept
 {
 
-    m_t1 = x.m_t1;
-    m_t2 = x.m_t2;
-    m_t3 = x.m_t3;
-    m_frequency = x.m_frequency;
+    m_subscriber_initalize_time = x.m_subscriber_initalize_time;
+    m_publisher_send_time = x.m_publisher_send_time;
+    m_subscriber_recieve_time = x.m_subscriber_recieve_time;
 
     return *this;
 }
@@ -104,7 +97,7 @@ bool UpdateThermometer::operator ==(
         const UpdateThermometer& x) const
 {
 
-    return (m_t1 == x.m_t1 && m_t2 == x.m_t2 && m_t3 == x.m_t3 && m_frequency == x.m_frequency);
+    return (m_subscriber_initalize_time == x.m_subscriber_initalize_time && m_publisher_send_time == x.m_publisher_send_time && m_subscriber_recieve_time == x.m_subscriber_recieve_time);
 }
 
 bool UpdateThermometer::operator !=(
@@ -137,9 +130,6 @@ size_t UpdateThermometer::getCdrSerializedSize(
     current_alignment += 8 + eprosima::fastcdr::Cdr::alignment(current_alignment, 8);
 
 
-    current_alignment += 4 + eprosima::fastcdr::Cdr::alignment(current_alignment, 4);
-
-
 
     return current_alignment - initial_alignment;
 }
@@ -148,10 +138,9 @@ void UpdateThermometer::serialize(
         eprosima::fastcdr::Cdr& scdr) const
 {
 
-    scdr << m_t1;
-    scdr << m_t2;
-    scdr << m_t3;
-    scdr << m_frequency;
+    scdr << m_subscriber_initalize_time;
+    scdr << m_publisher_send_time;
+    scdr << m_subscriber_recieve_time;
 
 }
 
@@ -159,122 +148,93 @@ void UpdateThermometer::deserialize(
         eprosima::fastcdr::Cdr& dcdr)
 {
 
-    dcdr >> m_t1;
-    dcdr >> m_t2;
-    dcdr >> m_t3;
-    dcdr >> m_frequency;
+    dcdr >> m_subscriber_initalize_time;
+    dcdr >> m_publisher_send_time;
+    dcdr >> m_subscriber_recieve_time;
 }
 
 /*!
- * @brief This function sets a value in member t1
- * @param _t1 New value for member t1
+ * @brief This function sets a value in member subscriber_initalize_time
+ * @param _subscriber_initalize_time New value for member subscriber_initalize_time
  */
-void UpdateThermometer::t1(
-        uint64_t _t1)
+void UpdateThermometer::subscriber_initalize_time(
+        uint64_t _subscriber_initalize_time)
 {
-    m_t1 = _t1;
+    m_subscriber_initalize_time = _subscriber_initalize_time;
 }
 
 /*!
- * @brief This function returns the value of member t1
- * @return Value of member t1
+ * @brief This function returns the value of member subscriber_initalize_time
+ * @return Value of member subscriber_initalize_time
  */
-uint64_t UpdateThermometer::t1() const
+uint64_t UpdateThermometer::subscriber_initalize_time() const
 {
-    return m_t1;
+    return m_subscriber_initalize_time;
 }
 
 /*!
- * @brief This function returns a reference to member t1
- * @return Reference to member t1
+ * @brief This function returns a reference to member subscriber_initalize_time
+ * @return Reference to member subscriber_initalize_time
  */
-uint64_t& UpdateThermometer::t1()
+uint64_t& UpdateThermometer::subscriber_initalize_time()
 {
-    return m_t1;
+    return m_subscriber_initalize_time;
 }
 
 /*!
- * @brief This function sets a value in member t2
- * @param _t2 New value for member t2
+ * @brief This function sets a value in member publisher_send_time
+ * @param _publisher_send_time New value for member publisher_send_time
  */
-void UpdateThermometer::t2(
-        uint64_t _t2)
+void UpdateThermometer::publisher_send_time(
+        uint64_t _publisher_send_time)
 {
-    m_t2 = _t2;
+    m_publisher_send_time = _publisher_send_time;
 }
 
 /*!
- * @brief This function returns the value of member t2
- * @return Value of member t2
+ * @brief This function returns the value of member publisher_send_time
+ * @return Value of member publisher_send_time
  */
-uint64_t UpdateThermometer::t2() const
+uint64_t UpdateThermometer::publisher_send_time() const
 {
-    return m_t2;
+    return m_publisher_send_time;
 }
 
 /*!
- * @brief This function returns a reference to member t2
- * @return Reference to member t2
+ * @brief This function returns a reference to member publisher_send_time
+ * @return Reference to member publisher_send_time
  */
-uint64_t& UpdateThermometer::t2()
+uint64_t& UpdateThermometer::publisher_send_time()
 {
-    return m_t2;
+    return m_publisher_send_time;
 }
 
 /*!
- * @brief This function sets a value in member t3
- * @param _t3 New value for member t3
+ * @brief This function sets a value in member subscriber_recieve_time
+ * @param _subscriber_recieve_time New value for member subscriber_recieve_time
  */
-void UpdateThermometer::t3(
-        uint64_t _t3)
+void UpdateThermometer::subscriber_recieve_time(
+        uint64_t _subscriber_recieve_time)
 {
-    m_t3 = _t3;
+    m_subscriber_recieve_time = _subscriber_recieve_time;
 }
 
 /*!
- * @brief This function returns the value of member t3
- * @return Value of member t3
+ * @brief This function returns the value of member subscriber_recieve_time
+ * @return Value of member subscriber_recieve_time
  */
-uint64_t UpdateThermometer::t3() const
+uint64_t UpdateThermometer::subscriber_recieve_time() const
 {
-    return m_t3;
+    return m_subscriber_recieve_time;
 }
 
 /*!
- * @brief This function returns a reference to member t3
- * @return Reference to member t3
+ * @brief This function returns a reference to member subscriber_recieve_time
+ * @return Reference to member subscriber_recieve_time
  */
-uint64_t& UpdateThermometer::t3()
+uint64_t& UpdateThermometer::subscriber_recieve_time()
 {
-    return m_t3;
-}
-
-/*!
- * @brief This function sets a value in member frequency
- * @param _frequency New value for member frequency
- */
-void UpdateThermometer::frequency(
-        int32_t _frequency)
-{
-    m_frequency = _frequency;
-}
-
-/*!
- * @brief This function returns the value of member frequency
- * @return Value of member frequency
- */
-int32_t UpdateThermometer::frequency() const
-{
-    return m_frequency;
-}
-
-/*!
- * @brief This function returns a reference to member frequency
- * @return Reference to member frequency
- */
-int32_t& UpdateThermometer::frequency()
-{
-    return m_frequency;
+    return m_subscriber_recieve_time;
 }
 
 

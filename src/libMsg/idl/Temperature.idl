@@ -6,6 +6,6 @@ struct Temperature
 	long temperature;
 
 	unsigned long long subscriber_initalize_time;
-	unsigned long long subscriber_send_time;
-	unsigned long long publisher_recieve_time;
+	unsigned long long publisher_send_time;
+	unsigned long long subscriber_recieve_time;
 };

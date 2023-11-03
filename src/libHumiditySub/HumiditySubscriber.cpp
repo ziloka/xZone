@@ -162,7 +162,7 @@ void HumiditySubscriber::SubListener::on_data_available(DataReader* reader)
 
             //APP_LOG("humidity message received, time captured (t1)=%u, time sent msg out (t2)=%u, time received msg (t3)=%u", humidity_.t1(), humidity_.t2(), APP_TIME_CURRENT_US);
 
-            file_ << humidity_.index() << "," << humidity_.frequency() << "," << APP_TIME_CURRENT_US - humidity_.t2() << std::endl;
+            file_ << humidity_.index() << "," << APP_TIME_CURRENT_US - humidity_.publisher_send_time() << std::endl;
         }
     }
 }

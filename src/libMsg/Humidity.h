@@ -162,80 +162,61 @@ public:
     eProsima_user_DllExport uint32_t& humidity();
 
     /*!
-     * @brief This function sets a value in member t1
-     * @param _t1 New value for member t1
+     * @brief This function sets a value in member subscriber_initalize_time
+     * @param _subscriber_initalize_time New value for member subscriber_initalize_time
      */
-    eProsima_user_DllExport void t1(
-            uint64_t _t1);
+    eProsima_user_DllExport void subscriber_initalize_time(
+            uint64_t _subscriber_initalize_time);
 
     /*!
-     * @brief This function returns the value of member t1
-     * @return Value of member t1
+     * @brief This function returns the value of member subscriber_initalize_time
+     * @return Value of member subscriber_initalize_time
      */
-    eProsima_user_DllExport uint64_t t1() const;
+    eProsima_user_DllExport uint64_t subscriber_initalize_time() const;
 
     /*!
-     * @brief This function returns a reference to member t1
-     * @return Reference to member t1
+     * @brief This function returns a reference to member subscriber_initalize_time
+     * @return Reference to member subscriber_initalize_time
      */
-    eProsima_user_DllExport uint64_t& t1();
+    eProsima_user_DllExport uint64_t& subscriber_initalize_time();
 
     /*!
-     * @brief This function sets a value in member t2
-     * @param _t2 New value for member t2
+     * @brief This function sets a value in member publisher_send_time
+     * @param _publisher_send_time New value for member publisher_send_time
      */
-    eProsima_user_DllExport void t2(
-            uint64_t _t2);
+    eProsima_user_DllExport void publisher_send_time(
+            uint64_t _publisher_send_time);
 
     /*!
-     * @brief This function returns the value of member t2
-     * @return Value of member t2
+     * @brief This function returns the value of member publisher_send_time
+     * @return Value of member publisher_send_time
      */
-    eProsima_user_DllExport uint64_t t2() const;
+    eProsima_user_DllExport uint64_t publisher_send_time() const;
 
     /*!
-     * @brief This function returns a reference to member t2
-     * @return Reference to member t2
+     * @brief This function returns a reference to member publisher_send_time
+     * @return Reference to member publisher_send_time
      */
-    eProsima_user_DllExport uint64_t& t2();
+    eProsima_user_DllExport uint64_t& publisher_send_time();
 
     /*!
-     * @brief This function sets a value in member t3
-     * @param _t3 New value for member t3
+     * @brief This function sets a value in member subscriber_recieve_time
+     * @param _subscriber_recieve_time New value for member subscriber_recieve_time
      */
-    eProsima_user_DllExport void t3(
-            uint64_t _t3);
+    eProsima_user_DllExport void subscriber_recieve_time(
+            uint64_t _subscriber_recieve_time);
 
     /*!
-     * @brief This function returns the value of member t3
-     * @return Value of member t3
+     * @brief This function returns the value of member subscriber_recieve_time
+     * @return Value of member subscriber_recieve_time
      */
-    eProsima_user_DllExport uint64_t t3() const;
+    eProsima_user_DllExport uint64_t subscriber_recieve_time() const;
 
     /*!
-     * @brief This function returns a reference to member t3
-     * @return Reference to member t3
+     * @brief This function returns a reference to member subscriber_recieve_time
+     * @return Reference to member subscriber_recieve_time
      */
-    eProsima_user_DllExport uint64_t& t3();
-
-    /*!
-     * @brief This function sets a value in member frequency
-     * @param _frequency New value for member frequency
-     */
-    eProsima_user_DllExport void frequency(
-            int32_t _frequency);
-
-    /*!
-     * @brief This function returns the value of member frequency
-     * @return Value of member frequency
-     */
-    eProsima_user_DllExport int32_t frequency() const;
-
-    /*!
-     * @brief This function returns a reference to member frequency
-     * @return Reference to member frequency
-     */
-    eProsima_user_DllExport int32_t& frequency();
+    eProsima_user_DllExport uint64_t& subscriber_recieve_time();
 
 
     /*!
@@ -299,10 +280,9 @@ private:
 
     uint32_t m_index;
     uint32_t m_humidity;
-    uint64_t m_t1;
-    uint64_t m_t2;
-    uint64_t m_t3;
-    int32_t m_frequency;
+    uint64_t m_subscriber_initalize_time;
+    uint64_t m_publisher_send_time;
+    uint64_t m_subscriber_recieve_time;
 
 };
 

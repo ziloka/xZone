@@ -226,8 +226,8 @@ void ImagePublisher::PubListener::on_publication_matched(
 void ImagePublisher::runThread()
 {
     const int numSamples = cfgCam_.numSamples_;
-    const int nFreqHz = cfgCam_.nFreqHz_;
-    const int nanoseconds_per_msg = 1000000000 / nFreqHz;
+    const double fps = (double) cfgCam_.fps_.num / (double) cfgCam_.fps_.den;
+    const double nanoseconds_per_msg = fps * 1e9;
 
 	// there are 1,000,000,000 nanoseconds in a second
 
@@ -243,7 +243,7 @@ void ImagePublisher::runThread()
         uint64_t tEnd = APP_TIME_CURRENT_US;
         uint64_t dt = tEnd - tBeg;
         if ( dt < nanoseconds_per_msg) {
-            std::this_thread::sleep_for(std::chrono::nanoseconds(nanoseconds_per_msg - dt));
+            std::this_thread::sleep_for(std::chrono::nanoseconds((int) nanoseconds_per_msg - dt));
         }
 	}
 	std::cout << "sent " << numSamples << " samples" << std::endl;
@@ -260,7 +260,7 @@ std::thread ImagePublisher::run()
 void ImagePublisher::acqImgMsg()
 {
   // https://learnopencv.com/read-write-and-display-a-video-using-opencv-cpp-python/
-  image_.t1(APP_TIME_CURRENT_US);
+  image_.subscriber_initalize_time(APP_TIME_CURRENT_US);
 }
 
 void ImagePublisher::preparImgMsg( const uint32_t frameNum )
@@ -274,7 +274,7 @@ bool ImagePublisher::publish(bool waitForListener, uint32_t frequency)
 {
     if (listener_.firstConnected_ || !waitForListener || listener_.matched_ > 0)
     {
-        image_.t2(APP_TIME_CURRENT_US);
+        image_.publisher_send_time(APP_TIME_CURRENT_US);
         writer_->write(&image_);
         return true;
     }

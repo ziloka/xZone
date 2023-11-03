@@ -26,6 +26,7 @@ int main(int argc, char* argv[])
 	const bool showInConsole = true;
 	startLogThread(logFilename, showInConsole);
 
+	
 	thread humiditySubscriberThread(createHumiditySubscriber, use_environment_qos);
 
 	thread imageSubscriberThread(createImageSubscriber, use_environment_qos);

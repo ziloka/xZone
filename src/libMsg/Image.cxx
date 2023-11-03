@@ -34,7 +34,7 @@ using namespace eprosima::fastcdr::exception;
 
 #include <utility>
 
-#define Image_max_cdr_typesize 148ULL;
+#define Image_max_cdr_typesize 144ULL;
 #define Image_max_key_cdr_typesize 0ULL;
 
 Image::Image()
@@ -47,14 +47,12 @@ Image::Image()
     m_height = 0;
     // unsigned long m_width
     m_width = 0;
-    // unsigned long long m_t1
-    m_t1 = 0;
-    // unsigned long long m_t2
-    m_t2 = 0;
-    // unsigned long long m_t3
-    m_t3 = 0;
-    // long m_frequency
-    m_frequency = 0;
+    // unsigned long long m_subscriber_initalize_time
+    m_subscriber_initalize_time = 0;
+    // unsigned long long m_publisher_send_time
+    m_publisher_send_time = 0;
+    // unsigned long long m_subscriber_recieve_time
+    m_subscriber_recieve_time = 0;
 
 }
 
@@ -67,7 +65,6 @@ Image::~Image()
 
 
 
-
 }
 
 Image::Image(
@@ -77,10 +74,9 @@ Image::Image(
     m_frame_number = x.m_frame_number;
     m_height = x.m_height;
     m_width = x.m_width;
-    m_t1 = x.m_t1;
-    m_t2 = x.m_t2;
-    m_t3 = x.m_t3;
-    m_frequency = x.m_frequency;
+    m_subscriber_initalize_time = x.m_subscriber_initalize_time;
+    m_publisher_send_time = x.m_publisher_send_time;
+    m_subscriber_recieve_time = x.m_subscriber_recieve_time;
 }
 
 Image::Image(
@@ -90,10 +86,9 @@ Image::Image(
     m_frame_number = x.m_frame_number;
     m_height = x.m_height;
     m_width = x.m_width;
-    m_t1 = x.m_t1;
-    m_t2 = x.m_t2;
-    m_t3 = x.m_t3;
-    m_frequency = x.m_frequency;
+    m_subscriber_initalize_time = x.m_subscriber_initalize_time;
+    m_publisher_send_time = x.m_publisher_send_time;
+    m_subscriber_recieve_time = x.m_subscriber_recieve_time;
 }
 
 Image& Image::operator =(
@@ -104,10 +99,9 @@ Image& Image::operator =(
     m_frame_number = x.m_frame_number;
     m_height = x.m_height;
     m_width = x.m_width;
-    m_t1 = x.m_t1;
-    m_t2 = x.m_t2;
-    m_t3 = x.m_t3;
-    m_frequency = x.m_frequency;
+    m_subscriber_initalize_time = x.m_subscriber_initalize_time;
+    m_publisher_send_time = x.m_publisher_send_time;
+    m_subscriber_recieve_time = x.m_subscriber_recieve_time;
 
     return *this;
 }
@@ -120,10 +114,9 @@ Image& Image::operator =(
     m_frame_number = x.m_frame_number;
     m_height = x.m_height;
     m_width = x.m_width;
-    m_t1 = x.m_t1;
-    m_t2 = x.m_t2;
-    m_t3 = x.m_t3;
-    m_frequency = x.m_frequency;
+    m_subscriber_initalize_time = x.m_subscriber_initalize_time;
+    m_publisher_send_time = x.m_publisher_send_time;
+    m_subscriber_recieve_time = x.m_subscriber_recieve_time;
 
     return *this;
 }
@@ -132,7 +125,7 @@ bool Image::operator ==(
         const Image& x) const
 {
 
-    return (m_image == x.m_image && m_frame_number == x.m_frame_number && m_height == x.m_height && m_width == x.m_width && m_t1 == x.m_t1 && m_t2 == x.m_t2 && m_t3 == x.m_t3 && m_frequency == x.m_frequency);
+    return (m_image == x.m_image && m_frame_number == x.m_frame_number && m_height == x.m_height && m_width == x.m_width && m_subscriber_initalize_time == x.m_subscriber_initalize_time && m_publisher_send_time == x.m_publisher_send_time && m_subscriber_recieve_time == x.m_subscriber_recieve_time);
 }
 
 bool Image::operator !=(
@@ -183,9 +176,6 @@ size_t Image::getCdrSerializedSize(
     current_alignment += 8 + eprosima::fastcdr::Cdr::alignment(current_alignment, 8);
 
 
-    current_alignment += 4 + eprosima::fastcdr::Cdr::alignment(current_alignment, 4);
-
-
 
     return current_alignment - initial_alignment;
 }
@@ -198,10 +188,9 @@ void Image::serialize(
     scdr << m_frame_number;
     scdr << m_height;
     scdr << m_width;
-    scdr << m_t1;
-    scdr << m_t2;
-    scdr << m_t3;
-    scdr << m_frequency;
+    scdr << m_subscriber_initalize_time;
+    scdr << m_publisher_send_time;
+    scdr << m_subscriber_recieve_time;
 
 }
 
@@ -213,10 +202,9 @@ void Image::deserialize(
     dcdr >> m_frame_number;
     dcdr >> m_height;
     dcdr >> m_width;
-    dcdr >> m_t1;
-    dcdr >> m_t2;
-    dcdr >> m_t3;
-    dcdr >> m_frequency;
+    dcdr >> m_subscriber_initalize_time;
+    dcdr >> m_publisher_send_time;
+    dcdr >> m_subscriber_recieve_time;
 }
 
 /*!
@@ -341,115 +329,87 @@ uint32_t& Image::width()
 }
 
 /*!
- * @brief This function sets a value in member t1
- * @param _t1 New value for member t1
+ * @brief This function sets a value in member subscriber_initalize_time
+ * @param _subscriber_initalize_time New value for member subscriber_initalize_time
  */
-void Image::t1(
-        uint64_t _t1)
+void Image::subscriber_initalize_time(
+        uint64_t _subscriber_initalize_time)
 {
-    m_t1 = _t1;
+    m_subscriber_initalize_time = _subscriber_initalize_time;
 }
 
 /*!
- * @brief This function returns the value of member t1
- * @return Value of member t1
+ * @brief This function returns the value of member subscriber_initalize_time
+ * @return Value of member subscriber_initalize_time
  */
-uint64_t Image::t1() const
+uint64_t Image::subscriber_initalize_time() const
 {
-    return m_t1;
+    return m_subscriber_initalize_time;
 }
 
 /*!
- * @brief This function returns a reference to member t1
- * @return Reference to member t1
+ * @brief This function returns a reference to member subscriber_initalize_time
+ * @return Reference to member subscriber_initalize_time
  */
-uint64_t& Image::t1()
+uint64_t& Image::subscriber_initalize_time()
 {
-    return m_t1;
+    return m_subscriber_initalize_time;
 }
 
 /*!
- * @brief This function sets a value in member t2
- * @param _t2 New value for member t2
+ * @brief This function sets a value in member publisher_send_time
+ * @param _publisher_send_time New value for member publisher_send_time
  */
-void Image::t2(
-        uint64_t _t2)
+void Image::publisher_send_time(
+        uint64_t _publisher_send_time)
 {
-    m_t2 = _t2;
+    m_publisher_send_time = _publisher_send_time;
 }
 
 /*!
- * @brief This function returns the value of member t2
- * @return Value of member t2
+ * @brief This function returns the value of member publisher_send_time
+ * @return Value of member publisher_send_time
  */
-uint64_t Image::t2() const
+uint64_t Image::publisher_send_time() const
 {
-    return m_t2;
+    return m_publisher_send_time;
 }
 
 /*!
- * @brief This function returns a reference to member t2
- * @return Reference to member t2
+ * @brief This function returns a reference to member publisher_send_time
+ * @return Reference to member publisher_send_time
  */
-uint64_t& Image::t2()
+uint64_t& Image::publisher_send_time()
 {
-    return m_t2;
+    return m_publisher_send_time;
 }
 
 /*!
- * @brief This function sets a value in member t3
- * @param _t3 New value for member t3
+ * @brief This function sets a value in member subscriber_recieve_time
+ * @param _subscriber_recieve_time New value for member subscriber_recieve_time
  */
-void Image::t3(
-        uint64_t _t3)
+void Image::subscriber_recieve_time(
+        uint64_t _subscriber_recieve_time)
 {
-    m_t3 = _t3;
+    m_subscriber_recieve_time = _subscriber_recieve_time;
 }
 
 /*!
- * @brief This function returns the value of member t3
- * @return Value of member t3
+ * @brief This function returns the value of member subscriber_recieve_time
+ * @return Value of member subscriber_recieve_time
  */
-uint64_t Image::t3() const
+uint64_t Image::subscriber_recieve_time() const
 {
-    return m_t3;
+    return m_subscriber_recieve_time;
 }
 
 /*!
- * @brief This function returns a reference to member t3
- * @return Reference to member t3
+ * @brief This function returns a reference to member subscriber_recieve_time
+ * @return Reference to member subscriber_recieve_time
  */
-uint64_t& Image::t3()
+uint64_t& Image::subscriber_recieve_time()
 {
-    return m_t3;
-}
-
-/*!
- * @brief This function sets a value in member frequency
- * @param _frequency New value for member frequency
- */
-void Image::frequency(
-        int32_t _frequency)
-{
-    m_frequency = _frequency;
-}
-
-/*!
- * @brief This function returns the value of member frequency
- * @return Value of member frequency
- */
-int32_t Image::frequency() const
-{
-    return m_frequency;
-}
-
-/*!
- * @brief This function returns a reference to member frequency
- * @return Reference to member frequency
- */
-int32_t& Image::frequency()
-{
-    return m_frequency;
+    return m_subscriber_recieve_time;
 }
 
 

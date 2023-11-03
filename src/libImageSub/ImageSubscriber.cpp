@@ -179,12 +179,12 @@ void ImageSubscriber::SubListener::on_data_available(  DataReader* reader)
             // write data to data.csv file 
             // frame number, frequency, latency
 
-            image_.t3(APP_TIME_CURRENT_US);
+            image_.subscriber_recieve_time(APP_TIME_CURRENT_US);
             if (image_.frame_number() > 100) {
-                latencyStat_.addSample(image_.t3() - image_.t2());
+                latencyStat_.addSample(image_.subscriber_recieve_time() - image_.publisher_send_time());
             }
 
-            file_ << image_.frame_number() << "," << image_.frequency() << "," << APP_TIME_CURRENT_US - image_.t2() << std::endl;
+            file_ << image_.frame_number() << "," << APP_TIME_CURRENT_US - image_.publisher_send_time() << std::endl;
           
         }
     }

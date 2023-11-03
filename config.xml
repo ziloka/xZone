@@ -13,7 +13,6 @@
         <fpsNum>30</fpsNum> <!-- frames per second numerator -->
         <fpsDen>1</fpsDen> <!-- frames per second denominator -->
 
-        <nFreqHz>100</nFreqHz> <!-- minimum hertz -->
         <numSamples>10000</numSamples> <!-- maximum hertz-->
         
         <frmQueSz>10</frmQueSz>

@@ -184,6 +184,15 @@ Note: *C++17 and above is required*
 
 5. look at ./src/libMsg/how-to-run-fastgen.txt before attempting to compile
 
+	- If you don't have java installed you need to build fastdds-gen from source
+
+	```
+	git clone --depth 1 --branch v2.5.1 https://github.com/eProsima/Fast-DDS-Gen
+	cd Fast-DDS-Gen
+	.\gradlew.bat build
+	java -jar ROOTDIRECTORY\Fast-DDS-Gen\share\fastddsgen\java\fastddsgen.jar .. other arguments
+	```
+
 	C:\pkg\fastDDS\bin\fastddsgen .\idl\Image.idl
 
 6. **configure projects to be compiled in the correct order**

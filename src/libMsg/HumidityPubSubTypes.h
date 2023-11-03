@@ -51,12 +51,12 @@ namespace detail {
 
     struct Humidity_f
     {
-        typedef int32_t Humidity::* type;
+        typedef uint64_t Humidity::* type;
         friend constexpr type get(
                 Humidity_f);
     };
 
-    template struct Humidity_rob<Humidity_f, &Humidity::m_frequency>;
+    template struct Humidity_rob<Humidity_f, &Humidity::m_subscriber_recieve_time>;
 
     template <typename T, typename Tag>
     inline size_t constexpr Humidity_offset_of() {
@@ -133,7 +133,7 @@ private:
 
     static constexpr bool is_plain_impl()
     {
-        return 36ULL == (detail::Humidity_offset_of<Humidity, detail::Humidity_f>() + sizeof(int32_t));
+        return 32ULL == (detail::Humidity_offset_of<Humidity, detail::Humidity_f>() + sizeof(uint64_t));
 
     }};
 

@@ -64,7 +64,7 @@ private:
         {
             file_.open("image_pubsub_data.csv");
             std::cout << "Opened image_pubsub_data.csv.. appending to file" << std::endl;
-            file_ << "frame number,frequency,latency" << std::endl;
+            file_ << "frame number,latency" << std::endl;
         }
 
         ~SubListener() override
