@@ -184,7 +184,7 @@ void ImageSubscriber::SubListener::on_data_available(  DataReader* reader)
                 latencyStat_.addSample(image_.subscriber_recieve_time() - image_.publisher_send_time());
             }
 
-            file_ << image_.frame_number() << "," << APP_TIME_CURRENT_US - image_.publisher_send_time() << std::endl;
+            file_ << image_.frame_number() << "," << image_.frequency() << "," << APP_TIME_CURRENT_US - image_.publisher_send_time() << std::endl;
           
         }
     }

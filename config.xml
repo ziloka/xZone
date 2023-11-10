@@ -13,7 +13,12 @@
         <fpsNum>30</fpsNum> <!-- frames per second numerator -->
         <fpsDen>1</fpsDen> <!-- frames per second denominator -->
 
-        <numSamples>10000</numSamples> <!-- maximum hertz-->
+        <!-- a single hertz is one event per second-->
+        <frequencyStart>10</frequencyStart> <!-- minimum hertz -->
+        <frequencyStep>5</frequencyStep> <!-- interval to step by -->
+        <frequencyEnd>100</frequencyEnd> <!-- maximum hertz-->
+
+        <numSamples>1000</numSamples> <!-- num of msgs sent for frequency -->
         
         <frmQueSz>10</frmQueSz>
         <!-- currently not used configurations -->

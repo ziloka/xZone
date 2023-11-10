@@ -168,6 +168,25 @@ public:
     eProsima_user_DllExport uint32_t& frame_number();
 
     /*!
+     * @brief This function sets a value in member frequency
+     * @param _frequency New value for member frequency
+     */
+    eProsima_user_DllExport void frequency(
+            uint32_t _frequency);
+
+    /*!
+     * @brief This function returns the value of member frequency
+     * @return Value of member frequency
+     */
+    eProsima_user_DllExport uint32_t frequency() const;
+
+    /*!
+     * @brief This function returns a reference to member frequency
+     * @return Reference to member frequency
+     */
+    eProsima_user_DllExport uint32_t& frequency();
+
+    /*!
      * @brief This function sets a value in member height
      * @param _height New value for member height
      */
@@ -324,6 +343,7 @@ private:
 
     std::vector<uint8_t> m_image;
     uint32_t m_frame_number;
+    uint32_t m_frequency;
     uint32_t m_height;
     uint32_t m_width;
     uint64_t m_subscriber_initalize_time;

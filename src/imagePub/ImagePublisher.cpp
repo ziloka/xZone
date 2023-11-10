@@ -32,7 +32,7 @@
 using namespace app;
 using namespace eprosima::fastdds::dds;
 
-ImagePublisher::ImagePublisher(std::shared_ptr<std::shared_mutex> mutexPtr, CfgPtr cfgPtr)
+ImagePublisher::ImagePublisher(std::shared_ptr<std::shared_mutex> mutexPtr, CfgPtr cfgPtr, double fps)
     : participant_(nullptr)
     , publisher_(nullptr)
     , topic_(nullptr)
@@ -48,6 +48,9 @@ ImagePublisher::ImagePublisher(std::shared_ptr<std::shared_mutex> mutexPtr, CfgP
     int width = cfgCam_.imgSz_.w;
 
     frame_ = cv::Mat(height, width, CV_8UC3);
+
+    // set publisher frequency
+    frequency_ = fps;
 
    // https://learnopencv.com/read-write-and-display-a-video-using-opencv-cpp-python/
    // https://learn.microsoft.com/en-us/windows/win32/directshow/selecting-a-capture-device?redirectedfrom=MSDN
@@ -226,10 +229,6 @@ void ImagePublisher::PubListener::on_publication_matched(
 void ImagePublisher::runThread()
 {
     const int numSamples = cfgCam_.numSamples_;
-    const double fps = (double) cfgCam_.fps_.num / (double) cfgCam_.fps_.den;
-    const double nanoseconds_per_msg = fps * 1e9;
-
-	// there are 1,000,000,000 nanoseconds in a second
 
 	std::cout << "sending " << numSamples << " samples" << std::endl;
 	for (uint32_t i = 0; i < numSamples; i++) {
@@ -242,8 +241,8 @@ void ImagePublisher::runThread()
 
         uint64_t tEnd = APP_TIME_CURRENT_US;
         uint64_t dt = tEnd - tBeg;
-        if ( dt < nanoseconds_per_msg) {
-            std::this_thread::sleep_for(std::chrono::nanoseconds((int) nanoseconds_per_msg - dt));
+        if ( dt < frequency_) {
+            std::this_thread::sleep_for(std::chrono::nanoseconds((int) frequency_ - dt));
         }
 	}
 	std::cout << "sent " << numSamples << " samples" << std::endl;
@@ -266,6 +265,7 @@ void ImagePublisher::acqImgMsg()
 void ImagePublisher::preparImgMsg( const uint32_t frameNum )
 {
   image_.frame_number(frameNum);
+  image_.frequency(frequency_);
   image_.image(app::matToVecUchar(frame_));
   image_.width(frame_.cols);
   image_.height(frame_.rows);

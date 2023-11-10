@@ -33,7 +33,7 @@ class ImagePublisher
 {
 public:
 
-    ImagePublisher(std::shared_ptr<std::shared_mutex> mutex, CfgPtr cfgPtr);
+    ImagePublisher(std::shared_ptr<std::shared_mutex> mutex, CfgPtr cfgPtr, double fps);
 
     virtual ~ImagePublisher();
 
@@ -67,6 +67,8 @@ private:
     cv::VideoCapture camera_;
 
     Image image_;
+
+    double frequency_;
 
     eprosima::fastdds::dds::DomainParticipant* participant_;
 

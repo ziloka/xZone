@@ -52,6 +52,7 @@ namespace app {
 		ImgSize		imgSz_;	   //output image sz after H264 decoding regardless the original size from camera
 		VideoFps    fps_;
 		int			numSamples_; // number of samples to take at each frequency
+		Frequency   frequency_;
 
 		//todo: add more
 		int 		frmQueSz_;      //que size for FrmInfo

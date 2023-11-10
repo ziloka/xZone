@@ -123,9 +123,6 @@ Note: *C++17 and above is required*
 		cmake --build . --parallel 4 --target install --config debug
 		cmake --build . --parallel 4 --target install --config release
 		# Have the files starting with lib prefixes
-		cmake -G "Visual Studio 16 2019" -D CMAKE_INSTALL_PREFIX:FILEPATH=../../install -D BUILD_SHARED_LIBS=OFF ..
-		cmake --build . --parallel 4 --target install --config debug
-		cmake --build . --parallel 4 --target install --config release
 
 		# for release, the wanted dep is in the install/bin folder
 		git clone --jobs 4 --depth=1 --single-branch https://github.com/eProsima/Fast-CDR.git
@@ -153,9 +150,9 @@ Note: *C++17 and above is required*
 		- Requirements 
 			- Java JDK
 		```
-		git clone --recursive --depth=1 https://github.com/eProsima/Fast-DDS-Gen.git
+		git clone --recursive --depth=1 --single-branch --branch v2.5.1 https://github.com/eProsima/Fast-DDS-Gen.git
 		cd Fast-DDS-Gen
-		gradlew.bat assemble
+		.\gradlew.bat assemble
 		```
 
 		Notes:

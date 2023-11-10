@@ -4,6 +4,7 @@ struct Image
 {
 	sequence<octet> image;
 	unsigned long frame_number;
+	unsigned long frequency;
 	unsigned long height;
 	unsigned long width;
 

@@ -18,7 +18,7 @@
 - Talk about how graphs should be organized
 	- Eg. each machine type has its own graph? Or 3d graph...
 	 -->
-Message frequency
+<!-- Message frequency
 fix horizontal 
 remove uncessary configurations
 
@@ -47,6 +47,13 @@ subscriber_recieve
 tcp 
 
 
-example graph
+example graph -->
 
 https://www.mathworks.com/matlabcentral/answers/10428-standard-deviation-and-mean
+
+magnitude with error bar
+plot error bar 
+
+plot the types on type of each other
+
+https://www.biologyforlife.com/interpreting-error-bars.html

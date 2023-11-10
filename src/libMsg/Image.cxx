@@ -43,6 +43,8 @@ Image::Image()
 
     // unsigned long m_frame_number
     m_frame_number = 0;
+    // unsigned long m_frequency
+    m_frequency = 0;
     // unsigned long m_height
     m_height = 0;
     // unsigned long m_width
@@ -65,6 +67,7 @@ Image::~Image()
 
 
 
+
 }
 
 Image::Image(
@@ -72,6 +75,7 @@ Image::Image(
 {
     m_image = x.m_image;
     m_frame_number = x.m_frame_number;
+    m_frequency = x.m_frequency;
     m_height = x.m_height;
     m_width = x.m_width;
     m_subscriber_initalize_time = x.m_subscriber_initalize_time;
@@ -84,6 +88,7 @@ Image::Image(
 {
     m_image = std::move(x.m_image);
     m_frame_number = x.m_frame_number;
+    m_frequency = x.m_frequency;
     m_height = x.m_height;
     m_width = x.m_width;
     m_subscriber_initalize_time = x.m_subscriber_initalize_time;
@@ -97,6 +102,7 @@ Image& Image::operator =(
 
     m_image = x.m_image;
     m_frame_number = x.m_frame_number;
+    m_frequency = x.m_frequency;
     m_height = x.m_height;
     m_width = x.m_width;
     m_subscriber_initalize_time = x.m_subscriber_initalize_time;
@@ -112,6 +118,7 @@ Image& Image::operator =(
 
     m_image = std::move(x.m_image);
     m_frame_number = x.m_frame_number;
+    m_frequency = x.m_frequency;
     m_height = x.m_height;
     m_width = x.m_width;
     m_subscriber_initalize_time = x.m_subscriber_initalize_time;
@@ -125,7 +132,7 @@ bool Image::operator ==(
         const Image& x) const
 {
 
-    return (m_image == x.m_image && m_frame_number == x.m_frame_number && m_height == x.m_height && m_width == x.m_width && m_subscriber_initalize_time == x.m_subscriber_initalize_time && m_publisher_send_time == x.m_publisher_send_time && m_subscriber_recieve_time == x.m_subscriber_recieve_time);
+    return (m_image == x.m_image && m_frame_number == x.m_frame_number && m_frequency == x.m_frequency && m_height == x.m_height && m_width == x.m_width && m_subscriber_initalize_time == x.m_subscriber_initalize_time && m_publisher_send_time == x.m_publisher_send_time && m_subscriber_recieve_time == x.m_subscriber_recieve_time);
 }
 
 bool Image::operator !=(
@@ -167,6 +174,9 @@ size_t Image::getCdrSerializedSize(
     current_alignment += 4 + eprosima::fastcdr::Cdr::alignment(current_alignment, 4);
 
 
+    current_alignment += 4 + eprosima::fastcdr::Cdr::alignment(current_alignment, 4);
+
+
     current_alignment += 8 + eprosima::fastcdr::Cdr::alignment(current_alignment, 8);
 
 
@@ -186,6 +196,7 @@ void Image::serialize(
 
     scdr << m_image;
     scdr << m_frame_number;
+    scdr << m_frequency;
     scdr << m_height;
     scdr << m_width;
     scdr << m_subscriber_initalize_time;
@@ -200,6 +211,7 @@ void Image::deserialize(
 
     dcdr >> m_image;
     dcdr >> m_frame_number;
+    dcdr >> m_frequency;
     dcdr >> m_height;
     dcdr >> m_width;
     dcdr >> m_subscriber_initalize_time;
@@ -270,6 +282,34 @@ uint32_t Image::frame_number() const
 uint32_t& Image::frame_number()
 {
     return m_frame_number;
+}
+
+/*!
+ * @brief This function sets a value in member frequency
+ * @param _frequency New value for member frequency
+ */
+void Image::frequency(
+        uint32_t _frequency)
+{
+    m_frequency = _frequency;
+}
+
+/*!
+ * @brief This function returns the value of member frequency
+ * @return Value of member frequency
+ */
+uint32_t Image::frequency() const
+{
+    return m_frequency;
+}
+
+/*!
+ * @brief This function returns a reference to member frequency
+ * @return Reference to member frequency
+ */
+uint32_t& Image::frequency()
+{
+    return m_frequency;
 }
 
 /*!

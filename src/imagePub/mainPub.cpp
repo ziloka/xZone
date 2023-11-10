@@ -21,7 +21,6 @@
 #include "libUtil/AppLog.h"
 #include "libCfg/Cfg.h"
 
-
 #include <mutex>
 #include <shared_mutex>
 
@@ -43,16 +42,21 @@ int main(int argc, char* argv[])
 	const bool showInConsole = true;
 	startLogThread(logFilename, showInConsole);
 
-	bool use_environment_qos = false;
+	bool use_environment_qos = true;
 
 	std::shared_ptr<std::shared_mutex> mutex;
-	ImagePublisher mypub(mutex, cfg);
-	if (mypub.init(cfg, use_environment_qos))
-	{
-		std::thread subscriber(createUpdateCamSubscriber, mutex, cfg, use_environment_qos);
-		std::thread publisher = mypub.run();
-		publisher.join();
-		subscriber.join();
+
+	std::thread subscriber(createUpdateCamSubscriber, mutex, cfg, use_environment_qos);
+	subscriber.join();
+
+	// pass hz frequency param
+	for (double hz = cfg->getCam().frequency_.start; hz < cfg->getCam().frequency_.end; hz += cfg->getCam().frequency_.step) {
+		std::cout << "On frequency #" << hz << std::endl << std::endl;
+		ImagePublisher mypub(mutex, cfg, hz);
+		if (mypub.init(cfg, use_environment_qos)) {
+			std::thread publisher = mypub.run();
+			publisher.join();
+		}
 	}
 
 	endLogThread();
