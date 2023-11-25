@@ -83,7 +83,7 @@
     <Keyword>Win32Proj</Keyword>
     <ProjectGuid>{23CF582B-EF4F-402E-A6A6-EB1DACE6F604}</ProjectGuid>
     <RootNamespace>libUtil</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.22000.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">

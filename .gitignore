@@ -5,6 +5,8 @@ ref/
 x64/
 pkg/
 data/
+.xmake
+.vscode
 
 # files
 *.d
