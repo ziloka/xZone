@@ -77,6 +77,7 @@ bool ImagePublisher::init(CfgPtr cfg, bool use_env)
 
     DomainParticipantQos pqos = PARTICIPANT_QOS_DEFAULT;
     pqos.name("ImagePublisher");
+
     auto factory = DomainParticipantFactory::get_instance();
 
     if (use_env)
@@ -232,18 +233,36 @@ void ImagePublisher::runThread()
 
 	std::cout << "sending " << numSamples << " samples" << std::endl;
 	for (uint32_t i = 0; i < numSamples; i++) {
-        uint64_t tBeg = APP_TIME_CURRENT_US;
+        uint64_t tBeg = APP_TIME_CURRENT_NS;
 		acqImgMsg();
 		preparImgMsg(i);
 		if (!publish(false, numSamples)) {
 			std::cout << "unable to send sample #" << i << std::endl;
 		}
 
-        uint64_t tEnd = APP_TIME_CURRENT_US;
+        uint64_t tEnd = APP_TIME_CURRENT_NS;
+
+        uint64_t dealayNanosecond = 1e9 / frequency_;
+
+        //wait utill delay time, interval
+        do {
+            tEnd = APP_TIME_CURRENT_NS;
+        } while (tEnd - tBeg <= dealayNanosecond);
+            /*
         uint64_t dt = tEnd - tBeg;
-        if ( dt < frequency_) {
-            std::this_thread::sleep_for(std::chrono::nanoseconds((int) frequency_ - dt));
+        //  1 / (dt / 1e6) or 1e6 / dt (converting US to HZ)
+        uint64_t cycles = 1e6 / dt;
+   
+        // https://stackoverflow.com/questions/72914414/how-to-call-a-function-in-a-certain-frequency-c
+        // std::cout << "dt is " << dt << " cycles is " << cycles << " and frequency is " << frequency_ << std::endl;
+        if (cycles > frequency_) {
+            // std::cout << "Slow down! cycles is " << cycles << " and frequency is " << frequency_ << std::endl;
+            // if message sent too fast, wait for this many nanoseconds to send the next message
+           
+            std::this_thread::sleep_for(std::chrono::microseconds((uint64_t)1e6) / (uint64_t)frequency_);
         }
+        // std::cout << "dt: " << dt << " frequency: " << frequency_ << std::endl;
+        */
 	}
 	std::cout << "sent " << numSamples << " samples" << std::endl;
 

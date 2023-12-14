@@ -27,6 +27,7 @@ char dummy;
 #endif  // _WIN32
 
 #include "Image.h"
+#include "ImageTypeObject.h"
 #include <fastcdr/Cdr.h>
 
 #include <fastcdr/exceptions/BadParamException.h>
@@ -56,6 +57,8 @@ Image::Image()
     // unsigned long long m_subscriber_recieve_time
     m_subscriber_recieve_time = 0;
 
+    // Just to register all known types
+    registerImageTypes();
 }
 
 Image::~Image()

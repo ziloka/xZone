@@ -155,6 +155,9 @@ void ImageSubscriber::SubListener::on_data_available(  DataReader* reader)
     SampleInfo info;
     if (reader->take_next_sample(&image_, &info) == ReturnCode_t::RETCODE_OK)
     {
+        std::cout << "instance state " << info.instance_state << std::endl;
+        std::cout << "frequency: " << image_.frequency() << std::endl;
+
         if (info.instance_state == ALIVE_INSTANCE_STATE)
         {
             samples_++;
@@ -179,12 +182,13 @@ void ImageSubscriber::SubListener::on_data_available(  DataReader* reader)
             // write data to data.csv file 
             // frame number, frequency, latency
 
+           
             image_.subscriber_recieve_time(APP_TIME_CURRENT_US);
-            if (image_.frame_number() > 100) {
+            //if (image_.frame_number() > 100) {
                 latencyStat_.addSample(image_.subscriber_recieve_time() - image_.publisher_send_time());
-            }
+            //}
 
-            file_ << image_.frame_number() << "," << image_.frequency() << "," << APP_TIME_CURRENT_US - image_.publisher_send_time() << std::endl;
+            file_ << image_.frame_number() << "," << image_.frequency() << "," << image_.subscriber_recieve_time() - image_.publisher_send_time() << std::endl;
           
         }
     }

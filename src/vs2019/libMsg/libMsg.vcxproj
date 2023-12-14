@@ -25,18 +25,24 @@
     <ClInclude Include="..\..\libMsg\CfgHygrometer.h" />
     <ClInclude Include="..\..\libMsg\CfgHygrometerPubSubTypes.h" />
     <ClInclude Include="..\..\libMsg\HumidityPubSubTypes.h" />
+    <ClInclude Include="..\..\libMsg\HumidityTypeObject.h" />
     <ClInclude Include="..\..\libMsg\Image.h" />
     <ClInclude Include="..\..\libMsg\ImagePubSubTypes.h" />
+    <ClInclude Include="..\..\libMsg\ImageTypeObject.h" />
     <ClInclude Include="..\..\libMsg\Temperature.h" />
     <ClInclude Include="..\..\libMsg\CfgThermometer.h" />
     <ClInclude Include="..\..\libMsg\CfgThermometerPubSubTypes.h" />
     <ClInclude Include="..\..\libMsg\TemperaturePubSubTypes.h" />
+    <ClInclude Include="..\..\libMsg\TemperatureTypeObject.h" />
     <ClInclude Include="..\..\libMsg\UpdateCam.h" />
     <ClInclude Include="..\..\libMsg\UpdateCamPubSubTypes.h" />
+    <ClInclude Include="..\..\libMsg\UpdateCamTypeObject.h" />
     <ClInclude Include="..\..\libMsg\UpdateHygrometer.h" />
     <ClInclude Include="..\..\libMsg\UpdateHygrometerPubSubTypes.h" />
+    <ClInclude Include="..\..\libMsg\UpdateHygrometerTypeObject.h" />
     <ClInclude Include="..\..\libMsg\UpdateThermometer.h" />
     <ClInclude Include="..\..\libMsg\UpdateThermometerPubSubTypes.h" />
+    <ClInclude Include="..\..\libMsg\UpdateThermometerTypeObject.h" />
   </ItemGroup>
   <ItemGroup>
     <Midl Include="..\..\libMsg\idl\UpdateCam.idl">
@@ -67,16 +73,22 @@
   <ItemGroup>
     <ClCompile Include="..\..\libMsg\Humidity.cxx" />
     <ClCompile Include="..\..\libMsg\HumidityPubSubTypes.cxx" />
+    <ClCompile Include="..\..\libMsg\HumidityTypeObject.cxx" />
     <ClCompile Include="..\..\libMsg\Image.cxx" />
     <ClCompile Include="..\..\libMsg\ImagePubSubTypes.cxx" />
+    <ClCompile Include="..\..\libMsg\ImageTypeObject.cxx" />
     <ClCompile Include="..\..\libMsg\Temperature.cxx" />
     <ClCompile Include="..\..\libMsg\TemperaturePubSubTypes.cxx" />
+    <ClCompile Include="..\..\libMsg\TemperatureTypeObject.cxx" />
     <ClCompile Include="..\..\libMsg\UpdateCam.cxx" />
     <ClCompile Include="..\..\libMsg\UpdateCamPubSubTypes.cxx" />
+    <ClCompile Include="..\..\libMsg\UpdateCamTypeObject.cxx" />
     <ClCompile Include="..\..\libMsg\UpdateHygrometer.cxx" />
     <ClCompile Include="..\..\libMsg\UpdateHygrometerPubSubTypes.cxx" />
+    <ClCompile Include="..\..\libMsg\UpdateHygrometerTypeObject.cxx" />
     <ClCompile Include="..\..\libMsg\UpdateThermometer.cxx" />
     <ClCompile Include="..\..\libMsg\UpdateThermometerPubSubTypes.cxx" />
+    <ClCompile Include="..\..\libMsg\UpdateThermometerTypeObject.cxx" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

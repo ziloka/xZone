@@ -16,6 +16,7 @@
 
 #include "UpdateCamSubscriber.h"
 #include "ImagePublisher.h"
+#include "libMsg/ImageTypeObject.h"
 #include "libUtil/Util.h"
 
 #include "libUtil/AppLog.h"
@@ -23,6 +24,7 @@
 
 #include <mutex>
 #include <shared_mutex>
+
 
 using namespace app;
 
@@ -46,15 +48,19 @@ int main(int argc, char* argv[])
 
 	std::shared_ptr<std::shared_mutex> mutex;
 
-	std::thread subscriber(createUpdateCamSubscriber, mutex, cfg, use_environment_qos);
-	subscriber.join();
+	// std::thread subscriber(createUpdateCamSubscriber, mutex, cfg, use_environment_qos);
+	// subscriber.join();
 
+	
+	registerImageTypes();
 	// pass hz frequency param
-	for (double hz = cfg->getCam().frequency_.start; hz < cfg->getCam().frequency_.end; hz += cfg->getCam().frequency_.step) {
+	// std::vector<std::thread> threads;
+	for (double hz = cfg->getCam().frequency_.start; hz <= cfg->getCam().frequency_.end; hz += cfg->getCam().frequency_.step) {
 		std::cout << "On frequency #" << hz << std::endl << std::endl;
 		ImagePublisher mypub(mutex, cfg, hz);
 		if (mypub.init(cfg, use_environment_qos)) {
 			std::thread publisher = mypub.run();
+			// threads.emplace_back(publisher);
 			publisher.join();
 		}
 	}

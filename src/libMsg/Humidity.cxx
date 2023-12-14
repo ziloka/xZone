@@ -27,6 +27,7 @@ char dummy;
 #endif  // _WIN32
 
 #include "Humidity.h"
+#include "HumidityTypeObject.h"
 #include <fastcdr/Cdr.h>
 
 #include <fastcdr/exceptions/BadParamException.h>
@@ -50,6 +51,8 @@ Humidity::Humidity()
     // unsigned long long m_subscriber_recieve_time
     m_subscriber_recieve_time = 0;
 
+    // Just to register all known types
+    registerHumidityTypes();
 }
 
 Humidity::~Humidity()

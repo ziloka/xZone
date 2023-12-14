@@ -57,3 +57,7 @@ qrc_*.cpp
 CppProperties.json
 src/vs2019/open_xZone_vs2019_xyz.bat
 build
+.venv
+graph/Include
+graph/lib
+graph/Scripts

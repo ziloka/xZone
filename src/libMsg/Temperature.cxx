@@ -27,6 +27,7 @@ char dummy;
 #endif  // _WIN32
 
 #include "Temperature.h"
+#include "TemperatureTypeObject.h"
 #include <fastcdr/Cdr.h>
 
 #include <fastcdr/exceptions/BadParamException.h>
@@ -50,6 +51,8 @@ Temperature::Temperature()
     // unsigned long long m_subscriber_recieve_time
     m_subscriber_recieve_time = 0;
 
+    // Just to register all known types
+    registerTemperatureTypes();
 }
 
 Temperature::~Temperature()

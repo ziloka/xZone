@@ -16,7 +16,6 @@ Program was last ran using python 3.11.6
 
 run generate graph script
 ```
-python -m venv .
-poetry install
+poetry install --no-root
 poetry run python src/generate.py
 ```

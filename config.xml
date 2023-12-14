@@ -1,7 +1,7 @@
 <cfg>
     <!-- 1 (tcp), 2 (udp), 3 (shared memory), any other number will set it with default behavior-->
     <transport>
-    2
+    1
     </transport>
     <cam>
         <id>0</id>

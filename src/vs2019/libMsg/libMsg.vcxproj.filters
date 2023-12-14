@@ -67,6 +67,24 @@
     <ClInclude Include="..\..\libMsg\UpdateThermometerPubSubTypes.h">
       <Filter>idl\Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\libMsg\HumidityTypeObject.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\libMsg\ImageTypeObject.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\libMsg\TemperatureTypeObject.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\libMsg\UpdateCamTypeObject.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\libMsg\UpdateHygrometerTypeObject.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\libMsg\UpdateThermometerTypeObject.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Midl Include="..\..\libMsg\idl\Image.idl">
@@ -125,5 +143,11 @@
     <ClCompile Include="..\..\libMsg\UpdateThermometerPubSubTypes.cxx">
       <Filter>idl\Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\libMsg\HumidityTypeObject.cxx" />
+    <ClCompile Include="..\..\libMsg\ImageTypeObject.cxx" />
+    <ClCompile Include="..\..\libMsg\TemperatureTypeObject.cxx" />
+    <ClCompile Include="..\..\libMsg\UpdateCamTypeObject.cxx" />
+    <ClCompile Include="..\..\libMsg\UpdateHygrometerTypeObject.cxx" />
+    <ClCompile Include="..\..\libMsg\UpdateThermometerTypeObject.cxx" />
   </ItemGroup>
 </Project>

@@ -27,6 +27,7 @@ char dummy;
 #endif  // _WIN32
 
 #include "UpdateCam.h"
+#include "UpdateCamTypeObject.h"
 #include <fastcdr/Cdr.h>
 
 #include <fastcdr/exceptions/BadParamException.h>
@@ -70,6 +71,8 @@ UpdateCam::UpdateCam()
     // unsigned long long m_subscriber_recieve_time
     m_subscriber_recieve_time = 0;
 
+    // Just to register all known types
+    registerUpdateCamTypes();
 }
 
 UpdateCam::~UpdateCam()

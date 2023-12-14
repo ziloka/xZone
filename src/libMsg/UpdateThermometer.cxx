@@ -27,6 +27,7 @@ char dummy;
 #endif  // _WIN32
 
 #include "UpdateThermometer.h"
+#include "UpdateThermometerTypeObject.h"
 #include <fastcdr/Cdr.h>
 
 #include <fastcdr/exceptions/BadParamException.h>
@@ -46,6 +47,8 @@ UpdateThermometer::UpdateThermometer()
     // unsigned long long m_subscriber_recieve_time
     m_subscriber_recieve_time = 0;
 
+    // Just to register all known types
+    registerUpdateThermometerTypes();
 }
 
 UpdateThermometer::~UpdateThermometer()
