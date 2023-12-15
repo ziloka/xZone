@@ -26,16 +26,15 @@ int main(int argc, char* argv[])
 	const bool showInConsole = true;
 	startLogThread(logFilename, showInConsole);
 
-	
-	thread humiditySubscriberThread(createHumiditySubscriber, use_environment_qos);
+	//thread humiditySubscriberThread(createHumiditySubscriber, use_environment_qos);
 
 	thread imageSubscriberThread(createImageSubscriber, use_environment_qos);
 
-	thread temperatureSubscriberThread(createTemperatureSubscriber, use_environment_qos);
+	//thread temperatureSubscriberThread(createTemperatureSubscriber, use_environment_qos);
 	
-	humiditySubscriberThread.join();
+	//humiditySubscriberThread.join();
 	imageSubscriberThread.join();
-	temperatureSubscriberThread.join();
+	//temperatureSubscriberThread.join();
 
 	endLogThread();
 

@@ -1,4 +1,1 @@
 ----start----
-subscriber running. Please press enter to stop the Subscriber, F=C:\Users\conno\Documents\xZone\src\imageSub\ImageSubscriber.cpp, L=191
-subscriber running. Please press enter to stop the Subscriber, F=C:\Users\conno\Documents\xZone\src\temperatureSub\TemperatureSubscriber.cpp, L=186
-subscriber running. Please press enter to stop the Subscriber, F=C:\Users\conno\Documents\xZone\src\humiditySub\HumiditySubscriber.cpp, L=186

@@ -6,7 +6,7 @@ ref:
 	assume your working dir is:
 	WDIR=C:\Users\wus1\Projects\swu-personal\xZone\src\libMsg>
 
-	$(WDIR)>C:\pkg\fastDDS\v2.9.1\bin\fastddsgen.bat -typeobject -replace ./idl/Humidity.idl ./idl/Image.idl ./idl/Temperature.idl ./idl/UpdateCam.idl ./idl/UpdateHygrometer.idl ./idl/UpdateThermometer.idl
+	$(WDIR)>C:\pkg\fastDDS\v2.12.1\bin\fastddsgen.bat -typeobject -replace ./idl/Humidity.idl ./idl/Image.idl ./idl/Temperature.idl ./idl/UpdateCam.idl ./idl/UpdateHygrometer.idl ./idl/UpdateThermometer.idl
 	java -jar $(fast-dds-gen)/share/fastddsgen/java/fastddsgen.jar -typeobject -replace ./idl/Humidity.idl ./idl/Image.idl ./idl/Temperature.idl ./idl/UpdateCam.idl ./idl/UpdateHygrometer.idl ./idl/UpdateThermometer.idl
 
 	Move the files to proper location

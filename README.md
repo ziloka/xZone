@@ -24,8 +24,8 @@ an open source project for monitoring and controling multiple sensors in a centr
 		BOOST_LIB=$(PKG)\boost\boost_1_71_0\lib64-msvc-14.2
 		
 	d) fast DDS
-		DDS_INC=$(PKG)\fastDDS\v2.9.1\include
-		DDS_LIB=$(PKG)\fastDDS\v2.9.1\lib\x64Win64VS2019
+		DDS_INC=$(PKG)\fastDDS\v2.12.1\include
+		DDS_LIB=$(PKG)\fastDDS\v2.12.1\lib\x64Win64VS2019
 
 
 # Getting started

@@ -60,7 +60,7 @@ cmake --build . --parallel 4 --target install --config release
 
 cd ../..
 
-git clone --jobs 4 --depth=1 --single-branch --branch 2.9.1 --recursive https://github.com/eProsima/Fast-DDS
+git clone --jobs 4 --depth=1 --single-branch --branch 2.12.1 --recursive https://github.com/eProsima/Fast-DDS
 cd Fast-DDS
 mkdir build
 cd build

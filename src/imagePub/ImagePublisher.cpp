@@ -74,12 +74,15 @@ bool ImagePublisher::init(CfgPtr cfg, bool use_env)
 {
 
     image_.frame_number(0);
-
+    std::cout << "in ImagePublisher::init" << std::endl;
     DomainParticipantQos pqos = PARTICIPANT_QOS_DEFAULT;
     pqos.name("ImagePublisher");
 
     auto factory = DomainParticipantFactory::get_instance();
 
+    if (factory == NULL) {
+        // ... error
+    }
     if (use_env)
     {
         factory->load_profiles();
@@ -91,11 +94,12 @@ bool ImagePublisher::init(CfgPtr cfg, bool use_env)
     case 1: {
         std::cout << "Using TCP as transport" << std::endl;
         auto tcp_transport = std::make_shared<eprosima::fastdds::rtps::TCPv4TransportDescriptor>();
-        tcp_transport->add_listener_port(5100);
+        tcp_transport->add_listener_port(5000);
         tcp_transport->set_WAN_address("127.0.0.1");
 
         // Link the Transport Layer to the Participant.
         pqos.transport().user_transports.push_back(tcp_transport);
+
         break;
     }
     case 2: {
@@ -122,7 +126,17 @@ bool ImagePublisher::init(CfgPtr cfg, bool use_env)
     }
     }
 
+    std::cout << "attempted to create participant" << std::endl;
+   
+   // participant_ = (factory->get_participant_qos_from_profile(0, pqos))->;
+
+    // Get DomainParticipant QoS from profile
+    
+
     participant_ = factory->create_participant(0, pqos);
+    
+    
+    std::cout << "created participant" << std::endl;
 
     if (participant_ == nullptr)
     {
@@ -184,7 +198,6 @@ bool ImagePublisher::init(CfgPtr cfg, bool use_env)
     {
         return false;
     }
-
     return true;
 }
 
@@ -193,16 +206,22 @@ ImagePublisher::~ImagePublisher()
     if (writer_ != nullptr)
     {
         publisher_->delete_datawriter(writer_);
+        std::cout << "delete_datawriter." << std::endl;
     }
     if (publisher_ != nullptr)
     {
         participant_->delete_publisher(publisher_);
+
+        std::cout << "delete_publisher." << std::endl;
     }
     if (topic_ != nullptr)
     {
         participant_->delete_topic(topic_);
     }
     DomainParticipantFactory::get_instance()->delete_participant(participant_);
+
+    std::cout << "delete_participant." << std::endl;
+
 }
 
 void ImagePublisher::PubListener::on_publication_matched(
@@ -231,23 +250,26 @@ void ImagePublisher::runThread()
 {
     const int numSamples = cfgCam_.numSamples_;
 
-	std::cout << "sending " << numSamples << " samples" << std::endl;
+	std::cout << "sending " << numSamples << " samples at " << frequency_ << std::endl;
 	for (uint32_t i = 0; i < numSamples; i++) {
         uint64_t tBeg = APP_TIME_CURRENT_NS;
 		acqImgMsg();
 		preparImgMsg(i);
-		if (!publish(false, numSamples)) {
-			std::cout << "unable to send sample #" << i << std::endl;
-		}
 
         uint64_t tEnd = APP_TIME_CURRENT_NS;
 
         uint64_t dealayNanosecond = 1e9 / frequency_;
 
         //wait utill delay time, interval
+   // std::cout << "got here" << std::endl;
         do {
             tEnd = APP_TIME_CURRENT_NS;
         } while (tEnd - tBeg <= dealayNanosecond);
+
+		if (!publish(false, numSamples)) {
+			std::cout << "unable to send sample #" << i << std::endl;
+		}
+   
             /*
         uint64_t dt = tEnd - tBeg;
         //  1 / (dt / 1e6) or 1e6 / dt (converting US to HZ)
@@ -263,8 +285,8 @@ void ImagePublisher::runThread()
         }
         // std::cout << "dt: " << dt << " frequency: " << frequency_ << std::endl;
         */
-	}
-	std::cout << "sent " << numSamples << " samples" << std::endl;
+	} //end for loop
+	std::cout << "finished frequency " << frequency_ << std::endl;
 
 }
 
@@ -291,6 +313,7 @@ void ImagePublisher::preparImgMsg( const uint32_t frameNum )
 }
 bool ImagePublisher::publish(bool waitForListener, uint32_t frequency)
 {
+   // std::cout << "in publish frequency " << frequency << std::endl;
     if (listener_.firstConnected_ || !waitForListener || listener_.matched_ > 0)
     {
         image_.publisher_send_time(APP_TIME_CURRENT_US);

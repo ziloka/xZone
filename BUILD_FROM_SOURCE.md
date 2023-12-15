@@ -78,7 +78,7 @@ Note: *C++17 and above is required*
 
 		1. run [executable](https://www.eprosima.com/index.php/component/ars/repository/eprosima-fast-dds/eprosima-fast-dds-2-9-1/eprosima_fast-dds-2-9-1-windows-exe?format=raw)
 
-		include and lib will be located at C:\Program Files\eProsima\fastrtps 2.9.1\ (default installed location)
+		include and lib will be located at C:\Program Files\eProsima\fastrtps 2.12.1\ (default installed location)
 
 		or just build it from source
 
@@ -134,7 +134,7 @@ Note: *C++17 and above is required*
 
 		cd ../..
 
-		git clone --jobs 4 --depth=1 --single-branch --branch 2.9.1 --recursive https://github.com/eProsima/Fast-DDS
+		git clone --jobs 4 --depth=1 --single-branch --branch 2.12.1 --recursive https://github.com/eProsima/Fast-DDS
 		cd Fast-DDS
 		mkdir build
 		cd build
@@ -322,7 +322,7 @@ Note: *C++17 and above is required*
 	
 		Any Unix / Linux platform probably requires to install FastDDS in the following
 
-		1. Download source code here https://github.com/eProsima/Fast-DDS/tree/2.9.1
+		1. Download source code here https://github.com/eProsima/Fast-DDS/tree/2.12.1
 		
 		2. Extract file
 
@@ -333,13 +333,13 @@ Note: *C++17 and above is required*
 
 		So the following should be the process of installing fast DDS
 		```bash
-		git clone --jobs 4 --depth=1 --single-branch --branch=2.9.1 --recursive https://github.com/eProsima/Fast-DDS fastDDS
+		git clone --jobs 4 --depth=1 --single-branch --branch=2.12.1 --recursive https://github.com/eProsima/Fast-DDS fastDDS
 		sudo ./install.sh
 		# Alternative
 		# mkdir fastDDS
 		# cd fastDDS
-		# wget -O eProsima_Fast-DDS-v2.9.1-Linux.tgz https://www.eprosima.com/index.php/component/ars/repository/eprosima-fast-dds/eprosima-fast-dds-2-9-1/eprosima_fast-dds-v2-9-1-linux-tgz?format=raw
-		# tar xzf eProsima_Fast-DDS-v2.9.1-Linux.tgz
+		# wget -O eProsima_Fast-DDS-v2.12.1-Linux.tgz https://www.eprosima.com/index.php/component/ars/repository/eprosima-fast-dds/eprosima-fast-dds-2-9-1/eprosima_fast-dds-v2-9-1-linux-tgz?format=raw
+		# tar xzf eProsima_Fast-DDS-v2.12.1-Linux.tgz
 		# sudo apt-get install git build-essential cmake libssl-dev libasio-dev libtinyxml2-dev openjdk-11-jre-headless python3
 		# sudo ./install.sh --no-install-dependencies --no-security
 		```

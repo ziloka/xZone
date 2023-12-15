@@ -62,9 +62,17 @@ private:
             , samples_(0)
             , file_(std::ofstream())
         {
-            file_.open("image_pubsub_data.csv", std::ofstream::out | std::ofstream::trunc);
-            std::cout << "Opened image_pubsub_data.csv.. appending to file" << std::endl;
-            file_ << "frame number,frequency,latency" << std::endl;
+            auto t = std::time(nullptr);
+            auto tm = *std::localtime(&t);
+
+          //  auto dateTime = *std::put_time(&tm, "%d-%m-%Y %H-%M-%S")
+            std::stringstream currentDateTime;
+            currentDateTime << std::put_time(&tm, "%Y%m%d%H%M%S");
+                //"%d-%m-%Y %H-%M-%S");
+            std::string outPutFile = "logs/image_pubsub_data"+ currentDateTime.str() +".csv";
+            file_.open(outPutFile, std::ofstream::out | std::ofstream::trunc);
+            std::cout << "Opened " + outPutFile +"..appending to file" << std::endl;
+            file_ << "frame number,image_height,image_width,frequency,latency,packets_receieved_count" << std::endl;
         }
 
         ~SubListener() override

@@ -64,7 +64,7 @@ private:
             , file_(std::ofstream())
         {
             file_.open("humidity_pubsub_data.csv");
-            std::cout << "Opened image_pubsub_data.csv.. appending to file" << std::endl;
+            std::cout << "Opened humidity_pubsub_data.csv.. appending to file" << std::endl;
             file_ << "frame number,frequency,latency" << std::endl;
         }
 
