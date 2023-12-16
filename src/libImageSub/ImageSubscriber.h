@@ -21,6 +21,8 @@
 #include <fastdds/dds/subscriber/DataReaderListener.hpp>
 #include <fastrtps/subscriber/SampleInfo.h>
 #include <fastdds/dds/core/status/SubscriptionMatchedStatus.hpp>
+
+#include <boost/filesystem.hpp>
 #include "libUtil/Util.h"
 
 class ImageSubscriber {
@@ -62,8 +64,18 @@ private:
             , samples_(0)
             , file_(std::ofstream())
         {
-            auto t = std::time(nullptr);
-            auto tm = *std::localtime(&t);
+
+            boost::filesystem::path dir("logs");
+
+            if (!(boost::filesystem::exists(dir))) {
+                std::cout << "logs folder doesn't Exist" << std::endl;
+
+            if (boost::filesystem::create_directory(dir))
+                    std::cout << "....Successfully Created logs folder !" << std::endl;
+            }
+
+            time_t t = std::time(nullptr);
+            tm tm = *std::localtime(&t);
 
           //  auto dateTime = *std::put_time(&tm, "%d-%m-%Y %H-%M-%S")
             std::stringstream currentDateTime;
@@ -72,7 +84,7 @@ private:
             std::string outPutFile = "logs/image_pubsub_data"+ currentDateTime.str() +".csv";
             file_.open(outPutFile, std::ofstream::out | std::ofstream::trunc);
             std::cout << "Opened " + outPutFile +"..appending to file" << std::endl;
-            file_ << "frame number,image_height,image_width,frequency,latency,packets_receieved_count" << std::endl;
+            file_ << "frame number,image_height,image_width,publisher_sent,subscriber_received,frequency,latency,packets_receieved_count" << std::endl;
         }
 
         ~SubListener() override

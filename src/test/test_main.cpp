@@ -2,6 +2,8 @@
 #include "libUtil/Util.h"
 #include "libCfg/Cfg.h"
 
+#include <fastrtps/Domain.h>
+
 #include "libHumiditySub/HumiditySubscriber.h"
 #include "libImageSub/ImageSubscriber.h"
 #include "libTemperatureSub/TemperatureSubscriber.h"
@@ -36,7 +38,10 @@ int main(int argc, char* argv[])
 	imageSubscriberThread.join();
 	//temperatureSubscriberThread.join();
 
+
 	endLogThread();
+
+	//Domain::stopAll();
 
 	return 0;
 }

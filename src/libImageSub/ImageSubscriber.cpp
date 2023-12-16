@@ -21,9 +21,15 @@
 #include <fastdds/dds/subscriber/DataReader.hpp>
 #include <fastdds/dds/subscriber/SampleInfo.hpp>
 #include <fastdds/dds/subscriber/qos/DataReaderQos.hpp>
+#include <fastdds/rtps/transport/UDPv4TransportDescriptor.h>
+#include <fastdds/rtps/transport/TCPv4TransportDescriptor.h>
+#include <fastrtps/utils/IPLocator.h>
 
+using namespace eprosima::fastdds::rtps;
 using namespace eprosima::fastdds::dds;
 using namespace app;
+
+using IPLocator = eprosima::fastrtps::rtps::IPLocator;
 
 ImageSubscriber::ImageSubscriber()
     : participant_(nullptr)
@@ -48,6 +54,33 @@ bool ImageSubscriber::init(
     }
 
     participant_ = factory->create_participant(0, pqos);
+    
+    // client
+    pqos.transport().use_builtin_transports = false;
+
+    // Create a descriptor for the new transport.
+    // Do not configure any listener port
+    auto tcp_transport = std::make_shared<eprosima::fastdds::rtps::TCPv4TransportDescriptor>();
+    pqos.transport().user_transports.push_back(tcp_transport);
+
+    // [OPTIONAL] ThreadSettings configuration
+   /* tcp_transport->default_reception_threads(eprosima::fastdds::rtps::ThreadSettings{ -1, 0, 0, -1 });
+    tcp_transport->set_thread_config_for_port(12345, eprosima::fastdds::rtps::ThreadSettings{ -1, 0, 0, -1 });
+    tcp_transport->keep_alive_thread = eprosima::fastdds::rtps::ThreadSettings{ -1, 0, 0, -1 };
+    tcp_transport->accept_thread = eprosima::fastdds::rtps::ThreadSettings{ -1, 0, 0, -1 };*/
+
+
+    // Set initial peers.
+    eprosima::fastrtps::rtps::Locator_t initial_peer_locator;
+    initial_peer_locator.kind = LOCATOR_KIND_TCPv4;
+    eprosima::fastrtps::rtps::IPLocator::setIPv4(initial_peer_locator, "127.0.0.1");
+    eprosima::fastrtps::rtps::IPLocator::setPhysicalPort(initial_peer_locator, 5100);
+    eprosima::fastrtps::rtps::IPLocator::setLogicalPort(initial_peer_locator, 5100);
+
+    pqos.wire_protocol().builtin.initialPeersList.push_back(initial_peer_locator);
+
+    // Avoid using the default transport
+    pqos.transport().use_builtin_transports = false;
 
     if (participant_ == nullptr)
     {
@@ -60,12 +93,20 @@ bool ImageSubscriber::init(
     //CREATE THE SUBSCRIBER
     SubscriberQos sqos = SUBSCRIBER_QOS_DEFAULT;
 
+    /*
     if (use_env)
     {
         participant_->get_default_subscriber_qos(sqos);
     }
 
     subscriber_ = participant_->create_subscriber(sqos, nullptr);
+    */
+
+
+    //CREATE THE SUBSCRIBER
+    subscriber_ = participant_->create_subscriber(SUBSCRIBER_QOS_DEFAULT);
+
+    std::cout << "create_subscriber" << std::endl;
 
     if (subscriber_ == nullptr)
     {
@@ -75,29 +116,34 @@ bool ImageSubscriber::init(
     //CREATE THE TOPIC
     TopicQos tqos = TOPIC_QOS_DEFAULT;
 
-    if (use_env)
+  
+    /*
+      if (use_env)
     {
         participant_->get_default_topic_qos(tqos);
     }
+    */
 
     topic_ = participant_->create_topic(
         "ImageTopic",
         "Image",
         tqos);
-
+    std::cout << "create_topic" << std::endl;
     if (topic_ == nullptr)
     {
         return false;
     }
 
-    // CREATE THE READER
+    
+    //CREATE THE DATAREADER
+
     DataReaderQos rqos = DATAREADER_QOS_DEFAULT;
     rqos.reliability().kind = RELIABLE_RELIABILITY_QOS;
-
-    if (use_env)
-    {
+    
+        if (use_env)
+        {
         subscriber_->get_default_datareader_qos(rqos);
-    }
+        }
 
     reader_ = subscriber_->create_datareader(topic_, rqos, &listener_);
 
@@ -133,7 +179,7 @@ void ImageSubscriber::SubListener::on_subscription_matched(
     if (info.current_count_change == 1)
     {
         matched_ = info.total_count;
-        std::cout << "Subscriber matched." << std::endl;
+        std::cout << "Subscriber matched." << matched_ << std::endl;
 
         std::thread updateCamPublisher(createUpdateCamPublisher, false);
         updateCamPublisher.join();
@@ -141,7 +187,7 @@ void ImageSubscriber::SubListener::on_subscription_matched(
     else if (info.current_count_change == -1)
     {
         matched_ = info.total_count;
-        std::cout << "Subscriber unmatched." << std::endl;
+        std::cout << "Subscriber unmatched." << matched_ << std::endl;
     }
     else
     {
@@ -155,9 +201,6 @@ void ImageSubscriber::SubListener::on_data_available(  DataReader* reader)
     SampleInfo info;
     if (reader->take_next_sample(&image_, &info) == ReturnCode_t::RETCODE_OK)
     {
-        //std::cout << "instance state " << info.instance_state << std::endl;
-        //std::cout << "frequency: " << image_.frequency() << std::endl;
-
         if (info.instance_state == ALIVE_INSTANCE_STATE)
         {
             samples_++;
@@ -188,7 +231,7 @@ void ImageSubscriber::SubListener::on_data_available(  DataReader* reader)
                 latencyStat_.addSample(image_.subscriber_recieve_time() - image_.publisher_send_time());
             //}
 
-            file_ << image_.frame_number() << ","  << image_.height() << "," << image_.width() << "," << image_.frequency() << "," << image_.subscriber_recieve_time() - image_.publisher_send_time() << "," << samples_ << std::endl;
+            file_ << image_.frame_number() << ","  << image_.height() << "," << image_.width() << "," << image_.publisher_send_time() << "," << image_.subscriber_recieve_time() << "," << image_.frequency() << "," << image_.subscriber_recieve_time() - image_.publisher_send_time() << "," << samples_ << std::endl;
           
         }
     }

@@ -199,7 +199,7 @@ std::thread UpdateCamPublisher::run(uint32_t samples, uint32_t sleep)
     std::thread thread(&UpdateCamPublisher::runThread, this, samples, sleep);
     if (samples == 0)
     {
-        std::cout << "Publisher running. Please press enter to stop the Publisher at any time." << std::endl;
+        std::cout << "UpdateCamPublisher running. Please press enter to stop the Publisher at any time." << std::endl;
         std::cin.ignore();
         stop_ = true;
     }

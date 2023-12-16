@@ -55,17 +55,41 @@ int main(int argc, char* argv[])
 	registerImageTypes();
 	// pass hz frequency param
 	// std::vector<std::thread> threads;
+	const int numSamples = cfg->getCam().numSamples_;
 	for (double hz = cfg->getCam().frequency_.start; hz <= cfg->getCam().frequency_.end; hz += cfg->getCam().frequency_.step) {
 		std::cout << "On frequency #" << hz << std::endl << std::endl;
+		std::cout << "sending " << numSamples << " samples at " << hz << std::endl;
+
+		long tBeg = APP_TIME_CURRENT_NS;
+		long tEnd = APP_TIME_CURRENT_NS;
+
+			//wait utill delay time, interval
+			/*
+			do {
+				tEnd = APP_TIME_CURRENT_NS;
+				// std::cout << " do loop " << i << std::endl;
+			} while (tEnd - tBeg <= dealayNanosecond);
+			*/
+
 		ImagePublisher mypub(mutex, cfg, hz);
+		
 		if (mypub.init(cfg, use_environment_qos)) {
-			std::thread publisher = mypub.run();
-			// threads.emplace_back(publisher);
-			publisher.join();
+		//	for (uint32_t i = 0; i <= numSamples; i++) {
+
+		//		tBeg = APP_TIME_CURRENT_NS;
+		//		long dealayNanosecond = 1e9 / hz;
+
+				std::thread publisher = mypub.run();
+				publisher.join();
+		//	}
+		//	tEnd = APP_TIME_CURRENT_NS;
 		}
+
+		//end for loop
+		std::cout << "in MainPub finished frequency " << hz << std::endl;
 	}
 
-	endLogThread();
+	app::endLogThread();
 	return 0;
 }
 

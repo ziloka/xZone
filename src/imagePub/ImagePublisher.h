@@ -23,6 +23,11 @@
 #include <fastdds/dds/publisher/DataWriterListener.hpp>
 #include <fastdds/dds/topic/TypeSupport.hpp>
 #include <fastdds/dds/domain/DomainParticipant.hpp>
+#include <fastdds/dds/publisher/Publisher.hpp>
+#include <fastdds/dds/topic/Topic.hpp>
+#include <fastdds/dds/publisher/DataWriter.hpp>
+
+#include <winrt/Windows.Foundation.h>
 
 #include <mutex>
 #include <shared_mutex>
@@ -33,7 +38,7 @@ class ImagePublisher
 {
 public:
 
-    ImagePublisher(std::shared_ptr<std::shared_mutex> mutex, CfgPtr cfgPtr, double fps);
+    ImagePublisher(std::shared_ptr<std::shared_mutex> mutex, CfgPtr cfgPtr, uint32_t fps);
 
     virtual ~ImagePublisher();
 
@@ -50,10 +55,13 @@ public:
 
     //!Publish a sample
     bool publish(
-            bool waitForListener = true,
-            uint32_t frequency = 0);
+        bool waitForListener = true,
+        uint32_t frequency = 0);
+        
 
     //!Run for number samples
+   // std::thread run(int i);
+
     std::thread run();
 
 private:
@@ -68,7 +76,7 @@ private:
 
     Image image_;
 
-    double frequency_;
+    uint32_t frequency_;
 
     eprosima::fastdds::dds::DomainParticipant* participant_;
 
@@ -105,8 +113,9 @@ private:
     listener_;
 
     void runThread();
-
-    eprosima::fastdds::dds::TypeSupport type_;
+   // void runThread(int i);
+   
+   eprosima::fastdds::dds::TypeSupport type_;
 };
 
 #endif /* IMAGEPUBLISHER_H_ */

@@ -13,26 +13,27 @@
 // limitations under the License.
 
 #include "ImagePublisher.h"
-#include <libUtil/FileUtil.h>
-#include "opencv2/opencv.hpp"
-#include <fastrtps/attributes/ParticipantAttributes.h>
-#include <fastrtps/attributes/PublisherAttributes.h>
 #include <fastdds/dds/domain/DomainParticipantFactory.hpp>
-#include <fastdds/dds/publisher/Publisher.hpp>
-#include <fastdds/dds/publisher/qos/PublisherQos.hpp>
-#include <fastdds/dds/publisher/DataWriter.hpp>
-#include <fastdds/dds/publisher/qos/DataWriterQos.hpp>
-#include <fastdds/rtps/transport/UDPv4TransportDescriptor.h>
 #include <fastdds/rtps/transport/TCPv4TransportDescriptor.h>
-#include <fastdds/rtps/transport/shared_mem/SharedMemTransportDescriptor.h>
+#include <fastrtps/utils/IPLocator.h>
+#include <fastdds/dds/publisher/Publisher.hpp>
+#include <fastdds/dds/publisher/qos/DataWriterQos.hpp>
 
 #include <thread>
+#include <queue>
+
 #include <iostream>
+#include <winrt/Windows.Foundation.Collections.h>
+#include <winrt/Windows.Web.Syndication.h>
+#include <ppltasks.h>
+using namespace winrt;
+using namespace Windows::Foundation;
+using namespace Windows::Web::Syndication;
 
-using namespace app;
 using namespace eprosima::fastdds::dds;
+using namespace eprosima::fastdds::rtps;
 
-ImagePublisher::ImagePublisher(std::shared_ptr<std::shared_mutex> mutexPtr, CfgPtr cfgPtr, double fps)
+ImagePublisher::ImagePublisher(std::shared_ptr<std::shared_mutex> mutexPtr, CfgPtr cfgPtr, uint32_t fps)
     : participant_(nullptr)
     , publisher_(nullptr)
     , topic_(nullptr)
@@ -74,9 +75,14 @@ bool ImagePublisher::init(CfgPtr cfg, bool use_env)
 {
 
     image_.frame_number(0);
-    std::cout << "in ImagePublisher::init" << std::endl;
-    DomainParticipantQos pqos = PARTICIPANT_QOS_DEFAULT;
-    pqos.name("ImagePublisher");
+  //  std::cout << "in ImagePublisher::init" << std::endl;
+    
+    DomainParticipantQos participant_qos = PARTICIPANT_QOS_DEFAULT;
+    participant_qos.name("ImagePublisher");
+
+
+    PublishModeQosPolicy publish_mode;
+     
 
     auto factory = DomainParticipantFactory::get_instance();
 
@@ -86,58 +92,63 @@ bool ImagePublisher::init(CfgPtr cfg, bool use_env)
     if (use_env)
     {
         factory->load_profiles();
-        factory->get_default_participant_qos(pqos);
+        factory->get_default_participant_qos(participant_qos);
     }
-
-    // https://fast-dds.docs.eprosima.com/en/latest/fastdds/transport/transport.html
-    switch (cfg.get()->getTransport()) {
-    case 1: {
-        std::cout << "Using TCP as transport" << std::endl;
-        auto tcp_transport = std::make_shared<eprosima::fastdds::rtps::TCPv4TransportDescriptor>();
-        tcp_transport->add_listener_port(5000);
-        tcp_transport->set_WAN_address("127.0.0.1");
-
-        // Link the Transport Layer to the Participant.
-        pqos.transport().user_transports.push_back(tcp_transport);
-
-        break;
-    }
-    case 2: {
-        std::cout << "Using UDP as transport" << std::endl;
-        std::shared_ptr<eprosima::fastdds::rtps::UDPv4TransportDescriptor> udp_transport = std::make_shared<eprosima::fastdds::rtps::UDPv4TransportDescriptor>();
-        // udp_transport->sendBufferSize = 9216;
-        // udp_transport->receiveBufferSize = 9216;
-        udp_transport->non_blocking_send = true;
-
-        pqos.transport().user_transports.push_back(udp_transport);
-        pqos.transport().use_builtin_transports = false;
-        break;
-    }
-    case 3: {
-        std::cout << "Using Shared memory as transport" << std::endl;
-        std::shared_ptr<eprosima::fastdds::rtps::SharedMemTransportDescriptor> shm_transport = std::make_shared<eprosima::fastdds::rtps::SharedMemTransportDescriptor>();
-
-        // Link the Transport Layer to the Participant.
-        pqos.transport().user_transports.push_back(shm_transport);
-        break;
-    }
-    default: {
-        std::cout << "USING DEFAULT BEHAVIOR" << std::endl;
-    }
-    }
-
-    std::cout << "attempted to create participant" << std::endl;
+    stop_ = false;
    
-   // participant_ = (factory->get_participant_qos_from_profile(0, pqos))->;
+    // acts like server
+    std::string wan_ip = "127.0.0.1";
+    unsigned short port = 5100;
 
-    // Get DomainParticipant QoS from profile
+   // std::cout << "Using TCP as transport" << std::endl;
+    auto tcp_transport = std::make_shared<eprosima::fastdds::rtps::TCPv4TransportDescriptor>();
+    tcp_transport->add_listener_port(5100);
+    tcp_transport->set_WAN_address("127.0.0.1");
     
 
-    participant_ = factory->create_participant(0, pqos);
+    // Link the Transport Layer to the Participant.
+    participant_qos.transport().user_transports.push_back(tcp_transport);
+
+    //CREATE THE PARTICIPANT
+  /*
+    pqos.wire_protocol().builtin.discovery_config.leaseDuration = eprosima::fastrtps::c_TimeInfinite;
+    pqos.wire_protocol().builtin.discovery_config.leaseDuration_announcementperiod = eprosima::fastrtps::Duration_t(5, 0);
+   
+    pqos.transport().use_builtin_transports = false;
+
+    std::shared_ptr<TCPv4TransportDescriptor> descriptor = std::make_shared<TCPv4TransportDescriptor>();
+
+  
+    descriptor->interfaceWhiteList.push_back(wan_ip);
+    std::cout << "Whitelisted " << wan_ip << std::endl;
+   
+
+    descriptor->sendBufferSize = 0;
+    descriptor->receiveBufferSize = 0;
+    */
+
+
+    // Limit to 300kb per second.
+    static const char* flow_controller_name = FASTDDS_FLOW_CONTROLLER_DEFAULT;
+    //"example_flow_controller";
+    auto flow_control_300k_per_sec = std::make_shared
+        <eprosima::fastdds::rtps::FlowControllerDescriptor>();
+    flow_control_300k_per_sec->name = flow_controller_name;
+    flow_control_300k_per_sec->scheduler = 
+        eprosima::fastdds::rtps::FlowControllerSchedulerPolicy::FIFO;
+    flow_control_300k_per_sec->max_bytes_per_period = 300 * 1000;
+    flow_control_300k_per_sec->period_ms = 1000;
+    // Register flow controller on participant
     
-    
+    participant_qos.flow_controllers().push_back(flow_control_300k_per_sec);
+    // .... create participant and publisher
+   
+
+
+    std::cout << "trying to create participant" << std::endl;
+    participant_ = DomainParticipantFactory::get_instance()->create_participant(0, participant_qos);
     std::cout << "created participant" << std::endl;
-
+    
     if (participant_ == nullptr)
     {
         return false;
@@ -147,34 +158,22 @@ bool ImagePublisher::init(CfgPtr cfg, bool use_env)
     type_.register_type(participant_);
 
     //CREATE THE PUBLISHER
+
     PublisherQos pubqos = PUBLISHER_QOS_DEFAULT;
+  
 
-    if (use_env)
-    {
-        participant_->get_default_publisher_qos(pubqos);
-    }
-
+    //publisher_ = participant_->create_publisher(PUBLISHER_QOS_DEFAULT);
     publisher_ = participant_->create_publisher(
         pubqos,
         nullptr);
-
     if (publisher_ == nullptr)
     {
         return false;
     }
 
     //CREATE THE TOPIC
-    TopicQos tqos = TOPIC_QOS_DEFAULT;
-
-    if (use_env)
-    {
-        participant_->get_default_topic_qos(tqos);
-    }
-
-    topic_ = participant_->create_topic(
-        "ImageTopic",
-        "Image",
-        tqos);
+    topic_ = participant_->create_topic("ImageTopic",
+        "Image", TOPIC_QOS_DEFAULT);
 
     if (topic_ == nullptr)
     {
@@ -184,20 +183,37 @@ bool ImagePublisher::init(CfgPtr cfg, bool use_env)
     // CREATE THE WRITER
     DataWriterQos wqos = DATAWRITER_QOS_DEFAULT;
 
+    
+
     if (use_env)
     {
         publisher_->get_default_datawriter_qos(wqos);
     }
+  //  wqos.history().kind = KEEP_LAST_HISTORY_QOS;
+ //   wqos.history().depth = 30;
+ //   wqos.resource_limits().max_samples = 50;
+ //   wqos.resource_limits().allocated_samples = 20;
+    wqos.reliable_writer_qos().times.heartbeatPeriod.seconds = 2;
+    wqos.reliable_writer_qos().times.heartbeatPeriod.nanosec = 200 * 1000 * 1000;
+    wqos.reliability().kind = RELIABLE_RELIABILITY_QOS;
 
-    writer_ = publisher_->create_datawriter(
-        topic_,
-        wqos,
-        &listener_);
+    // Link writer to the registered flow controller.
+   // Note that ASYNCHRONOUS_PUBLISH_MODE must be used
+
+    //the asynch does not work.
+    wqos.publish_mode().kind = ASYNCHRONOUS_PUBLISH_MODE;
+    wqos.publish_mode().flow_controller_name = flow_controller_name;
+
+    //compare w/o, time
+  //  wqos.publish_mode().kind = ASYNCHRONOUS_PUBLISH_MODE;
+
+    writer_ = publisher_->create_datawriter(topic_, wqos, &listener_);
 
     if (writer_ == nullptr)
     {
         return false;
     }
+
     return true;
 }
 
@@ -206,13 +222,13 @@ ImagePublisher::~ImagePublisher()
     if (writer_ != nullptr)
     {
         publisher_->delete_datawriter(writer_);
-        std::cout << "delete_datawriter." << std::endl;
+       // std::cout << "delete_datawriter." << std::endl;
     }
     if (publisher_ != nullptr)
     {
         participant_->delete_publisher(publisher_);
 
-        std::cout << "delete_publisher." << std::endl;
+       // std::cout << "delete_publisher." << std::endl;
     }
     if (topic_ != nullptr)
     {
@@ -220,7 +236,7 @@ ImagePublisher::~ImagePublisher()
     }
     DomainParticipantFactory::get_instance()->delete_participant(participant_);
 
-    std::cout << "delete_participant." << std::endl;
+    //std::cout << "delete_participant." << std::endl;
 
 }
 
@@ -246,49 +262,61 @@ void ImagePublisher::PubListener::on_publication_matched(
     }
 }
 
-void ImagePublisher::runThread()
+ void ImagePublisher::runThread()
 {
+     // create a queue of integer data type
+     std::queue<Image> image_queue;
     const int numSamples = cfgCam_.numSamples_;
 
-	std::cout << "sending " << numSamples << " samples at " << frequency_ << std::endl;
-	for (uint32_t i = 0; i < numSamples; i++) {
-        uint64_t tBeg = APP_TIME_CURRENT_NS;
-		acqImgMsg();
-		preparImgMsg(i);
+    std::cout << "sending " << numSamples << " samples at " << frequency_ << std::endl;
+    for (uint32_t i = 0; i < numSamples; i++) {
+
+
+        
+        acqImgMsg();
+        preparImgMsg(i);
+  
+
 
         uint64_t tEnd = APP_TIME_CURRENT_NS;
 
         uint64_t dealayNanosecond = 1e9 / frequency_;
 
+
         //wait utill delay time, interval
-   // std::cout << "got here" << std::endl;
+    /*
         do {
             tEnd = APP_TIME_CURRENT_NS;
         } while (tEnd - tBeg <= dealayNanosecond);
-
-		if (!publish(false, numSamples)) {
-			std::cout << "unable to send sample #" << i << std::endl;
-		}
-   
-            /*
-        uint64_t dt = tEnd - tBeg;
-        //  1 / (dt / 1e6) or 1e6 / dt (converting US to HZ)
-        uint64_t cycles = 1e6 / dt;
-   
-        // https://stackoverflow.com/questions/72914414/how-to-call-a-function-in-a-certain-frequency-c
-        // std::cout << "dt is " << dt << " cycles is " << cycles << " and frequency is " << frequency_ << std::endl;
-        if (cycles > frequency_) {
-            // std::cout << "Slow down! cycles is " << cycles << " and frequency is " << frequency_ << std::endl;
-            // if message sent too fast, wait for this many nanoseconds to send the next message
+  */
+     
+        
+                if (!publish(false, numSamples)) {
+                    std::cout << "unable to send sample #" << i << std::endl;
+                }
+          
+       }
            
-            std::this_thread::sleep_for(std::chrono::microseconds((uint64_t)1e6) / (uint64_t)frequency_);
-        }
-        // std::cout << "dt: " << dt << " frequency: " << frequency_ << std::endl;
-        */
-	} //end for loop
-	std::cout << "finished frequency " << frequency_ << std::endl;
+         
+    
 
 }
+
+
+/*
+void ImagePublisher::runThread(int i)
+{
+    acqImgMsg();
+    preparImgMsg(i);
+
+    // todo: make this thread
+    if (!publish(false, cfgCam_.numSamples_)) {
+        std::cout << "unable to send sample #" << i << std::endl;
+    }
+}
+//std::cout << " published. " << i << std::endl;
+
+*/
 
 std::thread ImagePublisher::run()
 {
@@ -296,6 +324,29 @@ std::thread ImagePublisher::run()
     std::thread thread(&ImagePublisher::runThread, this);
     return thread;
 }
+
+/*
+void ImagePublisher::runThread(int i)
+{
+	acqImgMsg();
+	preparImgMsg(i);
+
+           // todo: make this thread
+        if (!publish(false, cfgCam_.numSamples_)) {
+            std::cout << "unable to send sample #" << i << std::endl;
+        }
+    }
+    //std::cout << " published. " << i << std::endl;
+}
+
+
+std::thread ImagePublisher::run(int i)
+{
+    stop_ = false;
+    std::thread thread(&ImagePublisher::runThread, this, i);
+    return thread;
+}
+*/
 
 void ImagePublisher::acqImgMsg()
 {
@@ -311,11 +362,14 @@ void ImagePublisher::preparImgMsg( const uint32_t frameNum )
   image_.width(frame_.cols);
   image_.height(frame_.rows);
 }
+
 bool ImagePublisher::publish(bool waitForListener, uint32_t frequency)
+//bool ImagePublisher::publish(bool waitForListener, uint32_t frequency, Image oneImage)
 {
    // std::cout << "in publish frequency " << frequency << std::endl;
     if (listener_.firstConnected_ || !waitForListener || listener_.matched_ > 0)
     {
+      //  std::cout << "in publish frequency " << frequency << std::endl;
         image_.publisher_send_time(APP_TIME_CURRENT_US);
         writer_->write(&image_);
         return true;
