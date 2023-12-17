@@ -56,8 +56,8 @@ public:
     //!Publish a sample
     bool publish(
         bool waitForListener,
-        uint32_t frequency,
-        Image oneImage);
+        uint32_t frequency);
+       // Image oneImage);
         
 
     //!Run for number samples

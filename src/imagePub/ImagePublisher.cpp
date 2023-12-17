@@ -15,6 +15,10 @@
 #include "ImagePublisher.h"
 #include <fastdds/dds/domain/DomainParticipantFactory.hpp>
 #include <fastdds/rtps/transport/TCPv4TransportDescriptor.h>
+#include <fastdds/rtps/transport/UDPv4TransportDescriptor.h>
+#include <fastdds/rtps/transport/shared_mem/SharedMemTransportDescriptor.h>
+
+
 #include <fastrtps/utils/IPLocator.h>
 #include <fastdds/dds/publisher/Publisher.hpp>
 #include <fastdds/dds/publisher/qos/DataWriterQos.hpp>
@@ -26,6 +30,9 @@
 #include <winrt/Windows.Foundation.Collections.h>
 #include <winrt/Windows.Web.Syndication.h>
 #include <ppltasks.h>
+using namespace eprosima::fastdds::rtps;
+
+
 using namespace winrt;
 using namespace Windows::Foundation;
 using namespace Windows::Web::Syndication;
@@ -101,13 +108,61 @@ bool ImagePublisher::init(CfgPtr cfg, bool use_env)
     unsigned short port = 5100;
 
    // std::cout << "Using TCP as transport" << std::endl;
-    auto tcp_transport = std::make_shared<eprosima::fastdds::rtps::TCPv4TransportDescriptor>();
-    tcp_transport->add_listener_port(5100);
-    tcp_transport->set_WAN_address("127.0.0.1");
     
+   
+    //auto shm_transport = std::make_shared<eprosima::fastdds::rtps::SharedMemTransportDescriptor>();
 
-    // Link the Transport Layer to the Participant.
-    participant_qos.transport().user_transports.push_back(tcp_transport);
+   
+    switch (cfg.get()->getTransport()) {
+       
+    case 1: {
+        auto tcp_transport = std::make_shared<eprosima::fastdds::rtps::TCPv4TransportDescriptor>();
+        tcp_transport = std::make_shared<eprosima::fastdds::rtps::TCPv4TransportDescriptor>();
+        tcp_transport->add_listener_port(5100);
+        tcp_transport->set_WAN_address("127.0.0.1");
+        // Link the Transport Layer to the Participant.
+        participant_qos.transport().user_transports.push_back(tcp_transport);
+        break;
+    }
+    case 2: {
+        auto udp_transport = std::make_shared<eprosima::fastdds::rtps::UDPv4TransportDescriptor>();
+        udp_transport = std::make_shared<eprosima::fastdds::rtps::UDPv4TransportDescriptor>();
+
+        udp_transport->sendBufferSize = 9216;
+        udp_transport->receiveBufferSize = 9216;
+        udp_transport->non_blocking_send = true;
+        // Link the Transport Layer to the Participant.
+        participant_qos.transport().user_transports.push_back(udp_transport);
+        break;
+    }
+    case 3: {
+
+        // Create a descriptor for the new transport.
+        //std::shared_ptr<SharedMemTransportDescriptor> shm_transport = std::make_shared<SharedMemTransportDescriptor>();
+
+        // Link the Transport Layer to the Participant.
+        //participant_qos.transport().user_transports.push_back(shm_transport);
+    }
+    default: {
+        auto my_transport = std::make_shared<eprosima::fastdds::rtps::UDPv4TransportDescriptor>();
+
+        my_transport->sendBufferSize = 9216;
+        my_transport->receiveBufferSize = 9216;
+        my_transport->non_blocking_send = true;
+        // Link the Transport Layer to the Participant.
+        participant_qos.transport().user_transports.push_back(my_transport);
+    }
+    }
+
+    /*
+    auto my_transport = std::make_shared<eprosima::fastdds::rtps::UDPv4TransportDescriptor>();
+    
+    my_transport->sendBufferSize = 9216;
+    my_transport->receiveBufferSize = 9216;
+    my_transport->non_blocking_send = true;
+    */
+
+
 
     //CREATE THE PARTICIPANT
   /*
@@ -145,8 +200,6 @@ bool ImagePublisher::init(CfgPtr cfg, bool use_env)
     participant_qos.flow_controllers().push_back(flow_control_300k_per_sec);
     // .... create participant and publisher
    
-
-
     std::cout << "trying to create participant" << std::endl;
     participant_ = DomainParticipantFactory::get_instance()->create_participant(0, participant_qos);
     std::cout << "created participant" << std::endl;
@@ -287,7 +340,7 @@ void ImagePublisher::PubListener::on_publication_matched(
         while (tEnd - tBeg <= dealayNanosecond) {
             tEnd = APP_TIME_CURRENT_NS;
            //uncomment this line to test if a delay is needed
-            std::cout << "**in while loop " << std::endl;
+           // std::cout << "**in while loop " << std::endl;
         }
        
   
