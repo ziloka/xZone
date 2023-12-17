@@ -27,7 +27,7 @@
 
 class ImageSubscriber {
 public:
-
+  
     ImageSubscriber();
 
     virtual ~ImageSubscriber();
@@ -101,9 +101,11 @@ private:
         Image image_;
 
         int matched_;
+      
 
         uint32_t samples_;
 
+        std::stringstream output_data_stringstream_;
         std::ofstream file_;
 
         app::AppMeanStd<uint32_t> latencyStat_;

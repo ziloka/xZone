@@ -157,6 +157,7 @@ bool ImageSubscriber::init(
 
 ImageSubscriber::~ImageSubscriber()
 {
+   
     if (reader_ != nullptr)
     {
         subscriber_->delete_datareader(reader_);
@@ -199,11 +200,14 @@ void ImageSubscriber::SubListener::on_subscription_matched(
 void ImageSubscriber::SubListener::on_data_available(  DataReader* reader)
 {
     SampleInfo info;
+
+   // std::cout << " in on_data_available 0 " << info.instance_state << std::endl;
     if (reader->take_next_sample(&image_, &info) == ReturnCode_t::RETCODE_OK)
     {
         if (info.instance_state == ALIVE_INSTANCE_STATE)
         {
             samples_++;
+            //std::cout << " in on_data_available" <<  std::endl;
             // Print your structure data here.
 
             //while (1) {
@@ -220,19 +224,21 @@ void ImageSubscriber::SubListener::on_data_available(  DataReader* reader)
             //        break;
             //}
 
-            //APP_LOG("frame number=%u received, time captured (t1)=%u, time sent msg out (t2)=%u, time received msg (t3)=%u", image_.frame_number(), image_.t1(), image_.t2(), APP_TIME_CURRENT_US);
+            //APP_LOG("frame number=%u received, time captured (t1)=%u, time sent msg out (t2)=%u, time received msg (t3)=%u", image_.frame_number(), image_.t1(), image_.t2(), APP_TIME_CURRENT_NS);
 
             // write data to data.csv file 
             // frame number, frequency, latency
 
            
-            image_.subscriber_recieve_time(APP_TIME_CURRENT_US);
+            image_.subscriber_recieve_time(APP_TIME_CURRENT_NS);
             //if (image_.frame_number() > 100) {
                 latencyStat_.addSample(image_.subscriber_recieve_time() - image_.publisher_send_time());
             //}
-
+                
             file_ << image_.frame_number() << ","  << image_.height() << "," << image_.width() << "," << image_.publisher_send_time() << "," << image_.subscriber_recieve_time() << "," << image_.frequency() << "," << image_.subscriber_recieve_time() - image_.publisher_send_time() << "," << samples_ << std::endl;
-          
+           // output_data_stringstream_ << image_.frame_number() << "," << image_.height() << "," << image_.width() 
+           //         << "," << image_.publisher_send_time() << "," << image_.subscriber_recieve_time() << "," << image_.frequency() 
+           //         << "," << image_.subscriber_recieve_time() - image_.publisher_send_time() << "," << samples_ << std::endl;
         }
     }
 }

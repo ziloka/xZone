@@ -20,7 +20,7 @@
 #include <fastdds/dds/publisher/qos/DataWriterQos.hpp>
 
 #include <thread>
-#include <queue>
+#include <list>
 
 #include <iostream>
 #include <winrt/Windows.Foundation.Collections.h>
@@ -136,7 +136,9 @@ bool ImagePublisher::init(CfgPtr cfg, bool use_env)
     flow_control_300k_per_sec->name = flow_controller_name;
     flow_control_300k_per_sec->scheduler = 
         eprosima::fastdds::rtps::FlowControllerSchedulerPolicy::FIFO;
-    flow_control_300k_per_sec->max_bytes_per_period = 300 * 1000;
+    //flow_control_300k_per_sec->max_bytes_per_period = 300 * 1000;
+    //0 value means no limit. 
+    flow_control_300k_per_sec->max_bytes_per_period = 0;
     flow_control_300k_per_sec->period_ms = 1000;
     // Register flow controller on participant
     
@@ -204,9 +206,6 @@ bool ImagePublisher::init(CfgPtr cfg, bool use_env)
     wqos.publish_mode().kind = ASYNCHRONOUS_PUBLISH_MODE;
     wqos.publish_mode().flow_controller_name = flow_controller_name;
 
-    //compare w/o, time
-  //  wqos.publish_mode().kind = ASYNCHRONOUS_PUBLISH_MODE;
-
     writer_ = publisher_->create_datawriter(topic_, wqos, &listener_);
 
     if (writer_ == nullptr)
@@ -265,36 +264,37 @@ void ImagePublisher::PubListener::on_publication_matched(
  void ImagePublisher::runThread()
 {
      // create a queue of integer data type
-     std::queue<Image> image_queue;
+     std::list<Image> image_list;
     const int numSamples = cfgCam_.numSamples_;
+    uint64_t tBeg = APP_TIME_CURRENT_NS;
+    uint64_t tEnd = APP_TIME_CURRENT_NS;
 
     std::cout << "sending " << numSamples << " samples at " << frequency_ << std::endl;
     for (uint32_t i = 0; i < numSamples; i++) {
-
-
-        
+   
         acqImgMsg();
         preparImgMsg(i);
+
+       // image_list.push_back(image_);
   
-
-
-        uint64_t tEnd = APP_TIME_CURRENT_NS;
+        tEnd = APP_TIME_CURRENT_NS;
 
         uint64_t dealayNanosecond = 1e9 / frequency_;
-
-
+        //std::cout << "**dealayNanosecond " << dealayNanosecond  << std::endl;
+        // 
         //wait utill delay time, interval
-    /*
-        do {
+    
+        while (tEnd - tBeg <= dealayNanosecond) {
             tEnd = APP_TIME_CURRENT_NS;
-        } while (tEnd - tBeg <= dealayNanosecond);
-  */
-     
-        
-                if (!publish(false, numSamples)) {
-                    std::cout << "unable to send sample #" << i << std::endl;
-                }
-          
+           //uncomment this line to test if a delay is needed
+            std::cout << "**in while loop " << std::endl;
+        }
+       
+  
+        if (!publish(false, numSamples)) {
+            std::cout << "unable to send sample #" << i << std::endl;
+        }
+        tBeg = APP_TIME_CURRENT_NS;
        }
            
          
@@ -351,7 +351,7 @@ std::thread ImagePublisher::run(int i)
 void ImagePublisher::acqImgMsg()
 {
   // https://learnopencv.com/read-write-and-display-a-video-using-opencv-cpp-python/
-  image_.subscriber_initalize_time(APP_TIME_CURRENT_US);
+  image_.subscriber_initalize_time(APP_TIME_CURRENT_NS);
 }
 
 void ImagePublisher::preparImgMsg( const uint32_t frameNum )
@@ -370,7 +370,7 @@ bool ImagePublisher::publish(bool waitForListener, uint32_t frequency)
     if (listener_.firstConnected_ || !waitForListener || listener_.matched_ > 0)
     {
       //  std::cout << "in publish frequency " << frequency << std::endl;
-        image_.publisher_send_time(APP_TIME_CURRENT_US);
+        image_.publisher_send_time(APP_TIME_CURRENT_NS);
         writer_->write(&image_);
         return true;
     }
