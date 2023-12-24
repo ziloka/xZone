@@ -17,7 +17,7 @@
 #include <fastdds/rtps/transport/TCPv4TransportDescriptor.h>
 #include <fastdds/rtps/transport/UDPv4TransportDescriptor.h>
 #include <fastdds/rtps/transport/shared_mem/SharedMemTransportDescriptor.h>
-
+// #include <fastdds/rtps/attributes/ThreadSettings.hpp>
 
 #include <fastrtps/utils/IPLocator.h>
 #include <fastdds/dds/publisher/Publisher.hpp>
@@ -27,15 +27,7 @@
 #include <list>
 
 #include <iostream>
-#include <winrt/Windows.Foundation.Collections.h>
-#include <winrt/Windows.Web.Syndication.h>
-#include <ppltasks.h>
 using namespace eprosima::fastdds::rtps;
-
-
-using namespace winrt;
-using namespace Windows::Foundation;
-using namespace Windows::Web::Syndication;
 
 using namespace eprosima::fastdds::dds;
 using namespace eprosima::fastdds::rtps;
@@ -107,17 +99,12 @@ bool ImagePublisher::init(CfgPtr cfg, bool use_env)
     std::string wan_ip = "127.0.0.1";
     unsigned short port = 5100;
 
-   // std::cout << "Using TCP as transport" << std::endl;
-    
-   
-    //auto shm_transport = std::make_shared<eprosima::fastdds::rtps::SharedMemTransportDescriptor>();
-
-   
-    switch (cfg.get()->getTransport()) {
+    switch (cfg->getTransport()) {
        
     case 1: {
-        auto tcp_transport = std::make_shared<eprosima::fastdds::rtps::TCPv4TransportDescriptor>();
-        tcp_transport = std::make_shared<eprosima::fastdds::rtps::TCPv4TransportDescriptor>();
+        std::cout << "Using TCP as transport" << std::endl;
+        std::shared_ptr<TCPv4TransportDescriptor> tcp_transport = std::make_shared<TCPv4TransportDescriptor>();
+        tcp_transport = std::make_shared<TCPv4TransportDescriptor>();
         tcp_transport->add_listener_port(5100);
         tcp_transport->set_WAN_address("127.0.0.1");
         // Link the Transport Layer to the Participant.
@@ -125,26 +112,30 @@ bool ImagePublisher::init(CfgPtr cfg, bool use_env)
         break;
     }
     case 2: {
-        auto udp_transport = std::make_shared<eprosima::fastdds::rtps::UDPv4TransportDescriptor>();
-        udp_transport = std::make_shared<eprosima::fastdds::rtps::UDPv4TransportDescriptor>();
-
-        udp_transport->sendBufferSize = 9216;
-        udp_transport->receiveBufferSize = 9216;
+        std::cout << "Using UDP as transport" << std::endl;
+        std::shared_ptr<UDPv4TransportDescriptor> udp_transport = std::make_shared<UDPv4TransportDescriptor>();
         udp_transport->non_blocking_send = true;
+
         // Link the Transport Layer to the Participant.
         participant_qos.transport().user_transports.push_back(udp_transport);
+        // Set use_builtin_transports to false
+        participant_qos.transport().use_builtin_transports = false;
+        
         break;
     }
     case 3: {
+        std::cout << "Using Shared memory as transport" << std::endl;
 
         // Create a descriptor for the new transport.
-        //std::shared_ptr<SharedMemTransportDescriptor> shm_transport = std::make_shared<SharedMemTransportDescriptor>();
+        std::shared_ptr<SharedMemTransportDescriptor> shm_transport = std::make_shared<SharedMemTransportDescriptor>();
 
         // Link the Transport Layer to the Participant.
-        //participant_qos.transport().user_transports.push_back(shm_transport);
+        participant_qos.transport().user_transports.push_back(shm_transport);
+        break;
     }
     default: {
-        auto my_transport = std::make_shared<eprosima::fastdds::rtps::UDPv4TransportDescriptor>();
+        std::cout << "Using FastDDS Default transport (UDP)" << std::endl;
+        std::shared_ptr<UDPv4TransportDescriptor> my_transport = std::make_shared<UDPv4TransportDescriptor>();
 
         my_transport->sendBufferSize = 9216;
         my_transport->receiveBufferSize = 9216;
@@ -153,35 +144,6 @@ bool ImagePublisher::init(CfgPtr cfg, bool use_env)
         participant_qos.transport().user_transports.push_back(my_transport);
     }
     }
-
-    /*
-    auto my_transport = std::make_shared<eprosima::fastdds::rtps::UDPv4TransportDescriptor>();
-    
-    my_transport->sendBufferSize = 9216;
-    my_transport->receiveBufferSize = 9216;
-    my_transport->non_blocking_send = true;
-    */
-
-
-
-    //CREATE THE PARTICIPANT
-  /*
-    pqos.wire_protocol().builtin.discovery_config.leaseDuration = eprosima::fastrtps::c_TimeInfinite;
-    pqos.wire_protocol().builtin.discovery_config.leaseDuration_announcementperiod = eprosima::fastrtps::Duration_t(5, 0);
-   
-    pqos.transport().use_builtin_transports = false;
-
-    std::shared_ptr<TCPv4TransportDescriptor> descriptor = std::make_shared<TCPv4TransportDescriptor>();
-
-  
-    descriptor->interfaceWhiteList.push_back(wan_ip);
-    std::cout << "Whitelisted " << wan_ip << std::endl;
-   
-
-    descriptor->sendBufferSize = 0;
-    descriptor->receiveBufferSize = 0;
-    */
-
 
     // Limit to 300kb per second.
     static const char* flow_controller_name = FASTDDS_FLOW_CONTROLLER_DEFAULT;
@@ -349,10 +311,6 @@ void ImagePublisher::PubListener::on_publication_matched(
         }
         tBeg = APP_TIME_CURRENT_NS;
        }
-           
-         
-    
-
 }
 
 

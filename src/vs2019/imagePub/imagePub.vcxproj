@@ -24,6 +24,9 @@
     <ClCompile Include="..\..\imagePub\mainPub.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\libImageSub\libImageSub.vcxproj">
+      <Project>{daa10900-56e9-40e5-bf14-522cd8c40e97}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\libMsg\libMsg.vcxproj">
       <Project>{23cf582b-ef4f-402e-a6a6-eb1dace6f604}</Project>
     </ProjectReference>
@@ -57,7 +60,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v143</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
     <PreferredToolArchitecture>x64</PreferredToolArchitecture>
   </PropertyGroup>
@@ -172,8 +175,10 @@
       <PreprocessorDefinitions>_WIN32;NDEBUG;_CONSOLE;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>$(PROJ_INC)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(PROJ_INC)/|C:\Users\conno\Documents\xZone\src</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <AdditionalUsingDirectories>
+      </AdditionalUsingDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

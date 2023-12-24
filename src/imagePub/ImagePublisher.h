@@ -27,8 +27,6 @@
 #include <fastdds/dds/topic/Topic.hpp>
 #include <fastdds/dds/publisher/DataWriter.hpp>
 
-#include <winrt/Windows.Foundation.h>
-
 #include <mutex>
 #include <shared_mutex>
 

@@ -23,6 +23,7 @@
 #include <fastdds/dds/subscriber/qos/DataReaderQos.hpp>
 #include <fastdds/rtps/transport/UDPv4TransportDescriptor.h>
 #include <fastdds/rtps/transport/TCPv4TransportDescriptor.h>
+#include <fastdds/rtps/transport/shared_mem/SharedMemTransportDescriptor.h>
 #include <fastrtps/utils/IPLocator.h>
 
 using namespace eprosima::fastdds::rtps;
@@ -41,6 +42,7 @@ ImageSubscriber::ImageSubscriber()
 }
 
 bool ImageSubscriber::init(
+        CfgPtr  cfg,
         bool use_env)
 {
     DomainParticipantQos pqos = PARTICIPANT_QOS_DEFAULT;
@@ -54,30 +56,59 @@ bool ImageSubscriber::init(
     }
 
     participant_ = factory->create_participant(0, pqos);
-    
-    // client
-    pqos.transport().use_builtin_transports = false;
-
-    // Create a descriptor for the new transport.
-    // Do not configure any listener port
-    auto tcp_transport = std::make_shared<eprosima::fastdds::rtps::TCPv4TransportDescriptor>();
-    pqos.transport().user_transports.push_back(tcp_transport);
-
-    // [OPTIONAL] ThreadSettings configuration
-   /* tcp_transport->default_reception_threads(eprosima::fastdds::rtps::ThreadSettings{ -1, 0, 0, -1 });
-    tcp_transport->set_thread_config_for_port(12345, eprosima::fastdds::rtps::ThreadSettings{ -1, 0, 0, -1 });
-    tcp_transport->keep_alive_thread = eprosima::fastdds::rtps::ThreadSettings{ -1, 0, 0, -1 };
-    tcp_transport->accept_thread = eprosima::fastdds::rtps::ThreadSettings{ -1, 0, 0, -1 };*/
-
 
     // Set initial peers.
     eprosima::fastrtps::rtps::Locator_t initial_peer_locator;
-    initial_peer_locator.kind = LOCATOR_KIND_TCPv4;
-    eprosima::fastrtps::rtps::IPLocator::setIPv4(initial_peer_locator, "127.0.0.1");
-    eprosima::fastrtps::rtps::IPLocator::setPhysicalPort(initial_peer_locator, 5100);
-    eprosima::fastrtps::rtps::IPLocator::setLogicalPort(initial_peer_locator, 5100);
 
-    pqos.wire_protocol().builtin.initialPeersList.push_back(initial_peer_locator);
+    switch (cfg->getTransport()) {
+
+    case 1: {
+        std::cout << "Using TCP as transport" << std::endl;
+
+        // client
+        pqos.transport().use_builtin_transports = false;
+
+        // Create a descriptor for the new transport.
+        // Do not configure any listener port
+        auto tcp_transport = std::make_shared<TCPv4TransportDescriptor>();
+        pqos.transport().user_transports.push_back(tcp_transport);
+
+        initial_peer_locator.kind = LOCATOR_KIND_TCPv4;
+        IPLocator::setIPv4(initial_peer_locator, "127.0.0.1");
+        IPLocator::setPhysicalPort(initial_peer_locator, 5100);
+        IPLocator::setLogicalPort(initial_peer_locator, 5100);
+        pqos.wire_protocol().builtin.initialPeersList.push_back(initial_peer_locator);
+        break;
+    }
+    case 2: {
+        std::cout << "Using UDP as transport" << std::endl;
+
+        auto udp_transport = std::make_shared<UDPv4TransportDescriptor>();
+        udp_transport->non_blocking_send = true;
+
+        // Link the Transport Layer to the Participant.
+        pqos.transport().user_transports.push_back(udp_transport);
+
+        // Avoid using the default transport
+        pqos.transport().use_builtin_transports = false;
+        break;
+    }
+    case 3: {
+        std::cout << "Using Shared Memory as transport" << std::endl;
+
+        // Create a descriptor for the new transport.
+        std::shared_ptr<SharedMemTransportDescriptor> shm_transport = std::make_shared<SharedMemTransportDescriptor>();
+
+        // Link the Transport Layer to the Participant.
+        pqos.transport().user_transports.push_back(shm_transport);
+
+        pqos.transport().use_builtin_transports = false;
+        break;
+    }
+    default: {
+        
+    }
+    }
 
     // Avoid using the default transport
     pqos.transport().use_builtin_transports = false;
@@ -259,7 +290,7 @@ void ImageSubscriber::run(uint32_t number)
     }
 }
 
-void createImageSubscriber(bool use_environment_qos) {
+void createImageSubscriber(CfgPtr cfg, bool use_environment_qos) {
     ImageSubscriber imageSubscriber;
-    if (imageSubscriber.init(use_environment_qos)) imageSubscriber.run();
+    if (imageSubscriber.init(cfg, use_environment_qos)) imageSubscriber.run();
 }

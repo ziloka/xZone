@@ -23,6 +23,14 @@ using namespace app;
 
 int main(int argc, char* argv[])
 {
+	if (argc <= 1) {
+		std::cout << "pass a config file" << std::endl;
+		return 0;
+	}
+
+	CfgPtr cfg(new Cfg());
+	cfg->readFromFile(argv[1]);
+
 	bool use_environment_qos = false;
 	const string logFilename("./logTestProcess.txt");
 	const bool showInConsole = true;
@@ -30,7 +38,7 @@ int main(int argc, char* argv[])
 
 	//thread humiditySubscriberThread(createHumiditySubscriber, use_environment_qos);
 
-	thread imageSubscriberThread(createImageSubscriber, use_environment_qos);
+	thread imageSubscriberThread(createImageSubscriber, cfg, use_environment_qos);
 
 	//thread temperatureSubscriberThread(createTemperatureSubscriber, use_environment_qos);
 	

@@ -16,6 +16,7 @@
 #define IMAGESUBSCRIBER_H_
 
 #include "libMsg/ImagePubSubTypes.h"
+#include "libCfg/Cfg.h"
 
 #include <fastdds/dds/domain/DomainParticipant.hpp>
 #include <fastdds/dds/subscriber/DataReaderListener.hpp>
@@ -34,6 +35,7 @@ public:
 
     //!Initialize the subscriber
     bool init(
+            app::CfgPtr  cfg,
             bool use_env);
 
     //!RUN the subscriber
@@ -74,12 +76,24 @@ private:
                     std::cout << "....Successfully Created logs folder !" << std::endl;
             }
 
+            // https://stackoverflow.com/questions/38034033/c-localtime-this-function-or-variable-may-be-unsafe
             time_t t = std::time(nullptr);
-            tm tm = *std::localtime(&t);
+            //tm tm = *std::localtime(&t);
+
+            std::tm bt{};
+            #if defined(__unix__)
+                localtime_r(&t, &bt);
+            #elif defined(_MSC_VER)
+                localtime_s(&bt, &t);
+            #else
+                static std::mutex mtx;
+                std::lock_guard<std::mutex> lock(mtx);
+                bt = *std::localtime(&t);
+            #endif
 
           //  auto dateTime = *std::put_time(&tm, "%d-%m-%Y %H-%M-%S")
             std::stringstream currentDateTime;
-            currentDateTime << std::put_time(&tm, "%Y%m%d%H%M%S");
+            currentDateTime << std::put_time(&bt, "%Y%m%d%H%M%S");
                 //"%d-%m-%Y %H-%M-%S");
             std::string outPutFile = "logs/image_pubsub_data"+ currentDateTime.str() +".csv";
             file_.open(outPutFile, std::ofstream::out | std::ofstream::trunc);
@@ -112,6 +126,6 @@ private:
     } listener_;
 };
 
-void createImageSubscriber(bool use_environment_qos);
+void createImageSubscriber(app::CfgPtr cfg, bool use_environment_qos);
 
 #endif /* IMAGESUBSCRIBER_H_ */
