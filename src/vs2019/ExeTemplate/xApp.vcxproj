@@ -131,7 +131,7 @@
       <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;FASTRTPS_DYN_LINK;FASTCDR_DYN_LINK;CMAKE_INTDIR="Debug"</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
-      <AdditionalIncludeDirectories>C:\pkg\fastDDS\v2.12.1\include\fastdds\thirdparty\optionparser</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\pkg\fastDDS\v2.9.1\include\fastdds\thirdparty\optionparser</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

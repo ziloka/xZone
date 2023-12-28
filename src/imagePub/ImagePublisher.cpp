@@ -102,8 +102,8 @@ bool ImagePublisher::init(CfgPtr cfg, bool use_env)
 
     switch (cfg->getTransport()) {
        
-    case 1: {
-        std::cout << "Using TCP as transport" << std::endl;
+    case Transport::TCP: {
+        //std::cout << "Using TCP as transport" << std::endl;
         std::shared_ptr<TCPv4TransportDescriptor> tcp_transport = std::make_shared<TCPv4TransportDescriptor>();
         tcp_transport = std::make_shared<TCPv4TransportDescriptor>();
         tcp_transport->add_listener_port(5100);
@@ -112,8 +112,8 @@ bool ImagePublisher::init(CfgPtr cfg, bool use_env)
         participant_qos.transport().user_transports.push_back(tcp_transport);
         break;
     }
-    case 2: {
-        std::cout << "Using UDP as transport" << std::endl;
+    case Transport::UDP: {
+        //std::cout << "Using UDP as transport" << std::endl;
         std::shared_ptr<UDPv4TransportDescriptor> udp_transport = std::make_shared<UDPv4TransportDescriptor>();
         udp_transport->non_blocking_send = true;
 
@@ -124,8 +124,8 @@ bool ImagePublisher::init(CfgPtr cfg, bool use_env)
         
         break;
     }
-    case 3: {
-        std::cout << "Using Shared memory as transport" << std::endl;
+    case Transport::SharedMemory: {
+        //std::cout << "Using Shared memory as transport" << std::endl;
 
         // Create a descriptor for the new transport.
         std::shared_ptr<SharedMemTransportDescriptor> shm_transport = std::make_shared<SharedMemTransportDescriptor>();
@@ -135,7 +135,7 @@ bool ImagePublisher::init(CfgPtr cfg, bool use_env)
         break;
     }
     default: {
-        std::cout << "Using FastDDS Default transport (UDP)" << std::endl;
+        //std::cout << "Using FastDDS Default transport (UDP)" << std::endl;
         std::shared_ptr<UDPv4TransportDescriptor> my_transport = std::make_shared<UDPv4TransportDescriptor>();
 
         my_transport->sendBufferSize = 9216;
@@ -163,9 +163,9 @@ bool ImagePublisher::init(CfgPtr cfg, bool use_env)
     participant_qos.flow_controllers().push_back(flow_control_300k_per_sec);
     // .... create participant and publisher
    
-    std::cout << "trying to create participant" << std::endl;
+    //std::cout << "trying to create participant" << std::endl;
     participant_ = DomainParticipantFactory::get_instance()->create_participant(0, participant_qos);
-    std::cout << "created participant" << std::endl;
+    //std::cout << "created participant" << std::endl;
     
     if (participant_ == nullptr)
     {

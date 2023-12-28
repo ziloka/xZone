@@ -81,7 +81,7 @@
 #include <boost/property_tree/xml_parser.hpp>
 #endif
 
-//startig from opencv4, it does not install the deprecated opencv foldr
+//startig from opencv4, it does not install the deprecated opencv folder
 #include <opencv2/core/version.hpp>
 #if CV_VERSION_MAJOR < 4  
 #   include <opencv/cv.h>
@@ -175,4 +175,11 @@ typedef uint64_t              app_time_ns_t;
 #define APP_TIME_MS2US( t_ms )  ( ((uint64_t)t_ms) * 1000 )
 
 #define MAX_NUM_PROCESS       10
+
+enum Transport {
+	UDP = 1,
+	TCP = 2,
+	SharedMemory = 3
+};
+
 #endif

@@ -66,7 +66,6 @@ private:
             , samples_(0)
             , file_(std::ofstream())
         {
-
             boost::filesystem::path dir("logs");
 
             if (!(boost::filesystem::exists(dir))) {

@@ -302,19 +302,19 @@ public:
      * @param _transport New value for member transport
      */
     eProsima_user_DllExport void transport(
-            uint8_t _transport);
+            uint32_t _transport);
 
     /*!
      * @brief This function returns the value of member transport
      * @return Value of member transport
      */
-    eProsima_user_DllExport uint8_t transport() const;
+    eProsima_user_DllExport uint32_t transport() const;
 
     /*!
      * @brief This function returns a reference to member transport
      * @return Reference to member transport
      */
-    eProsima_user_DllExport uint8_t& transport();
+    eProsima_user_DllExport uint32_t& transport();
 
 private:
 
@@ -326,7 +326,7 @@ private:
     uint64_t m_subscriber_initalize_time{0};
     uint64_t m_publisher_send_time{0};
     uint64_t m_subscriber_recieve_time{0};
-    uint8_t m_transport{0};
+    uint32_t m_transport{0};
 
 };
 

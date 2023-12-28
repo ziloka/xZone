@@ -260,7 +260,7 @@ const TypeObject* GetMinimalImageObject()
     mst_transport.common().member_flags().IS_MUST_UNDERSTAND(false);
     mst_transport.common().member_flags().IS_KEY(false);
     mst_transport.common().member_flags().IS_DEFAULT(false); // Doesn't apply
-    mst_transport.common().member_type_id(*TypeObjectFactory::get_instance()->get_type_identifier("uint8_t", false));
+    mst_transport.common().member_type_id(*TypeObjectFactory::get_instance()->get_type_identifier("uint32_t", false));
 
 
     MD5 transport_hash("transport");
@@ -463,7 +463,7 @@ const TypeObject* GetCompleteImageObject()
     cst_transport.common().member_flags().IS_MUST_UNDERSTAND(false);
     cst_transport.common().member_flags().IS_KEY(false);
     cst_transport.common().member_flags().IS_DEFAULT(false); // Doesn't apply
-    cst_transport.common().member_type_id(*TypeObjectFactory::get_instance()->get_type_identifier("uint8_t", false));
+    cst_transport.common().member_type_id(*TypeObjectFactory::get_instance()->get_type_identifier("uint32_t", false));
 
 
     cst_transport.detail().name("transport");

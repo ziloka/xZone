@@ -378,7 +378,7 @@ uint64_t& Image::subscriber_recieve_time()
  * @param _transport New value for member transport
  */
 void Image::transport(
-        uint8_t _transport)
+        uint32_t _transport)
 {
     m_transport = _transport;
 }
@@ -387,7 +387,7 @@ void Image::transport(
  * @brief This function returns the value of member transport
  * @return Value of member transport
  */
-uint8_t Image::transport() const
+uint32_t Image::transport() const
 {
     return m_transport;
 }
@@ -396,7 +396,7 @@ uint8_t Image::transport() const
  * @brief This function returns a reference to member transport
  * @return Reference to member transport
  */
-uint8_t& Image::transport()
+uint32_t& Image::transport()
 {
     return m_transport;
 }
