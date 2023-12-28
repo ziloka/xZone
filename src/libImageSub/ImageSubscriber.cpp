@@ -165,7 +165,6 @@ bool ImageSubscriber::init(
         return false;
     }
 
-    
     //CREATE THE DATAREADER
 
     DataReaderQos rqos = DATAREADER_QOS_DEFAULT;
@@ -220,6 +219,9 @@ void ImageSubscriber::SubListener::on_subscription_matched(
     {
         matched_ = info.total_count;
         std::cout << "Subscriber unmatched." << matched_ << std::endl;
+
+        //file_.close();
+        //std::terminate();
     }
     else
     {

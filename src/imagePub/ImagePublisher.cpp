@@ -47,6 +47,7 @@ ImagePublisher::ImagePublisher(std::shared_ptr<std::shared_mutex> mutexPtr, CfgP
     int height = cfgCam_.imgSz_.h;
     int width = cfgCam_.imgSz_.w;
 
+    // there are 24 bits in a pixel using CV_8UC3 (3 bytes)
     frame_ = cv::Mat(height, width, CV_8UC3);
 
     // set publisher frequency
@@ -199,8 +200,6 @@ bool ImagePublisher::init(CfgPtr cfg, bool use_env)
 
     // CREATE THE WRITER
     DataWriterQos wqos = DATAWRITER_QOS_DEFAULT;
-
-    
 
     if (use_env)
     {

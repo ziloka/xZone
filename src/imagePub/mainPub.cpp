@@ -51,7 +51,6 @@ int main(int argc, char* argv[])
 	// std::thread subscriber(createUpdateCamSubscriber, mutex, cfg, use_environment_qos);
 	// subscriber.join();
 
-	
 	registerImageTypes();
 	// pass hz frequency param
 	// std::vector<std::thread> threads;

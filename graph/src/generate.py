@@ -12,7 +12,7 @@ fig, ax = plt.subplots()
 
 # https://matplotlib.org/stable/tutorials/introductory/quick_start.html#parts-of-a-figure
 
-ax.set_title('Publisher / Subscriber benchmark image (1920 x 1080) mean values')
+ax.set_title('Publisher / Subscriber benchmark image (4096 x 2160) mean values')
 ax.set_xlabel('Frequency (Hz)')
 ax.set_ylabel('Latency (ns)') # nanoseconds, a billionth of a second
 
@@ -26,9 +26,9 @@ def addLegend(data_filepath: str, transport: str, color: str):
     # fmt='none' to prevent the lines from connecting
     ax.errorbar(freqs, y, xerr=None, yerr=err, ls='none')
 
-addLegend("data/dev/pc_tcp_NEW.csv", "TCP", "tab:purple")
-addLegend("data/dev/pc_udp_NEW.csv", "UDP", "tab:green")
-addLegend("data/dev/pc_sharedmem_NEW.csv", "Shared Memory", 'tab:blue')
+addLegend("data/dev/image_4096x2160_tcp.csv", "TCP", "tab:purple")
+addLegend("data/dev/image_4096x2160_udp.csv", "UDP", "tab:green")
+addLegend("data/dev/image_4096x2160_sharedmem.csv", "Shared Memory", 'tab:blue')
 ax.legend()
 
 #                         height width

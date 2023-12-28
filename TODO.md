@@ -1,51 +1,13 @@
- <!-- - use AppMeanStd.h to profile code
- - write more profile code
- - matlab graph
-    - x axis frequency
-    - y axis latency (t3-t2)
- - add in config.xml for each sensor frequency (start, step, end) (hertz)
-    - start at what frequency to start
-    - what step to increment the start
-    - when to end the frequency
- - Write GUI 
- -->
- 
-<!-- - Talk about the graph and what is wrong with it
-- Lead into what code needs to be changed
+notes:
+- shared memory will only be faster than udp when there is a lot of data (mbs, gbs)
+- udp can be faster with zero-copy networking
 
-- Ask how frequency works. The application sends x 
-
-- Talk about how graphs should be organized
-	- Eg. each machine type has its own graph? Or 3d graph...
-	 -->
-<!-- Message frequency
-fix horizontal 
-remove uncessary configurations
-
-graph key color is weird
-standard deviation is a vertical bar
-
-three things in legend
-shared memory, tcp, udp
-
-use +, triangles, squares, circles, 
-
-t1 
-t2 
-t3 
-
-Image.idl
-
-change to 
-publisher_send
-subscriber_recieve
-
-#1 clean config file
-#2 use num and den to determine frequency 
-#3 matlib plot, how to plot vertical bar
-
-tcp 
-
+These numbers assume each pixel is 3 bytes (w x h x 3)
+- 720 x 480 is 1,036,800 bytes or 1.03 mb
+- 1080 x 1920 is 6,220,800 bytes or 6.22 mb
+- 4096 x 2160 is 26,542,080 bytes or 26.5 mb
+- 7680 x 4320 is 99,532,800 bytes or 99.5 mb
+- 15360 × 8640 is 398,131,200 bytes or 398 mb
 
 example graph -->
 
