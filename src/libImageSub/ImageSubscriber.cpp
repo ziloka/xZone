@@ -268,7 +268,7 @@ void ImageSubscriber::SubListener::on_data_available(  DataReader* reader)
                 latencyStat_.addSample(image_.subscriber_recieve_time() - image_.publisher_send_time());
             //}
                 
-            file_ << image_.frame_number() << ","  << image_.height() << "," << image_.width() << "," << image_.publisher_send_time() << "," << image_.subscriber_recieve_time() << "," << image_.frequency() << "," << image_.subscriber_recieve_time() - image_.publisher_send_time() << "," << samples_ << std::endl;
+            file_ << image_.frame_number() << ","  << image_.height() << "," << image_.width() << "," << image_.publisher_send_time() << "," << image_.subscriber_recieve_time() << "," << image_.frequency() << "," << image_.subscriber_recieve_time() - image_.publisher_send_time() << "," << samples_ << "," << image_.transport() << std::endl;
            // output_data_stringstream_ << image_.frame_number() << "," << image_.height() << "," << image_.width() 
            //         << "," << image_.publisher_send_time() << "," << image_.subscriber_recieve_time() << "," << image_.frequency() 
            //         << "," << image_.subscriber_recieve_time() - image_.publisher_send_time() << "," << samples_ << std::endl;

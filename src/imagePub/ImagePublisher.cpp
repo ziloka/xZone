@@ -41,11 +41,11 @@ ImagePublisher::ImagePublisher(std::shared_ptr<std::shared_mutex> mutexPtr, CfgP
     , stop_(false)
 {
 
-    cfgCam_ = cfgPtr->getCam();
+    cfgPtr_ = cfgPtr;
     mutexPtr_ = mutexPtr;
 
-    int height = cfgCam_.imgSz_.h;
-    int width = cfgCam_.imgSz_.w;
+    int height = cfgPtr->getCam().imgSz_.h;
+    int width = cfgPtr->getCam().imgSz_.w;
 
     // there are 24 bits in a pixel using CV_8UC3 (3 bytes)
     frame_ = cv::Mat(height, width, CV_8UC3);
@@ -275,41 +275,41 @@ void ImagePublisher::PubListener::on_publication_matched(
     }
 }
 
- void ImagePublisher::runThread()
+ void ImagePublisher::runThread(int i)
 {
      // create a queue of integer data type
      std::list<Image> image_list;
-    const int numSamples = cfgCam_.numSamples_;
+    const int numSamples = cfgPtr_->getCam().numSamples_;
     uint64_t tBeg = APP_TIME_CURRENT_NS;
     uint64_t tEnd = APP_TIME_CURRENT_NS;
 
-    std::cout << "sending " << numSamples << " samples at " << frequency_ << std::endl;
-    for (uint32_t i = 0; i < numSamples; i++) {
+   /* std::cout << "sending " << numSamples << " samples at " << frequency_ << std::endl;
+    for (uint32_t i = 0; i < numSamples; i++) {*/
    
         acqImgMsg();
         preparImgMsg(i);
 
        // image_list.push_back(image_);
   
-        tEnd = APP_TIME_CURRENT_NS;
+        //tEnd = APP_TIME_CURRENT_NS;
 
-        uint64_t dealayNanosecond = 1e9 / frequency_;
+        //uint64_t dealayNanosecond = 1e9 / frequency_;
         //std::cout << "**dealayNanosecond " << dealayNanosecond  << std::endl;
         // 
         //wait utill delay time, interval
     
-        while (tEnd - tBeg <= dealayNanosecond) {
-            tEnd = APP_TIME_CURRENT_NS;
-           //uncomment this line to test if a delay is needed
-           // std::cout << "**in while loop " << std::endl;
-        }
+        //while (tEnd - tBeg <= dealayNanosecond) {
+        //    tEnd = APP_TIME_CURRENT_NS;
+        //   //uncomment this line to test if a delay is needed
+        //   // std::cout << "**in while loop " << std::endl;
+        //}
        
   
         if (!publish(false, numSamples)) {
             std::cout << "unable to send sample #" << i << std::endl;
         }
-        tBeg = APP_TIME_CURRENT_NS;
-       }
+        //tBeg = APP_TIME_CURRENT_NS;
+       //}
 }
 
 
@@ -328,10 +328,10 @@ void ImagePublisher::runThread(int i)
 
 */
 
-std::thread ImagePublisher::run()
+std::thread ImagePublisher::run(int i)
 {
     stop_ = false;
-    std::thread thread(&ImagePublisher::runThread, this);
+    std::thread thread(&ImagePublisher::runThread, this, i);
     return thread;
 }
 
@@ -371,6 +371,7 @@ void ImagePublisher::preparImgMsg( const uint32_t frameNum )
   image_.image(app::matToVecUchar(frame_));
   image_.width(frame_.cols);
   image_.height(frame_.rows);
+  image_.transport(cfgPtr_->getTransport());
 }
 
 bool ImagePublisher::publish(bool waitForListener, uint32_t frequency)

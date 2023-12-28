@@ -24,7 +24,7 @@
 
 #include "Image.h"
 
-constexpr uint32_t Image_max_cdr_typesize {152UL};
+constexpr uint32_t Image_max_cdr_typesize {153UL};
 constexpr uint32_t Image_max_key_cdr_typesize {0UL};
 
 

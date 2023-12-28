@@ -62,6 +62,7 @@ Image::Image(
     m_subscriber_initalize_time = x.m_subscriber_initalize_time;
     m_publisher_send_time = x.m_publisher_send_time;
     m_subscriber_recieve_time = x.m_subscriber_recieve_time;
+    m_transport = x.m_transport;
 }
 
 Image::Image(
@@ -75,6 +76,7 @@ Image::Image(
     m_subscriber_initalize_time = x.m_subscriber_initalize_time;
     m_publisher_send_time = x.m_publisher_send_time;
     m_subscriber_recieve_time = x.m_subscriber_recieve_time;
+    m_transport = x.m_transport;
 }
 
 Image& Image::operator =(
@@ -89,6 +91,7 @@ Image& Image::operator =(
     m_subscriber_initalize_time = x.m_subscriber_initalize_time;
     m_publisher_send_time = x.m_publisher_send_time;
     m_subscriber_recieve_time = x.m_subscriber_recieve_time;
+    m_transport = x.m_transport;
     return *this;
 }
 
@@ -104,6 +107,7 @@ Image& Image::operator =(
     m_subscriber_initalize_time = x.m_subscriber_initalize_time;
     m_publisher_send_time = x.m_publisher_send_time;
     m_subscriber_recieve_time = x.m_subscriber_recieve_time;
+    m_transport = x.m_transport;
     return *this;
 }
 
@@ -117,7 +121,8 @@ bool Image::operator ==(
            m_width == x.m_width &&
            m_subscriber_initalize_time == x.m_subscriber_initalize_time &&
            m_publisher_send_time == x.m_publisher_send_time &&
-           m_subscriber_recieve_time == x.m_subscriber_recieve_time);
+           m_subscriber_recieve_time == x.m_subscriber_recieve_time &&
+           m_transport == x.m_transport);
 }
 
 bool Image::operator !=(
@@ -365,6 +370,35 @@ uint64_t Image::subscriber_recieve_time() const
 uint64_t& Image::subscriber_recieve_time()
 {
     return m_subscriber_recieve_time;
+}
+
+
+/*!
+ * @brief This function sets a value in member transport
+ * @param _transport New value for member transport
+ */
+void Image::transport(
+        uint8_t _transport)
+{
+    m_transport = _transport;
+}
+
+/*!
+ * @brief This function returns the value of member transport
+ * @return Value of member transport
+ */
+uint8_t Image::transport() const
+{
+    return m_transport;
+}
+
+/*!
+ * @brief This function returns a reference to member transport
+ * @return Reference to member transport
+ */
+uint8_t& Image::transport()
+{
+    return m_transport;
 }
 
 

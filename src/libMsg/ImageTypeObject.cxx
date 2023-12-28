@@ -251,6 +251,25 @@ const TypeObject* GetMinimalImageObject()
     }
     type_object->minimal().struct_type().member_seq().emplace_back(mst_subscriber_recieve_time);
 
+    MinimalStructMember mst_transport;
+    mst_transport.common().member_id(memberId++);
+    mst_transport.common().member_flags().TRY_CONSTRUCT1(false); // Unsupported
+    mst_transport.common().member_flags().TRY_CONSTRUCT2(false); // Unsupported
+    mst_transport.common().member_flags().IS_EXTERNAL(false); // Unsupported
+    mst_transport.common().member_flags().IS_OPTIONAL(false);
+    mst_transport.common().member_flags().IS_MUST_UNDERSTAND(false);
+    mst_transport.common().member_flags().IS_KEY(false);
+    mst_transport.common().member_flags().IS_DEFAULT(false); // Doesn't apply
+    mst_transport.common().member_type_id(*TypeObjectFactory::get_instance()->get_type_identifier("uint8_t", false));
+
+
+    MD5 transport_hash("transport");
+    for(int i = 0; i < 4; ++i)
+    {
+        mst_transport.detail().name_hash()[i] = transport_hash.digest[i];
+    }
+    type_object->minimal().struct_type().member_seq().emplace_back(mst_transport);
+
 
     // Header
     // TODO Inheritance
@@ -434,6 +453,22 @@ const TypeObject* GetCompleteImageObject()
     cst_subscriber_recieve_time.detail().name("subscriber_recieve_time");
 
     type_object->complete().struct_type().member_seq().emplace_back(cst_subscriber_recieve_time);
+
+    CompleteStructMember cst_transport;
+    cst_transport.common().member_id(memberId++);
+    cst_transport.common().member_flags().TRY_CONSTRUCT1(false); // Unsupported
+    cst_transport.common().member_flags().TRY_CONSTRUCT2(false); // Unsupported
+    cst_transport.common().member_flags().IS_EXTERNAL(false); // Unsupported
+    cst_transport.common().member_flags().IS_OPTIONAL(false);
+    cst_transport.common().member_flags().IS_MUST_UNDERSTAND(false);
+    cst_transport.common().member_flags().IS_KEY(false);
+    cst_transport.common().member_flags().IS_DEFAULT(false); // Doesn't apply
+    cst_transport.common().member_type_id(*TypeObjectFactory::get_instance()->get_type_identifier("uint8_t", false));
+
+
+    cst_transport.detail().name("transport");
+
+    type_object->complete().struct_type().member_seq().emplace_back(cst_transport);
 
 
     // Header

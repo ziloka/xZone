@@ -62,28 +62,33 @@ int main(int argc, char* argv[])
 		long tBeg = APP_TIME_CURRENT_NS;
 		long tEnd = APP_TIME_CURRENT_NS;
 
+		for (uint32_t i = 0; i <= numSamples; i++) {
+
+			tBeg = APP_TIME_CURRENT_NS;
+			long dealayNanosecond = 1e9 / hz;
+
+
+			//std::cout << "**dealayNanosecond " << dealayNanosecond  << std::endl;
+			// 
 			//wait utill delay time, interval
-			/*
-			do {
+
+			while (tEnd - tBeg <= dealayNanosecond) {
 				tEnd = APP_TIME_CURRENT_NS;
-				// std::cout << " do loop " << i << std::endl;
-			} while (tEnd - tBeg <= dealayNanosecond);
-			*/
-
-		ImagePublisher mypub(mutex, cfg, hz);
+				//uncomment this line to test if a delay is needed
+				// std::cout << "**in while loop " << std::endl;
+			}
 		
-		if (mypub.init(cfg, use_environment_qos)) {
-		//	for (uint32_t i = 0; i <= numSamples; i++) {
 
-		//		tBeg = APP_TIME_CURRENT_NS;
-		//		long dealayNanosecond = 1e9 / hz;
-
-				std::thread publisher = mypub.run();
-				publisher.join();
-		//	}
-		//	tEnd = APP_TIME_CURRENT_NS;
+			ImagePublisher mypub(mutex, cfg, hz);
+		
+			if (mypub.init(cfg, use_environment_qos)) {
+		
+					std::thread publisher = mypub.run(i);
+					publisher.join();
+				}
+			
 		}
-
+		tEnd = APP_TIME_CURRENT_NS;
 		//end for loop
 		std::cout << "in MainPub finished frequency " << hz << std::endl;
 	}

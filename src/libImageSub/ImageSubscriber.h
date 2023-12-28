@@ -98,7 +98,7 @@ private:
             std::string outPutFile = "logs/image_pubsub_data"+ currentDateTime.str() +".csv";
             file_.open(outPutFile, std::ofstream::out | std::ofstream::trunc);
             std::cout << "Opened " + outPutFile +"..appending to file" << std::endl;
-            file_ << "frame number,image_height,image_width,publisher_sent,subscriber_received,frequency,latency,packets_receieved_count" << std::endl;
+            file_ << "frame number,image_height,image_width,publisher_sent,subscriber_received,frequency,latency,packets_receieved_count,transport" << std::endl;
         }
 
         ~SubListener() override

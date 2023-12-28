@@ -11,4 +11,5 @@ struct Image
 	unsigned long long subscriber_initalize_time; // t1
 	unsigned long long publisher_send_time; // t2
 	unsigned long long subscriber_recieve_time; // t3
+	octet transport;
 };

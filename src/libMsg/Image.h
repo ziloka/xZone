@@ -296,6 +296,26 @@ public:
      */
     eProsima_user_DllExport uint64_t& subscriber_recieve_time();
 
+
+    /*!
+     * @brief This function sets a value in member transport
+     * @param _transport New value for member transport
+     */
+    eProsima_user_DllExport void transport(
+            uint8_t _transport);
+
+    /*!
+     * @brief This function returns the value of member transport
+     * @return Value of member transport
+     */
+    eProsima_user_DllExport uint8_t transport() const;
+
+    /*!
+     * @brief This function returns a reference to member transport
+     * @return Reference to member transport
+     */
+    eProsima_user_DllExport uint8_t& transport();
+
 private:
 
     std::vector<uint8_t> m_image;
@@ -306,6 +326,7 @@ private:
     uint64_t m_subscriber_initalize_time{0};
     uint64_t m_publisher_send_time{0};
     uint64_t m_subscriber_recieve_time{0};
+    uint8_t m_transport{0};
 
 };
 

@@ -59,15 +59,15 @@ public:
         
 
     //!Run for number samples
-   // std::thread run(int i);
+    std::thread run(int i);
 
-    std::thread run();
+    //std::thread run();
 
 private:
 
     cv::Mat frame_;
 
-    CfgCam cfgCam_;
+    CfgPtr cfgPtr_;
 
     std::shared_ptr<std::shared_mutex> mutexPtr_;
 
@@ -111,8 +111,8 @@ private:
     }
     listener_;
 
-    void runThread();
-   // void runThread(int i);
+    //void runThread();
+   void runThread(int i);
    
    eprosima::fastdds::dds::TypeSupport type_;
 };
