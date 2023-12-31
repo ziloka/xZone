@@ -182,9 +182,4 @@ enum Transport {
 	SharedMemory = 3
 };
 
-//enum ArgumentType {
-//	frequencyVariable,
-//	packetSizeVariable
-//};
-
 #endif

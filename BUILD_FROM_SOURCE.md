@@ -56,18 +56,12 @@ Note: *C++17 and above is required*
 
 	3. Compile the boost library
 
-
-		**Specifically note that you have to install clang from the individual components section**
-			- "C++ Clang Compiler for Windows (12.0.0)"
-			- "C++ Clang-cl for v142 build-tools (x64/x86)"
-		the clang tool should be located at `C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\Llvm\x64\bin`
-		**I recommend adding this to your path before executing the following code**
 		1. Get source code, configure, and compile
 		```sh
 		git clone --jobs 4 --depth=1 --single-branch --branch boost-1.71.0 --recursive https://github.com/boostorg/boost
 		cd boost
 		.\bootstrap
-		.\b2.exe --toolset=clang
+		.\b2
 		```
 		**Boost Libraries are located at stage/lib**
 
@@ -79,9 +73,6 @@ Note: *C++17 and above is required*
 		- https://stackoverflow.com/questions/6014517/whats-the-difference-between-mt-gd-and-mt-s-library
 		- Faster alternative: https://boost.teeks99.com/, http://sourceforge.net/projects/boost/files/boost-binaries/
 		- https://anaconda.org/conda-forge/boost
-
-	**troubleshooting using clang instead of msvc**
-	[VS generator and toolchain files](https://discourse.cmake.org/t/vs-generator-and-toolchain-files/1177)
 
 	4. Installing the fast dds library
 
@@ -111,22 +102,34 @@ Note: *C++17 and above is required*
 		 ```pwsh
 		mkdir Fast-DDS
 		cd Fast-DDS
-
 		git clone --jobs 4 --depth=1 --single-branch https://github.com/eProsima/foonathan_memory_vendor.git
 		cd foonathan_memory_vendor
 		mkdir build
 		cd build
 		# This library needs to compile shared libraries
-		cmake -G "Visual Studio 16 2019" -D CMAKE_C_COMPILER=clang -D CMAKE_CXX_COMPILER=clang++ -T ClangCL -D CMAKE_INSTALL_PREFIX:FILEPATH=../../install ..
+		cmake -G "Visual Studio 16 2019" -D CMAKE_INSTALL_PREFIX:FILEPATH=../../install -D BUILD_SHARED_LIBS=ON ..
+		cmake --build . --parallel 4 --target install --config debug
 		cmake --build . --parallel 4 --target install --config release
+		# this command is probably needed to merge it because the install prefix is incorrect somehow
+		xcopy /E ..\..\..\install\*.* ..\..\install
 		cd ../..
 
-		# for release, the wanted dep is in the install/bin folder
-		git clone --jobs 4 --depth=1 --single-branch --branch 2.1.2 https://github.com/eProsima/Fast-CDR.git fast-cdr-2.1.2
-		cd fast-cdr-2.1.2
+		git clone --jobs 4 --depth=1 --single-branch --branch 1.0.x https://github.com/eProsima/Fast-CDR.git fast-cdr-1.0.x
+		cd fast-cdr-1.0.x
 		mkdir build
 		cd build
-		cmake -G "Visual Studio 16 2019" -D CMAKE_C_COMPILER=clang -D CMAKE_CXX_COMPILER=clang++ -T ClangCL -D CMAKE_INSTALL_PREFIX:FILEPATH=../../install ..
+		# files with no lib prefixes
+		cmake -G "Visual Studio 16 2019" -D CMAKE_INSTALL_PREFIX:FILEPATH=../../install -D BUILD_SHARED_LIBS=ON ..
+		cmake --build . --parallel 4 --target install --config debug
+		cmake --build . --parallel 4 --target install --config release
+		# Have the files starting with lib prefixes
+
+		# for release, the wanted dep is in the install/bin folder
+		git clone --jobs 4 --depth=1 --single-branch https://github.com/eProsima/Fast-CDR.git
+		cd Fast-CDR
+		mkdir build
+		cd build
+		cmake -G "Visual Studio 16 2019" -D CMAKE_INSTALL_PREFIX:FILEPATH=../../install -D BUILD_SHARED_LIBS=ON ..
 		cmake --build . --parallel 4 --target install --config release
 
 		cd ../..
@@ -137,16 +140,11 @@ Note: *C++17 and above is required*
 		cd build
 		# If this command doesn't work try setting the absolute path and trying again
 		set CMAKE_PREFIX_PATH=../../install/share/foonathan_memory/cmake
-		cmake -G "Visual Studio 16 2019" -D CMAKE_C_COMPILER=clang -D CMAKE_CXX_COMPILER=clang++ -T ClangCL -D CMAKE_INSTALL_PREFIX:FILEPATH=../../install -DBUILD_SHARED_LIBS=ON -D THIRDPARTY=ON -D STRICT_REALTIME=ON -D foonathan_memory_DIR=../../install/share/foonathan_memory/cmake ..
+		cmake -G "Visual Studio 16 2019" -D CMAKE_INSTALL_PREFIX:FILEPATH=../../install -D BUILD_SHARED_LIBS=ON -D THIRDPARTY=ON -D STRICT_REALTIME=ON -D foonathan_memory_DIR=../../install/share/foonathan_memory/cmake ..
 		# this actually doesn't make cmake have multiple jobs in this project
-		cmake --build . --parallel 8 --target install --config release
+		cmake --build . --parallel 4 --target install --config debug
+		cmake --build . --parallel 4 --target install --config release
 		``` 
-
-		Open Msys2
-		```
-		pacman -S mingw-w64-x86_64-clang mingw-w64-x86_64-clang-tools-extra
-
-		```
 
 		# You will also need fast dds gen tool
 		- Requirements 
@@ -175,7 +173,7 @@ Note: *C++17 and above is required*
 		- [Build Fail with "fatal error LNK1169: one or more multiply defined symbols found"](https://github.com/google/jax/issues/14165)
 		- [libfastrtps-2.7.lib(Time_t.obj)👎 error: LNK2005: "public: __thiscall eprosima::fastrtps::Time_t::Time_t(int,unsigned int)" (??0Time_t@fastrtps@eprosima@@QAE@HI@Z)ist bereits in fastrtps-2.7.lib(fastrtps-2.7.dll) definiert. [17537]](https://github.com/eProsima/Fast-DDS/issues/3330)
 
-		[Alternative](https://www.eprosima.com/index.php/component/ars/repository/eprosima-fast-dds/eprosima-fast-dds-2-9-1/eprosima_fast-dds-2-12-1-windows-exe?format=raw)
+		[Alternative](https://www.eprosima.com/index.php/component/ars/repository/eprosima-fast-dds/eprosima-fast-dds-2-9-1/eprosima_fast-dds-2-9-1-windows-exe?format=raw)
 
 3. copy \$(XZONE_SRC)/vs2019/open_xZone_vs2019_template.bat to $(XZONE_SRC)/vs2019/open_xZone_vs2019_xyz.bat
 
@@ -377,7 +375,14 @@ Troubleshooting
 	- link the library that has the definition
 	- make sure the library compiled with the file that has those definitions
 	- [Reverse order of dependencies when passed to linker](https://stackoverflow.com/a/13255594) [Explanation](https://stackoverflow.com/questions/45135/why-does-the-order-in-which-libraries-are-linked-sometimes-cause-errors-in-gcc)
-
+- Internal Compiler Error?
+	- Click on top project
+	- Press Shift
+	- press arrow down to select all projects
+	- right click selected area
+	- click properties -> Configuration Properties -> C/C++ -> Optimization -> Whole Program Optimization -> No
+	- Build (Ctrl + Shift B)
+	- Turn it back off
 ### Additional References
 [set-imx8-env-AIO.txt](https://github.com/shunguang/HowTo/blob/master/set-imx8-env-AIO.txt)
 

@@ -486,13 +486,13 @@ bool  app::isTimeOut( const APP_TIME_MS start, const uint32_t thdInMillisec )
 	}
 }
 
-APP_TIME_MS  app::timeIntervalMillisec( APP_TIME_MS &startTime )
-{
-	APP_TIME_MS currTime = APP_TIME_CURRENT_MS;
-	APP_TIME_MS dt = currTime - startTime;
-	startTime = currTime;
-	return dt;
-}
+//APP_TIME_MS  app::timeIntervalMillisec( APP_TIME_MS &startTime )
+//{
+//	APP_TIME_MS currTime = APP_TIME_CURRENT_MS;
+//	APP_TIME_MS dt = currTime - startTime;
+//	startTime = currTime;
+//	return dt;
+//}
 
 
 

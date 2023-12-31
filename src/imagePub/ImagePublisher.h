@@ -36,7 +36,7 @@ class ImagePublisher
 {
 public:
 
-    ImagePublisher(std::shared_ptr<std::shared_mutex> mutex, CfgPtr cfgPtr, uint32_t fps, cv::Mat frame);
+    ImagePublisher(std::shared_ptr<std::shared_mutex> mutex, CfgPtr cfgPtr, uint32_t fps);
 
     virtual ~ImagePublisher();
 
