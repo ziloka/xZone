@@ -6,6 +6,7 @@ include Makefile_app_header.mak
 # cpp files
 SRC_FILES1 := $(wildcard $(SDIR_PROJ)/*.cpp)
 OBJ_FILES1 := $(patsubst $(SDIR_PROJ)/%.cpp,$(ODIR_OBJ)/%.o,$(SRC_FILES1))
+$(info $$SRC_FILES1 is [${SRC_FILES1}])
 
 # c files
 SRC_FILES2 := $(wildcard $(SDIR_PROJ)/*.c)
@@ -14,7 +15,6 @@ OBJ_FILES2 := $(patsubst $(SDIR_PROJ)/%.c,$(ODIR_OBJ)/%.o,$(SRC_FILES2))
 OBJS = \
 	$(OBJ_FILES1)\
 	$(OBJ_FILES2)\
-
 
 default:  directories $(TARGETFILE)
 

@@ -28,6 +28,8 @@
 #define __CFG_LOG_H__
 
 #include "CfgBase.h"
+#include "libUtil/UtilFuncs.h"
+
 namespace app {
 	class  CFG_EXPORT CfgLog : public CfgBase {
 	public:
