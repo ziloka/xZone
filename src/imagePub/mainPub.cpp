@@ -52,45 +52,52 @@ int main(int argc, char* argv[])
 	// subscriber.join();
 
 	registerImageTypes();
-	// pass hz frequency param
-	// std::vector<std::thread> threads;
-	const int numSamples = cfg->getCam().numSamples_;
-	for (double hz = cfg->getCam().frequency_.start; hz <= cfg->getCam().frequency_.end; hz += cfg->getCam().frequency_.step) {
-		std::cout << "On frequency #" << hz << std::endl << std::endl;
-		std::cout << "sending " << numSamples << " samples at " << hz << std::endl;
+	if (argc != 3) {
+		std::cout << "Pass [frequency-variable] or [packet-size-variable]" << std::endl;
+	} else if (argv[2] == "frequency-variable") {
+		// pass hz frequency param
+		// std::vector<std::thread> threads;
+		const int numSamples = cfg->getCam().numSamples_;
+		for (double hz = cfg->getCam().frequency_.start; hz <= cfg->getCam().frequency_.end; hz += cfg->getCam().frequency_.step) {
+			std::cout << "On frequency #" << hz << std::endl << std::endl;
+			std::cout << "sending " << numSamples << " samples at " << hz << std::endl;
 
-		long tBeg = APP_TIME_CURRENT_NS;
-		long tEnd = APP_TIME_CURRENT_NS;
+			long tBeg = APP_TIME_CURRENT_NS;
+			long tEnd = APP_TIME_CURRENT_NS;
 
-		for (uint32_t i = 0; i <= numSamples; i++) {
+			for (uint32_t i = 0; i <= numSamples; i++) {
 
-			tBeg = APP_TIME_CURRENT_NS;
-			long dealayNanosecond = 1e9 / hz;
+				tBeg = APP_TIME_CURRENT_NS;
+				long dealayNanosecond = 1e9 / hz;
 
+				//std::cout << "**dealayNanosecond " << dealayNanosecond  << std::endl;
+				// 
+				//wait utill delay time, interval
 
-			//std::cout << "**dealayNanosecond " << dealayNanosecond  << std::endl;
-			// 
-			//wait utill delay time, interval
+				int height = cfg->getCam().imgSz_.h;
+				int width = cfg->getCam().imgSz_.w;
+				cv::Mat frame(height, width, CV_8UC3);
 
-			while (tEnd - tBeg <= dealayNanosecond) {
-				tEnd = APP_TIME_CURRENT_NS;
-				//uncomment this line to test if a delay is needed
-				// std::cout << "**in while loop " << std::endl;
-			}
-		
+				while (tEnd - tBeg <= dealayNanosecond) {
+					tEnd = APP_TIME_CURRENT_NS;
+					//uncomment this line to test if a delay is needed
+					// std::cout << "**in while loop " << std::endl;
+				}
 
-			ImagePublisher mypub(mutex, cfg, hz);
-		
-			if (mypub.init(cfg, use_environment_qos)) {
-		
+				ImagePublisher mypub(mutex, cfg, hz, frame);
+
+				if (mypub.init(cfg, use_environment_qos)) {
+
 					std::thread publisher = mypub.run(i);
 					publisher.join();
 				}
-			
+			}
+			tEnd = APP_TIME_CURRENT_NS;
+			//end for loop
+			std::cout << "in MainPub finished frequency " << hz << std::endl;
 		}
-		tEnd = APP_TIME_CURRENT_NS;
-		//end for loop
-		std::cout << "in MainPub finished frequency " << hz << std::endl;
+	} else if (argv[3] == "packet-size-variable") {
+	
 	}
 
 	app::endLogThread();

@@ -32,7 +32,7 @@ using namespace eprosima::fastdds::rtps;
 using namespace eprosima::fastdds::dds;
 using namespace eprosima::fastdds::rtps;
 
-ImagePublisher::ImagePublisher(std::shared_ptr<std::shared_mutex> mutexPtr, CfgPtr cfgPtr, uint32_t fps)
+ImagePublisher::ImagePublisher(std::shared_ptr<std::shared_mutex> mutexPtr, CfgPtr cfgPtr, uint32_t fps, cv::Mat frame)
     : participant_(nullptr)
     , publisher_(nullptr)
     , topic_(nullptr)
@@ -44,13 +44,9 @@ ImagePublisher::ImagePublisher(std::shared_ptr<std::shared_mutex> mutexPtr, CfgP
     cfgPtr_ = cfgPtr;
     mutexPtr_ = mutexPtr;
 
-    int height = cfgPtr->getCam().imgSz_.h;
-    int width = cfgPtr->getCam().imgSz_.w;
-
     // there are 24 bits in a pixel using CV_8UC3 (3 bytes)
-    frame_ = cv::Mat(height, width, CV_8UC3);
+    frame_ = frame;
 
-    // set publisher frequency
     frequency_ = fps;
 
    // https://learnopencv.com/read-write-and-display-a-video-using-opencv-cpp-python/
@@ -304,7 +300,6 @@ void ImagePublisher::PubListener::on_publication_matched(
         //   // std::cout << "**in while loop " << std::endl;
         //}
        
-  
         if (!publish(false, numSamples)) {
             std::cout << "unable to send sample #" << i << std::endl;
         }
