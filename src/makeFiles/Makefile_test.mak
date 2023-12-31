@@ -7,10 +7,7 @@ include Makefile_app_header.mak
 #the target binary name
 TARGETFILE=$(ODIR_BIN)/test.out
 
-# link libs
-# call linker with static libraries in reverse order of dependence.
-# https://stackoverflow.com/a/13255594
-LIBS	:= -lHumiditySub -lImageSub -lTemperatureSub -lUtil -lCfg -lMsg \
+LIBS	:= -lHumiditySub -lImageSub -lTemperatureSub -lCfg -lUtil -lMsg \
 	-lfastrtps -lfastcdr \
 	-lboost_timer -lboost_filesystem -lboost_system -lboost_date_time -lboost_regex \
 	-lboost_chrono -lboost_thread -pthread \
