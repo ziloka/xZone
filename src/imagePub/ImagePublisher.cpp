@@ -110,7 +110,7 @@ bool ImagePublisher::init(CfgPtr cfg, bool use_env)
         tcp_transport->set_WAN_address("127.0.0.1");
         // Link the Transport Layer to the Participant.
         participant_qos.transport().user_transports.push_back(tcp_transport);
-
+        participant_qos.transport().use_builtin_transports = false;
         tcp_transport->enable_tcp_nodelay = true;
         break;
     }
@@ -134,6 +134,7 @@ bool ImagePublisher::init(CfgPtr cfg, bool use_env)
 
         // Link the Transport Layer to the Participant.
         participant_qos.transport().user_transports.push_back(shm_transport);
+        participant_qos.transport().use_builtin_transports = false;
         break;
     }
     default: {

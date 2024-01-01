@@ -33,3 +33,8 @@ https://github.com/eclipse-cyclonedds/cyclonedds/issues/1084
 
 
 https://fast-dds.docs.eprosima.com/en/latest/fastdds/api_reference/dds_pim/subscriber/datareaderlistener.html#_CPPv4N8eprosima7fastdds3dds18DataReaderListener17on_data_availableEP10DataReader
+
+
+https://blog.sflow.com/2022/02/udp-vs-tcp-for-real-time-streaming.html
+
+https://www.researchgate.net/figure/Typical-variation-in-TCP-latency-upper-line-and-UDP-latency-lower-line-near-zero-in_fig2_228637890
