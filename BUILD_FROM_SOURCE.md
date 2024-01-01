@@ -338,7 +338,7 @@ Note: *C++17 and above is required*
 		# Alternative
 		# mkdir fastDDS
 		# cd fastDDS
-		# wget -O eProsima_Fast-DDS-v2.12.1-Linux.tgz https://www.eprosima.com/index.php/component/ars/repository/eprosima-fast-dds/eprosima-fast-dds-2-9-1/eprosima_fast-dds-v2-9-1-linux-tgz?format=raw
+		# wget -O eProsima_Fast-DDS-v2.12.1-Linux.tgz https://www.eprosima.com/index.php/component/ars/repository/eprosima-fast-dds/eprosima-fast-dds-2-12-1/eprosima_fast-dds-v2-9-1-linux-tgz?format=raw
 		# tar xzf eProsima_Fast-DDS-v2.12.1-Linux.tgz
 		# sudo apt-get install git build-essential cmake libssl-dev libasio-dev libtinyxml2-dev openjdk-11-jre-headless python3
 		# sudo ./install.sh --no-install-dependencies --no-security
@@ -381,13 +381,18 @@ Troubleshooting
 	- press arrow down to select all projects
 	- right click selected area
 	- click properties -> Configuration Properties -> C/C++ -> Optimization -> Whole Program Optimization -> No
-	- Build (Ctrl + Shift B)
+	- Build (Ctrl + Shift + B)
 	- Turn it back off
 - error while loading shared libraries .... cannot open shared object file: No such file or directory
+
+	**Special note that libraries installed to /lib and /usr/lib are the default trusted directories for shared libraries**
+	**You must add `include /usr/local/lib` to the /etc/ld.so.conf file and run `sudo ldconfig` again**
+
 	- execute 
-	Set environment variable
+	Create neccessary links and cache to most recent shared libraries found in the directories specified on the command line
+	[Source](https://stackoverflow.com/questions/480764/linux-error-while-loading-shared-libraries-cannot-open-shared-object-file-no-s)
 	```
-	LD_LIBRARY_PATH=/usr/local/lib
+	sudo ldconfig
 	```
 	Run the binary
 	```
