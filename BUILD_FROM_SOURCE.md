@@ -383,6 +383,17 @@ Troubleshooting
 	- click properties -> Configuration Properties -> C/C++ -> Optimization -> Whole Program Optimization -> No
 	- Build (Ctrl + Shift B)
 	- Turn it back off
+- error while loading shared libraries .... cannot open shared object file: No such file or directory
+	- execute 
+	Set environment variable
+	```
+	LD_LIBRARY_PATH=/usr/local/lib
+	```
+	Run the binary
+	```
+	./test.out
+	```
+
 ### Additional References
 [set-imx8-env-AIO.txt](https://github.com/shunguang/HowTo/blob/master/set-imx8-env-AIO.txt)
 

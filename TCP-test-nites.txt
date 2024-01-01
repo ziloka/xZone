@@ -26,3 +26,10 @@ Normal rate, 30 pocket  /sec
 https://fast-dds.docs.eprosima.com/en/latest/fastdds/transport/transport_api.html
 
 https://fast-dds.docs.eprosima.com/en/v2.0.0/fastdds/transport/transport.html
+
+
+WHY on_data_available is not triggered
+https://github.com/eclipse-cyclonedds/cyclonedds/issues/1084
+
+
+https://fast-dds.docs.eprosima.com/en/latest/fastdds/api_reference/dds_pim/subscriber/datareaderlistener.html#_CPPv4N8eprosima7fastdds3dds18DataReaderListener17on_data_availableEP10DataReader

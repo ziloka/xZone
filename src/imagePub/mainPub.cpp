@@ -55,6 +55,7 @@ int main(int argc, char* argv[])
 	// pass hz frequency param
 	// std::vector<std::thread> threads;
 	const int numSamples = cfg->getCam().numSamples_;
+	int frameNum = 1;
 	for (double hz = cfg->getCam().frequency_.start; hz <= cfg->getCam().frequency_.end; hz += cfg->getCam().frequency_.step) {
 		std::cout << "On frequency #" << hz << std::endl << std::endl;
 		std::cout << "sending " << numSamples << " samples at " << hz << std::endl;
@@ -83,10 +84,10 @@ int main(int argc, char* argv[])
 		
 			if (mypub.init(cfg, use_environment_qos)) {
 		
-					std::thread publisher = mypub.run(i);
+					std::thread publisher = mypub.run(frameNum);
 					publisher.join();
-				}
-			
+			}
+			frameNum += 1;
 		}
 		tEnd = APP_TIME_CURRENT_NS;
 		//end for loop

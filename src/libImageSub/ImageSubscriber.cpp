@@ -212,8 +212,8 @@ void ImageSubscriber::SubListener::on_subscription_matched(
         matched_ = info.total_count;
         std::cout << "Subscriber matched." << matched_ << std::endl;
 
-        std::thread updateCamPublisher(createUpdateCamPublisher, false);
-        updateCamPublisher.join();
+      //  std::thread updateCamPublisher(createUpdateCamPublisher, false);
+      //  updateCamPublisher.join();
     }
     else if (info.current_count_change == -1)
     {
@@ -234,7 +234,7 @@ void ImageSubscriber::SubListener::on_data_available(  DataReader* reader)
 {
     SampleInfo info;
 
-   // std::cout << " in on_data_available 0 " << info.instance_state << std::endl;
+    std::cout << " in on_data_available 0 " << info.instance_state << std::endl;
     if (reader->take_next_sample(&image_, &info) == ReturnCode_t::RETCODE_OK)
     {
         if (info.instance_state == ALIVE_INSTANCE_STATE)
