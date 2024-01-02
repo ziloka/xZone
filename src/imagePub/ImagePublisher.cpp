@@ -105,7 +105,6 @@ bool ImagePublisher::init(CfgPtr cfg, bool use_env)
     case Transport::TCP: {
         //std::cout << "Using TCP as transport" << std::endl;
         std::shared_ptr<TCPv4TransportDescriptor> tcp_transport = std::make_shared<TCPv4TransportDescriptor>();
-        tcp_transport = std::make_shared<TCPv4TransportDescriptor>();
         tcp_transport->add_listener_port(5100);
         tcp_transport->set_WAN_address("127.0.0.1");
         // Link the Transport Layer to the Participant.
@@ -139,13 +138,13 @@ bool ImagePublisher::init(CfgPtr cfg, bool use_env)
     }
     default: {
         //std::cout << "Using FastDDS Default transport (UDP)" << std::endl;
-        std::shared_ptr<UDPv4TransportDescriptor> my_transport = std::make_shared<UDPv4TransportDescriptor>();
+        //std::shared_ptr<UDPv4TransportDescriptor> my_transport = std::make_shared<UDPv4TransportDescriptor>();
 
-        my_transport->sendBufferSize = 9216;
-        my_transport->receiveBufferSize = 9216;
-        my_transport->non_blocking_send = true;
-        // Link the Transport Layer to the Participant.
-        participant_qos.transport().user_transports.push_back(my_transport);
+        //my_transport->sendBufferSize = 9216;
+        //my_transport->receiveBufferSize = 9216;
+        //my_transport->non_blocking_send = true;
+        //// Link the Transport Layer to the Participant.
+        //participant_qos.transport().user_transports.push_back(my_transport);
     }
     }
 
@@ -225,6 +224,7 @@ bool ImagePublisher::init(CfgPtr cfg, bool use_env)
 
     writer_ = publisher_->create_datawriter(topic_, wqos, &listener_);
 
+
     if (writer_ == nullptr)
     {
         return false;
@@ -254,6 +254,41 @@ ImagePublisher::~ImagePublisher()
 
     //std::cout << "delete_participant." << std::endl;
 
+}
+
+void ImagePublisher::PubListener::on_offered_deadline_missed(
+    DataWriter* writer,
+    const eprosima::fastdds::dds::OfferedDeadlineMissedStatus& status)
+{
+    static_cast<void>(writer);
+    static_cast<void>(status);
+    std::cout << "Some data could not be delivered on time" << std::endl;
+}
+
+void ImagePublisher::PubListener::on_offered_incompatible_qos(
+    eprosima::fastdds::dds::DataWriter* writer,
+    const eprosima::fastdds::dds::OfferedIncompatibleQosStatus& status)
+{
+    std::cout << "Found a remote Topic with incompatible QoS (QoS ID: " << status.last_policy_id <<
+        ")" << std::endl;
+}
+
+void ImagePublisher::PubListener::on_liveliness_lost(
+    eprosima::fastdds::dds::DataWriter* writer,
+    const eprosima::fastdds::dds::LivelinessLostStatus& status)
+{
+    static_cast<void>(writer);
+    static_cast<void>(status);
+    std::cout << "Liveliness lost. Matched Subscribers will consider us offline" << std::endl;
+}
+
+void ImagePublisher::PubListener::on_unacknowledged_sample_removed(
+    eprosima::fastdds::dds::DataWriter* writer,
+    const eprosima::fastdds::dds::InstanceHandle_t& instance)
+{
+    static_cast<void>(writer);
+    static_cast<void>(instance);
+    std::cout << "Sample removed unacknowledged" << std::endl;
 }
 
 void ImagePublisher::PubListener::on_publication_matched(

@@ -101,7 +101,23 @@ private:
         {
         }
 
-        void on_publication_matched(
+        virtual void on_offered_deadline_missed(
+            eprosima::fastdds::dds::DataWriter* writer,
+            const eprosima::fastdds::dds::OfferedDeadlineMissedStatus& status) override;
+
+        virtual void on_offered_incompatible_qos(
+            eprosima::fastdds::dds::DataWriter* writer,
+            const eprosima::fastdds::dds::OfferedIncompatibleQosStatus& status) override;
+
+        virtual void on_liveliness_lost(
+            eprosima::fastdds::dds::DataWriter* writer,
+            const eprosima::fastdds::dds::LivelinessLostStatus& status) override;
+
+        virtual void on_unacknowledged_sample_removed(
+            eprosima::fastdds::dds::DataWriter* writer,
+            const eprosima::fastdds::dds::InstanceHandle_t& instance) override;
+
+        virtual void on_publication_matched(
                 eprosima::fastdds::dds::DataWriter* writer,
                 const eprosima::fastdds::dds::PublicationMatchedStatus& info) override;
 
