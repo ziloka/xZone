@@ -10,7 +10,7 @@ Note: *C++17 and above is required*
 
 ~~Note: I wrote this on Visual Studio Community 2022 64-bit Version 17.4.5~~
 
-1. open "x64 native tools command prompt" (install visual studio first, ensure c++ development tools are installed)
+1. open "x64 native tools powershell" (install visual studio first, ensure c++ development tools are installed)
 
 2. Acquire and build dependencies
 
@@ -18,12 +18,12 @@ Note: *C++17 and above is required*
 
 		3. Compile 
 			```pwsh
-			git clone --jobs 4 --depth=1 --single-branch --branch v1.13.0 --recursive https://github.com/google/googletest
+			git clone --jobs $env:NUMBER_OF_PROCESSORS --depth=1 --single-branch --branch v1.13.0 --recursive https://github.com/google/googletest
 			mkdir vs2019-install
 			cd vs2019-install
 			cmake -G "Visual Studio 16 2019" -D CMAKE_DEBUG_POSTFIX=d -D BUILD_SHARED_LIBS=ON ..
-			cmake --build . --parallel 4 --config debug
-			cmake --build . --parallel 4 --config release
+			cmake --build . --parallel $env:NUMBER_OF_PROCESSORS --config debug
+			cmake --build . --parallel $env:NUMBER_OF_PROCESSORS --config release
 			```
 			Notes:
 			- https://stackoverflow.com/questions/59620509/set-msvc-runtime-on-cmake-project-from-command-line
@@ -36,13 +36,13 @@ Note: *C++17 and above is required*
 		```pwsh
 		mkdir opencv
 		cd opencv
-		git clone --jobs 4 --depth=1 --single-branch --branch 4.1.1 --recursive https://github.com/opencv/opencv
-		git clone --jobs 4 --depth=1 --single-branch --branch 4.1.1 --recursive https://github.com/opencv/opencv_contrib
+		git clone --jobs $env:NUMBER_OF_PROCESSORS --depth=1 --single-branch --branch 4.1.1 --recursive https://github.com/opencv/opencv
+		git clone --jobs $env:NUMBER_OF_PROCESSORS --depth=1 --single-branch --branch 4.1.1 --recursive https://github.com/opencv/opencv_contrib
 		mkdir build
 		cd build
 		cmake -G "Visual Studio 16 2019" -D BUILD_PERF_TESTS=OFF -D BUILD_TESTS=OFF -D BUILD_DOCS=OFF -D WITH_CUDA=OFF -D BUILD_EXAMPLES=OFF -D INSTALL_CREATE_DISTRIB=ON -D WITH_GSTREAMER=ON -D OPENCV_EXTRA_MODULES_PATH=../opencv_contrib/modules -D BUILD_opencv_world=ON -D BUILD_SHARED_LIBS=ON ../opencv
-		cmake --build . --parallel 4 --target install --config debug
-		cmake --build . --parallel 4 --target install --config release
+		cmake --build . --parallel $env:NUMBER_OF_PROCESSORS --target install --config debug
+		cmake --build . --parallel $env:NUMBER_OF_PROCESSORS --target install --config release
 		```
 		opencv lib is located in ./install/$(arch)/$(MSVC_VER)/lib
 		opencv include is located in ./install/include
@@ -58,10 +58,10 @@ Note: *C++17 and above is required*
 
 		1. Get source code, configure, and compile
 		```sh
-		git clone --jobs 4 --depth=1 --single-branch --branch boost-1.71.0 --recursive https://github.com/boostorg/boost
+		git clone --jobs $env:NUMBER_OF_PROCESSORS --depth=1 --single-branch --branch boost-1.71.0 --recursive https://github.com/boostorg/boost
 		cd boost
 		.\bootstrap
-		.\b2
+		.\b2 -j $env:NUMBER_OF_PROCESSORS
 		```
 		**Boost Libraries are located at stage/lib**
 
@@ -91,7 +91,7 @@ Note: *C++17 and above is required*
 		Invoke-WebRequest -URI https://raw.githubusercontent.com/eProsima/Fast-DDS/master/fastrtps.repos -OutFile fastrtps.repos
 		mkdir src
 		vcs import src --input fastrtps.repos
-		colcon build --parallel-workers 8
+		colcon build --parallel-workers $env:NUMBER_OF_PROCESSORS
 		```
 		sources:
 			- [Windows installation from sources](https://fast-dds.docs.eprosima.com/en/latest/installation/sources/sources_windows.html)
@@ -102,39 +102,39 @@ Note: *C++17 and above is required*
 		 ```pwsh
 		mkdir Fast-DDS
 		cd Fast-DDS
-		git clone --jobs 4 --depth=1 --single-branch https://github.com/eProsima/foonathan_memory_vendor.git
+		git clone --jobs $env:NUMBER_OF_PROCESSORS --depth=1 --single-branch https://github.com/eProsima/foonathan_memory_vendor.git
 		cd foonathan_memory_vendor
 		mkdir build
 		cd build
 		# This library needs to compile shared libraries
 		cmake -G "Visual Studio 16 2019" -D CMAKE_INSTALL_PREFIX:FILEPATH=../../install -D BUILD_SHARED_LIBS=ON ..
-		cmake --build . --parallel 4 --target install --config debug
-		cmake --build . --parallel 4 --target install --config release
+		cmake --build . --parallel $env:NUMBER_OF_PROCESSORS --target install --config debug
+		cmake --build . --parallel $env:NUMBER_OF_PROCESSORS --target install --config release
 		# this command is probably needed to merge it because the install prefix is incorrect somehow
 		xcopy /E ..\..\..\install\*.* ..\..\install
 		cd ../..
 
-		git clone --jobs 4 --depth=1 --single-branch --branch 1.0.x https://github.com/eProsima/Fast-CDR.git fast-cdr-1.0.x
+		git clone --jobs $env:NUMBER_OF_PROCESSORS --depth=1 --single-branch --branch 1.0.x https://github.com/eProsima/Fast-CDR.git fast-cdr-1.0.x
 		cd fast-cdr-1.0.x
 		mkdir build
 		cd build
 		# files with no lib prefixes
 		cmake -G "Visual Studio 16 2019" -D CMAKE_INSTALL_PREFIX:FILEPATH=../../install -D BUILD_SHARED_LIBS=ON ..
-		cmake --build . --parallel 4 --target install --config debug
-		cmake --build . --parallel 4 --target install --config release
+		cmake --build . --parallel $env:NUMBER_OF_PROCESSORS --target install --config debug
+		cmake --build . --parallel $env:NUMBER_OF_PROCESSORS --target install --config release
 		# Have the files starting with lib prefixes
 
 		# for release, the wanted dep is in the install/bin folder
-		git clone --jobs 4 --depth=1 --single-branch https://github.com/eProsima/Fast-CDR.git
+		git clone --jobs $env:NUMBER_OF_PROCESSORS --depth=1 --single-branch https://github.com/eProsima/Fast-CDR.git
 		cd Fast-CDR
 		mkdir build
 		cd build
 		cmake -G "Visual Studio 16 2019" -D CMAKE_INSTALL_PREFIX:FILEPATH=../../install -D BUILD_SHARED_LIBS=ON ..
-		cmake --build . --parallel 4 --target install --config release
+		cmake --build . --parallel $env:NUMBER_OF_PROCESSORS --target install --config release
 
 		cd ../..
 
-		git clone --jobs 4 --depth=1 --single-branch --branch 2.12.1 --recursive https://github.com/eProsima/Fast-DDS
+		git clone --jobs $env:NUMBER_OF_PROCESSORS --depth=1 --single-branch --branch 2.12.1 --recursive https://github.com/eProsima/Fast-DDS
 		cd Fast-DDS
 		mkdir build
 		cd build
@@ -142,8 +142,8 @@ Note: *C++17 and above is required*
 		set CMAKE_PREFIX_PATH=../../install/share/foonathan_memory/cmake
 		cmake -G "Visual Studio 16 2019" -D CMAKE_INSTALL_PREFIX:FILEPATH=../../install -D BUILD_SHARED_LIBS=ON -D THIRDPARTY=ON -D STRICT_REALTIME=ON -D foonathan_memory_DIR=../../install/share/foonathan_memory/cmake ..
 		# this actually doesn't make cmake have multiple jobs in this project
-		cmake --build . --parallel 4 --target install --config debug
-		cmake --build . --parallel 4 --target install --config release
+		cmake --build . --parallel $env:NUMBER_OF_PROCESSORS --target install --config debug
+		cmake --build . --parallel $env:NUMBER_OF_PROCESSORS --target install --config release
 		``` 
 
 		# You will also need fast dds gen tool
@@ -267,7 +267,7 @@ Note: *C++17 and above is required*
 	# this is for the sfm opencv contrib module
 	# https://github.com/ceres-solver/ceres-solver/issues/669
 	sudo apt-get install -y libeigen3-dev libgflags-dev libgoogle-glog-dev libatlas-base-dev libsuitesparse-dev
-	git clone --jobs 4 --depth=1 --branch 1.14.0 https://ceres-solver.googlesource.com/ceres-solver
+	git clone --jobs $(nproc) --depth=1 --branch 1.14.0 https://ceres-solver.googlesource.com/ceres-solver
 	cd ceres-solver
 	mkdir build
 	cd build
@@ -280,8 +280,8 @@ Note: *C++17 and above is required*
 	apt-get update && apt-get upgrade -y && apt-get install -y build-essential cmake git libavcodec-dev libavformat-dev libavutil-dev libswscale-dev
 	mkdir opencv
 	cd opencv
-	git clone --jobs 4 --depth=1 --single-branch --branch 4.1.1 --recursive https://github.com/opencv/opencv
-	git clone --jobs 4 --depth=1 --single-branch --branch 4.1.1 --recursive https://github.com/opencv/opencv_contrib
+	git clone --jobs $(nproc) --depth=1 --single-branch --branch 4.1.1 --recursive https://github.com/opencv/opencv
+	git clone --jobs $(nproc) --depth=1 --single-branch --branch 4.1.1 --recursive https://github.com/opencv/opencv_contrib
 	mkdir -p build
 	cd build
 	cmake -DCMAKE_BUILD_TYPE=Release -DBUILD_PERF_TESTS:BOOL=OFF -DBUILD_TESTS:BOOL=OFF -DBUILD_DOCS:BOOL=OFF -DWITH_CUDA:BOOL=OFF -DBUILD_EXAMPLES:BOOL=OFF -DINSTALL_CREATE_DISTRIB=ON -DOPENCV_EXTRA_MODULES_PATH=../opencv_contrib/modules -DBUILD_SHARED_LIBS=ON -D BUILD_opencv_world=OFF ../opencv
@@ -333,7 +333,7 @@ Note: *C++17 and above is required*
 
 		So the following should be the process of installing fast DDS
 		```bash
-		git clone --jobs 4 --depth=1 --single-branch --branch=2.12.1 --recursive https://github.com/eProsima/Fast-DDS fastDDS
+		git clone --jobs $(nproc) --depth=1 --single-branch --branch=2.12.1 --recursive https://github.com/eProsima/Fast-DDS fastDDS
 		sudo ./install.sh
 		# Alternative
 		# mkdir fastDDS

@@ -21,6 +21,6 @@ RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
         libv4l-dev \
     && wget -O eProsima_Fast-DDS-v2.12.1-Linux.tgz https://www.eprosima.com/index.php/component/ars/repository/eprosima-fast-dds/eprosima-fast-dds-2-12-1/eprosima_fast-dds-v2-12-1-linux-tgz?format=raw \
     && tar xzf eProsima_Fast-DDS-v2.12.1-Linux.tgz \
-    && sudo ./install.sh \
+    && sudo ./install.sh --build-cores $(nproc --all) \
     && echo "include /usr/local/lib" >> /etc/ld.so.conf \
     && ldconfig
